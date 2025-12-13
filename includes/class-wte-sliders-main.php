@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Classe principal do plugin WP Travel Engine Sliders
  *
@@ -6,14 +7,15 @@
  */
 
 // Prevenir acesso direto
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 /**
  * Classe WTE_Sliders_Main
  */
-class WTE_Sliders_Main {
+class WTE_Sliders_Main
+{
 
     /**
      * Instância única da classe (Singleton)
@@ -48,8 +50,9 @@ class WTE_Sliders_Main {
      *
      * @return WTE_Sliders_Main
      */
-    public static function get_instance() {
-        if ( null === self::$instance ) {
+    public static function get_instance()
+    {
+        if (null === self::$instance) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -58,7 +61,8 @@ class WTE_Sliders_Main {
     /**
      * Construtor privado para implementar Singleton
      */
-    private function __construct() {
+    private function __construct()
+    {
         $this->init_hooks();
         $this->init_components();
     }
@@ -66,30 +70,42 @@ class WTE_Sliders_Main {
     /**
      * Inicializar hooks do WordPress
      */
-    private function init_hooks() {
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-        add_action( 'init', array( $this, 'load_textdomain' ) );
+    private function init_hooks()
+    {
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('init', array($this, 'load_textdomain'));
     }
 
     /**
      * Inicializar componentes do plugin
      */
-    private function init_components() {
+    private function init_components()
+    {
         $this->query = new WTE_Sliders_Query();
         $this->template_loader = new WTE_Sliders_Template_Loader();
-        $this->shortcodes = new WTE_Sliders_Shortcodes( $this->query, $this->template_loader );
+        $this->shortcodes = new WTE_Sliders_Shortcodes($this->query, $this->template_loader);
     }
 
     /**
      * Enfileirar estilos CSS
      */
-    public function enqueue_styles() {
+    public function enqueue_styles()
+    {
+        // Swiper CSS
+        wp_enqueue_style(
+            'wte-sliders-swiper',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/css/swiper-bundle.min.css',
+            array(),
+            '11.0.0',
+            'all'
+        );
+
         // CSS base do slider
         wp_enqueue_style(
             'wte-sliders-base',
             WTE_SLIDERS_PLUGIN_URL . 'assets/css/slider-base.css',
-            array(),
+            array('wte-sliders-swiper'),
             WTE_SLIDERS_VERSION,
             'all'
         );
@@ -98,7 +114,7 @@ class WTE_Sliders_Main {
         wp_enqueue_style(
             'wte-sliders-destaque-1',
             WTE_SLIDERS_PLUGIN_URL . 'assets/css/slider-destaque-1.css',
-            array( 'wte-sliders-base' ),
+            array('wte-sliders-base'),
             WTE_SLIDERS_VERSION,
             'all'
         );
@@ -107,7 +123,7 @@ class WTE_Sliders_Main {
         wp_enqueue_style(
             'wte-sliders-destaque-2',
             WTE_SLIDERS_PLUGIN_URL . 'assets/css/slider-destaque-2.css',
-            array( 'wte-sliders-base' ),
+            array('wte-sliders-base'),
             WTE_SLIDERS_VERSION,
             'all'
         );
@@ -116,11 +132,22 @@ class WTE_Sliders_Main {
     /**
      * Enfileirar scripts JavaScript
      */
-    public function enqueue_scripts() {
+    public function enqueue_scripts()
+    {
+        // Swiper JS
         wp_enqueue_script(
-            'wte-sliders-vanilla',
-            WTE_SLIDERS_PLUGIN_URL . 'assets/js/vanilla-slider.js',
+            'wte-sliders-swiper',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/js/swiper-bundle.min.js',
             array(),
+            '11.0.0',
+            true
+        );
+
+        // Inicialização dos Sliders
+        wp_enqueue_script(
+            'wte-sliders-init',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/js/wte-sliders-init.js',
+            array('wte-sliders-swiper'),
             WTE_SLIDERS_VERSION,
             true
         );
@@ -129,11 +156,12 @@ class WTE_Sliders_Main {
     /**
      * Carregar arquivos de tradução
      */
-    public function load_textdomain() {
+    public function load_textdomain()
+    {
         load_plugin_textdomain(
             'wte-sliders',
             false,
-            dirname( WTE_SLIDERS_PLUGIN_BASENAME ) . '/languages'
+            dirname(WTE_SLIDERS_PLUGIN_BASENAME) . '/languages'
         );
     }
 }

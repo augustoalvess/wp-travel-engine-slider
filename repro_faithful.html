@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider Repro Faithful</title>
+    <style>
+        /* Exact content of slider-base.css */
+        :root {
+            --wte-primary: #00bcd4;
+            --wte-dark-bg: #1a3a52;
+            --wte-text-dark: #1a2e3e;
+            --wte-text-gray: #6b7280;
+            --wte-white: #ffffff;
+            --wte-border-radius: 8px;
+            --wte-transition: all 0.3s ease;
+        }
+
+        .wte-slider-destaque-1 *,
+        .wte-slider-destaque-2 * {
+            box-sizing: border-box;
+        }
+
+        [class*="wte-slider-"] {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .wte-slider-wrapper {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .wte-slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .wte-slider-slide {
+            flex: 0 0 100%;
+            width: 100%;
+        }
+
+        /* ... buttons ... (omitted for brevity, basic functionality only needed) */
+
+        /* Exact content of slider-destaque-2.css */
+        .wte-slider-destaque-2 {
+            background: var(--wte-dark-bg);
+            padding: 60px 0;
+        }
+
+        .wte-slider-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .wte-trip-card-small {
+            background: var(--wte-white);
+            border-radius: var(--wte-border-radius);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: var(--wte-transition);
+            min-height: 300px;
+            /* Force height for visibility */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Structure matching slider-destaque-2.php -->
+    <div class="wte-slider-destaque-2" id="wte-slider-repro" data-autoplay="false" data-arrows="true">
+        <div class="wte-slider-wrapper">
+            <div class="wte-slider-track">
+                <!-- Page 1 -->
+                <div class="wte-slider-slide">
+                    <div class="wte-slider-grid">
+                        <div class="wte-trip-card-small">Card 1</div>
+                        <div class="wte-trip-card-small">Card 2</div>
+                        <div class="wte-trip-card-small">Card 3</div>
+                    </div>
+                </div>
+                <!-- Page 2 -->
+                <div class="wte-slider-slide">
+                    <div class="wte-slider-grid">
+                        <div class="wte-trip-card-small">Card 4</div>
+                        <div class="wte-trip-card-small">Card 5</div>
+                        <div class="wte-trip-card-small">Card 6</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button onclick="prev()">Prev</button>
+        <button onclick="next()">Next</button>
+    </div>
+
+    <script>
+        // Logic from vanilla-slider.js (simplified)
+        let index = 0;
+        const track = document.querySelector('.wte-slider-track');
+        const slides = document.querySelectorAll('.wte-slider-slide');
+
+        function update() {
+            const offset = -index * 100;
+            track.style.transform = `translateX(${offset}%)`;
+        }
+
+        function next() {
+            if (index < slides.length - 1) {
+                index++;
+                update();
+            }
+        }
+
+        function prev() {
+            if (index > 0) {
+                index--;
+                update();
+            }
+        }
+    </script>
+
+</body>
+
+</html>

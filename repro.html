@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider Repro</title>
+    <style>
+        /* Slider Base CSS */
+        :root {
+            --wte-primary: #00bcd4;
+            --wte-dark-bg: #1a3a52;
+            --wte-text-dark: #1a2e3e;
+            --wte-text-gray: #6b7280;
+            --wte-white: #ffffff;
+            --wte-border-radius: 8px;
+            --wte-transition: all 0.3s ease;
+        }
+        * { box-sizing: border-box; }
+        .wte-slider-wrapper { width: 100%; overflow: hidden; border: 2px solid red; }
+        .wte-slider-track { display: flex; transition: transform 0.5s ease-in-out; background: #eee; }
+        .wte-slider-slide { flex: 0 0 100%; width: 100%; border: 1px solid blue; min-height: 200px; }
+        
+        button { cursor: pointer; padding: 10px; margin: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="slider" class="wte-slider-destaque-2">
+    <div class="wte-slider-wrapper">
+        <div class="wte-slider-track">
+            <div class="wte-slider-slide" style="background: lightblue;">
+                <h1>Page 1</h1>
+                <p>Content for page 1</p>
+            </div>
+            <div class="wte-slider-slide" style="background: lightgreen;">
+                <h1>Page 2</h1>
+                <p>Content for page 2</p>
+            </div>
+        </div>
+    </div>
+    <button onclick="prev()">Prev</button>
+    <button onclick="next()">Next</button>
+</div>
+
+<script>
+    let index = 0;
+    const track = document.querySelector('.wte-slider-track');
+    const slides = document.querySelectorAll('.wte-slider-slide');
+    
+    function update() {
+        const offset = -index * 100;
+        console.log('Translating to: ' + offset + '%');
+        track.style.transform = `translateX(${offset}%)`;
+    }
+
+    function next() {
+        if (index < slides.length - 1) {
+            index++;
+            update();
+        }
+    }
+
+    function prev() {
+        if (index > 0) {
+            index--;
+            update();
+        }
+    }
+</script>
+
+</body>
+</html>

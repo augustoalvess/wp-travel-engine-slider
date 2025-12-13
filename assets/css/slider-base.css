@@ -1,5 +1,5 @@
 /**
- * Estilos base para sliders WP Travel Engine
+ * Estilos base para sliders WP Travel Engine (Swiper)
  *
  * @package WTE_Sliders
  */
@@ -13,6 +13,7 @@
     --wte-white: #ffffff;
     --wte-border-radius: 8px;
     --wte-transition: all 0.3s ease;
+    --swiper-theme-color: var(--wte-primary);
 }
 
 /* Reset básico */
@@ -26,100 +27,61 @@
     position: relative;
     width: 100%;
     overflow: hidden;
+    /* Swiper specific */
+    padding-bottom: 50px;
+    /* Space for pagination */
 }
 
-/* Wrapper e track */
-.wte-slider-wrapper {
-    width: 100%;
-    overflow: hidden;
-}
-
-.wte-slider-track {
+.swiper-slide {
+    height: auto;
+    /* Ensure auto height works */
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    /* Centering content if needed */
+    justify-content: center;
 }
 
 .wte-slider-slide {
     flex: 0 0 100%;
-    width: 100%;
+    position: relative;
 }
 
-/* Botões de navegação */
-.wte-slider-prev,
-.wte-slider-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 50%;
+/* Botões de navegação Customizados */
+.swiper-button-prev,
+.swiper-button-next {
     width: 48px;
     height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: var(--wte-transition);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: var(--wte-transition);
 }
 
-.wte-slider-prev {
-    left: 20px;
+.swiper-button-prev:after,
+.swiper-button-next:after {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--wte-text-dark);
 }
 
-.wte-slider-next {
-    right: 20px;
-}
-
-.wte-slider-prev:hover,
-.wte-slider-next:hover {
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
     background: var(--wte-white);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.wte-slider-prev svg,
-.wte-slider-next svg {
-    color: var(--wte-text-dark);
-}
-
-.wte-slider-prev:disabled,
-.wte-slider-next:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-/* Dots de navegação */
-.wte-slider-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 20px;
-}
-
-.wte-slider-dot {
+/* Dots de navegação (Pagination) */
+.swiper-pagination-bullet {
     width: 12px;
     height: 12px;
-    border-radius: 50%;
     background: rgba(0, 0, 0, 0.2);
-    border: none;
-    cursor: pointer;
+    opacity: 1;
     transition: var(--wte-transition);
-    padding: 0;
 }
 
-.wte-slider-dot.active {
+.swiper-pagination-bullet-active {
     background: var(--wte-primary);
     width: 32px;
     border-radius: 6px;
-}
-
-.wte-slider-dot:hover {
-    background: rgba(0, 0, 0, 0.4);
-}
-
-.wte-slider-dot.active:hover {
-    background: var(--wte-primary);
 }
 
 /* Botão "Saiba mais" */
@@ -143,37 +105,17 @@
     box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
 }
 
-/* Responsivo - Tablets */
+/* Responsivo */
 @media (max-width: 768px) {
-    .wte-slider-prev,
-    .wte-slider-next {
+
+    .swiper-button-prev,
+    .swiper-button-next {
         width: 40px;
         height: 40px;
     }
 
-    .wte-slider-prev {
-        left: 10px;
-    }
-
-    .wte-slider-next {
-        right: 10px;
-    }
-}
-
-/* Responsivo - Mobile */
-@media (max-width: 480px) {
-    .wte-slider-prev,
-    .wte-slider-next {
-        width: 36px;
-        height: 36px;
-    }
-
-    .wte-slider-dot {
-        width: 10px;
-        height: 10px;
-    }
-
-    .wte-slider-dot.active {
-        width: 24px;
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+        font-size: 16px;
     }
 }

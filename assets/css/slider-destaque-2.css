@@ -16,6 +16,8 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     max-width: 1200px;
+    width: 100%;
+    /* Ensure grid takes full width */
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -29,6 +31,10 @@
     flex-direction: column;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: var(--wte-transition);
+    min-height: 300px;
+    /* Force height */
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .wte-trip-card-small:hover {
@@ -40,7 +46,8 @@
 .wte-trip-image-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 60%; /* Aspect ratio */
+    padding-bottom: 60%;
+    /* Aspect ratio */
     overflow: hidden;
     background: #e5e7eb;
 }

@@ -199,3 +199,9 @@ Para suporte, dúvidas ou sugestões, entre em contato através do email: contat
 == Créditos ==
 
 Desenvolvido para integração perfeita com o WP Travel Engine.
+
+
+[wte_slider type="1" ids="331800"]
+[wte_slider type="1" tags="destaque-1,destaque-2"]
+[wte_slider type="2" ids="331797,331800,331802"]
+[wte_slider type="1" tags="destaque-1"]
