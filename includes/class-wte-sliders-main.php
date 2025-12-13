@@ -1,0 +1,139 @@
+<?php
+/**
+ * Classe principal do plugin WP Travel Engine Sliders
+ *
+ * @package WTE_Sliders
+ */
+
+// Prevenir acesso direto
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+/**
+ * Classe WTE_Sliders_Main
+ */
+class WTE_Sliders_Main {
+
+    /**
+     * Instância única da classe (Singleton)
+     *
+     * @var WTE_Sliders_Main
+     */
+    private static $instance = null;
+
+    /**
+     * Instância da classe de queries
+     *
+     * @var WTE_Sliders_Query
+     */
+    public $query;
+
+    /**
+     * Instância da classe de shortcodes
+     *
+     * @var WTE_Sliders_Shortcodes
+     */
+    public $shortcodes;
+
+    /**
+     * Instância da classe de template loader
+     *
+     * @var WTE_Sliders_Template_Loader
+     */
+    public $template_loader;
+
+    /**
+     * Obter instância única da classe
+     *
+     * @return WTE_Sliders_Main
+     */
+    public static function get_instance() {
+        if ( null === self::$instance ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Construtor privado para implementar Singleton
+     */
+    private function __construct() {
+        $this->init_hooks();
+        $this->init_components();
+    }
+
+    /**
+     * Inicializar hooks do WordPress
+     */
+    private function init_hooks() {
+        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+        add_action( 'init', array( $this, 'load_textdomain' ) );
+    }
+
+    /**
+     * Inicializar componentes do plugin
+     */
+    private function init_components() {
+        $this->query = new WTE_Sliders_Query();
+        $this->template_loader = new WTE_Sliders_Template_Loader();
+        $this->shortcodes = new WTE_Sliders_Shortcodes( $this->query, $this->template_loader );
+    }
+
+    /**
+     * Enfileirar estilos CSS
+     */
+    public function enqueue_styles() {
+        // CSS base do slider
+        wp_enqueue_style(
+            'wte-sliders-base',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/css/slider-base.css',
+            array(),
+            WTE_SLIDERS_VERSION,
+            'all'
+        );
+
+        // CSS do slider destaque 1
+        wp_enqueue_style(
+            'wte-sliders-destaque-1',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/css/slider-destaque-1.css',
+            array( 'wte-sliders-base' ),
+            WTE_SLIDERS_VERSION,
+            'all'
+        );
+
+        // CSS do slider destaque 2
+        wp_enqueue_style(
+            'wte-sliders-destaque-2',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/css/slider-destaque-2.css',
+            array( 'wte-sliders-base' ),
+            WTE_SLIDERS_VERSION,
+            'all'
+        );
+    }
+
+    /**
+     * Enfileirar scripts JavaScript
+     */
+    public function enqueue_scripts() {
+        wp_enqueue_script(
+            'wte-sliders-vanilla',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/js/vanilla-slider.js',
+            array(),
+            WTE_SLIDERS_VERSION,
+            true
+        );
+    }
+
+    /**
+     * Carregar arquivos de tradução
+     */
+    public function load_textdomain() {
+        load_plugin_textdomain(
+            'wte-sliders',
+            false,
+            dirname( WTE_SLIDERS_PLUGIN_BASENAME ) . '/languages'
+        );
+    }
+}

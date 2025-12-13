@@ -1,0 +1,207 @@
+/**
+ * Estilos para slider destaque 2 (3 itens por slide)
+ *
+ * @package WTE_Sliders
+ */
+
+/* Container do slider */
+.wte-slider-destaque-2 {
+    background: var(--wte-dark-bg);
+    padding: 60px 0;
+}
+
+/* Grid de cards */
+.wte-slider-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Card pequeno */
+.wte-trip-card-small {
+    background: var(--wte-white);
+    border-radius: var(--wte-border-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: var(--wte-transition);
+}
+
+.wte-trip-card-small:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagem do card */
+.wte-trip-image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 60%; /* Aspect ratio */
+    overflow: hidden;
+    background: #e5e7eb;
+}
+
+.wte-trip-image-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Badge de promoção */
+.wte-trip-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--wte-primary);
+    color: var(--wte-white);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 2;
+}
+
+/* Conteúdo do card */
+.wte-trip-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.wte-trip-card-small .wte-trip-duration {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--wte-text-gray);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.wte-trip-card-small .wte-trip-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    color: var(--wte-text-dark);
+    line-height: 1.4;
+}
+
+.wte-trip-card-small .wte-trip-title a {
+    color: var(--wte-text-dark);
+    text-decoration: none;
+    transition: var(--wte-transition);
+}
+
+.wte-trip-card-small .wte-trip-title a:hover {
+    color: var(--wte-primary);
+}
+
+.wte-trip-card-small .wte-trip-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--wte-text-gray);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+/* Excerpt */
+.wte-trip-excerpt {
+    color: var(--wte-text-gray);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+/* Footer do card */
+.wte-trip-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* Preço */
+.wte-trip-price {
+    text-align: right;
+}
+
+.wte-price-from {
+    font-size: 12px;
+    color: var(--wte-text-gray);
+    text-decoration: line-through;
+    margin-bottom: 2px;
+}
+
+.wte-price-current {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--wte-text-dark);
+    line-height: 1;
+}
+
+.wte-price-per {
+    font-size: 12px;
+    color: var(--wte-text-gray);
+    margin-top: 2px;
+}
+
+/* Botão no card pequeno */
+.wte-trip-card-small .wte-trip-button {
+    padding: 10px 20px;
+    font-size: 13px;
+}
+
+/* Responsivo - Tablets */
+@media (max-width: 992px) {
+    .wte-slider-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .wte-slider-destaque-2 {
+        padding: 40px 0;
+    }
+}
+
+/* Responsivo - Mobile */
+@media (max-width: 640px) {
+    .wte-slider-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .wte-slider-destaque-2 {
+        padding: 30px 0;
+    }
+
+    .wte-trip-card-content {
+        padding: 15px;
+    }
+
+    .wte-trip-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .wte-trip-card-small .wte-trip-button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .wte-trip-price {
+        text-align: left;
+    }
+}
