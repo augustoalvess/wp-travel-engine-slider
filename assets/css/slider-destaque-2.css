@@ -7,12 +7,12 @@
 /* Container do slider (Wrapper) */
 .wte-slider-wrapper-2 {
     background: var(--wte-dark-bg);
-    padding: 60px 80px;
+    padding: 0 50px;
 }
 
 @media (max-width: 768px) {
     .wte-slider-wrapper-2 {
-        padding: 60px 40px;
+        padding: 0 10px;
         /* Less padding on mobile */
     }
 }

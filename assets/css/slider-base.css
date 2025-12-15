@@ -61,7 +61,7 @@
 .swiper-button-next {
     width: 25px;
     height: 25px;
-    background: rgba(255, 255, 255, 0.9);
+    background: #8ea1b2;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     transition: var(--wte-transition);
