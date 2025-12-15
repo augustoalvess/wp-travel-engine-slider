@@ -43,7 +43,5 @@ if (! defined('ABSPATH')) {
         <div class="swiper-button-next"></div>
     <?php endif; ?>
 
-    <?php if (count($trips) > 1) : ?>
-        <div class="swiper-pagination"></div>
-    <?php endif; ?>
+
 </div>

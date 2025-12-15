@@ -30,17 +30,12 @@
     border-radius: var(--wte-border-radius);
     overflow: hidden;
     background: var(--wte-primary);
+    padding-bottom: 56.25%;
+    /* Aspect ratio 16:9 fixo no container */
 }
 
 .wte-trip-video,
 .wte-trip-image {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%;
-    /* Aspect ratio 16:9 */
-}
-
-.wte-trip-video iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -48,10 +43,12 @@
     height: 100%;
 }
 
+.wte-trip-video iframe {
+    width: 100%;
+    height: 100%;
+}
+
 .wte-trip-image img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -170,4 +167,9 @@
         width: 100%;
         text-align: center;
     }
+}
+
+/* Global Styles for Slider 1 */
+.wte-slider-destaque-1 a {
+    text-decoration: none !important;
 }

@@ -212,3 +212,8 @@
         text-align: left;
     }
 }
+
+/* Global Styles for Slider 2 */
+.wte-slider-destaque-2 a {
+    text-decoration: none !important;
+}

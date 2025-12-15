@@ -4,17 +4,17 @@
  * @package WTE_Sliders
  */
 
-(function() {
+(function () {
     'use strict';
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         initSliders();
     });
 
     function initSliders() {
         const sliders = document.querySelectorAll('.wte-slider-destaque-1, .wte-slider-destaque-2');
 
-        sliders.forEach(function(slider) {
+        sliders.forEach(function (slider) {
             // Evitar dupla inicialização
             if (slider.classList.contains('swiper-initialized')) {
                 return;
@@ -24,7 +24,7 @@
             const autoplay = slider.dataset.autoplay === 'true';
             const speed = parseInt(slider.dataset.speed) || 5000;
             const arrows = slider.dataset.arrows === 'true';
-            
+
             // Configuração base do Swiper
             const swiperConfig = {
                 loop: true,
@@ -33,12 +33,8 @@
                 autoHeight: true, // Ajustar altura automaticamente
                 observer: true, // Importante para detectar mudanças no DOM
                 observeParents: true, // Importante para sliders dentro de tabs/modais ou hidden containers
-                
-                // Paginação (Dots)
-                pagination: {
-                    el: slider.querySelector('.swiper-pagination'),
-                    clickable: true,
-                },
+
+                observeParents: true, // Importante para sliders dentro de tabs/modais ou hidden containers
 
                 // Navegação (Setas)
                 navigation: {

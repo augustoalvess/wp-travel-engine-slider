@@ -52,7 +52,5 @@ $pages = array_chunk($trips, $per_page);
         <div class="swiper-button-next"></div>
     <?php endif; ?>
 
-    <?php if (count($pages) > 1) : ?>
-        <div class="swiper-pagination"></div>
-    <?php endif; ?>
+
 </div>
