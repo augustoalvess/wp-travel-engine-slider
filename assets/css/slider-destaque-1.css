@@ -87,8 +87,8 @@
     color: var(--wte-white);
     margin-top: 30px;
     max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .wte-trip-title {

@@ -54,7 +54,43 @@
 
             // Inicializar Swiper
             new Swiper(slider, swiperConfig);
+
+            // Ajuste específico para Setas do Tipo 1 (Centralizar no vídeo)
+            if (slider.classList.contains('wte-slider-destaque-1') || slider.closest('.wte-slider-wrapper-1')) {
+                alignArrowsByType1(slider);
+                window.addEventListener('resize', function () {
+                    alignArrowsByType1(slider);
+                });
+                // Tentar alinhar novamente após carregar imagens
+                window.addEventListener('load', function () {
+                    alignArrowsByType1(slider);
+                });
+            }
         });
+    }
+
+    function alignArrowsByType1(slider) {
+        const wrapper = slider.closest('.wte-slider-wrapper-1');
+        if (!wrapper) return;
+
+        const media = wrapper.querySelector('.wte-trip-media');
+        const prevBtn = wrapper.querySelector('.swiper-button-prev');
+        const nextBtn = wrapper.querySelector('.swiper-button-next');
+
+        if (media && prevBtn && nextBtn) {
+            // Altura da mídia
+            const mediaHeight = media.offsetHeight;
+            // Padding top do wrapper (40px) ou pegar computado
+            const style = window.getComputedStyle(wrapper);
+            const paddingTop = parseFloat(style.paddingTop);
+
+            // Calcular topo: padding + metade da altura da midia
+            // O botão já tem transform: translateY(-50%), então top deve ser o centro exato
+            const topPosition = paddingTop + (mediaHeight / 2);
+
+            prevBtn.style.top = topPosition + 'px';
+            nextBtn.style.top = topPosition + 'px';
+        }
     }
 
 })();

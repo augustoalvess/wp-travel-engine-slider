@@ -4,6 +4,8 @@
  * @package WTE_Sliders
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 /* CSS Variables */
 :root {
     --wte-primary: #00bcd4;
@@ -26,6 +28,7 @@
 .wte-slider-wrapper {
     position: relative;
     width: 100%;
+    font-family: 'Poppins', sans-serif;
     /* Flex para alinhar setas verticalmente se necessário, mas absolute é melhor */
 }
 
