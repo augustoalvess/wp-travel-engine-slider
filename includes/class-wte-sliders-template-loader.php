@@ -62,7 +62,7 @@ class WTE_Sliders_Template_Loader {
      * @param string $template_name Nome do template
      * @return string|bool Caminho do template ou false se não encontrado
      */
-    private function locate_template( $template_name ) {
+    public function locate_template( $template_name ) {
         $template_file = $template_name . '.php';
 
         // Verificar em tema child

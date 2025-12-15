@@ -46,6 +46,20 @@ class WTE_Sliders_Main
     public $template_loader;
 
     /**
+     * Instância do handler de single trip
+     *
+     * @var WTE_Sliders_Single_Trip
+     */
+    public $single_trip;
+
+    /**
+     * Instância do gerenciador de configurações
+     *
+     * @var WTE_Sliders_Settings
+     */
+    public $settings;
+
+    /**
      * Obter instância única da classe
      *
      * @return WTE_Sliders_Main
@@ -85,6 +99,14 @@ class WTE_Sliders_Main
         $this->query = new WTE_Sliders_Query();
         $this->template_loader = new WTE_Sliders_Template_Loader();
         $this->shortcodes = new WTE_Sliders_Shortcodes($this->query, $this->template_loader);
+
+        // Inicializar handler de single trip
+        $this->single_trip = new WTE_Sliders_Single_Trip($this->query, $this->template_loader);
+
+        // Inicializar configurações (apenas admin)
+        if (is_admin()) {
+            $this->settings = new WTE_Sliders_Settings();
+        }
     }
 
     /**

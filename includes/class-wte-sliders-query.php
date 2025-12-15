@@ -570,4 +570,189 @@ class WTE_Sliders_Query
 
         return $destinations;
     }
+
+    /**
+     * Obter dados completos de uma viagem específica
+     *
+     * @param int $trip_id ID da viagem
+     * @return object|null Objeto com todos os dados da viagem ou null se inválido
+     */
+    public function get_single_trip_data($trip_id)
+    {
+        // Validar ID e tipo de post
+        if (!$trip_id || get_post_type($trip_id) !== 'trip') {
+            return null;
+        }
+
+        $post = get_post($trip_id);
+
+        if (!$post) {
+            return null;
+        }
+
+        return (object) array(
+            'id'          => $trip_id,
+            'title'       => get_the_title($trip_id),
+            'content'     => apply_filters('the_content', $post->post_content),
+            'excerpt'     => get_the_excerpt($trip_id),
+            'permalink'   => get_permalink($trip_id),
+            'image'       => $this->get_trip_image($trip_id),
+            'video'       => $this->get_trip_video($trip_id),
+            'duration'    => $this->get_trip_duration($trip_id),
+            'destination' => $this->get_trip_destination($trip_id),
+            'price'       => $this->get_trip_price($trip_id),
+            'has_promo'   => $this->has_promotion($trip_id),
+            // Campos específicos para single trip
+            'gallery'     => $this->get_trip_gallery($trip_id),
+            'highlights'  => $this->get_trip_highlights($trip_id),
+            'itinerary'   => $this->get_trip_itinerary($trip_id),
+            'facts'       => $this->get_trip_facts($trip_id),
+        );
+    }
+
+    /**
+     * Obter galeria de imagens da viagem
+     *
+     * @param int $trip_id ID da viagem
+     * @return array Array de imagens com id, url, thumb, alt
+     */
+    private function get_trip_gallery($trip_id)
+    {
+        $gallery_meta = get_post_meta($trip_id, 'wpte_gallery_id', true);
+        $gallery = array();
+
+        if (is_array($gallery_meta) && !empty($gallery_meta)) {
+            foreach ($gallery_meta as $key => $value) {
+                // Pular chaves não-numéricas (como 'enable')
+                if (!is_numeric($key)) {
+                    continue;
+                }
+
+                // Para índices numéricos, o valor é o attachment ID
+                $attachment_id = intval($value);
+
+                // Validar ID
+                if ($attachment_id <= 0) {
+                    continue;
+                }
+
+                $url = wp_get_attachment_image_url($attachment_id, 'large');
+                if ($url) {
+                    $gallery[] = array(
+                        'id'    => $attachment_id,
+                        'url'   => $url,
+                        'thumb' => wp_get_attachment_image_url($attachment_id, 'medium'),
+                        'alt'   => get_post_meta($attachment_id, '_wp_attachment_image_alt', true),
+                    );
+                }
+            }
+        }
+
+        // Fallback: adicionar featured image se galeria vazia
+        if (empty($gallery) && has_post_thumbnail($trip_id)) {
+            $thumbnail_id = get_post_thumbnail_id($trip_id);
+            $gallery[] = array(
+                'id'    => $thumbnail_id,
+                'url'   => get_the_post_thumbnail_url($trip_id, 'large'),
+                'thumb' => get_the_post_thumbnail_url($trip_id, 'medium'),
+                'alt'   => get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true),
+            );
+        }
+
+        return $gallery;
+    }
+
+    /**
+     * Obter highlights/destaques da viagem
+     *
+     * @param int $trip_id ID da viagem
+     * @return array Array com até 3 highlights
+     */
+    private function get_trip_highlights($trip_id)
+    {
+        $settings = get_post_meta($trip_id, 'wp_travel_engine_setting', true);
+
+        if (!is_array($settings) || empty($settings['trip_highlights'])) {
+            return array();
+        }
+
+        $highlights_html = $settings['trip_highlights'];
+        $highlights = array();
+
+        // Tentar extrair itens de lista do HTML
+        if (is_string($highlights_html) && !empty($highlights_html)) {
+            // Usar DOMDocument para parsing HTML
+            libxml_use_internal_errors(true);
+            $dom = new DOMDocument();
+            $dom->loadHTML(mb_convert_encoding($highlights_html, 'HTML-ENTITIES', 'UTF-8'));
+            libxml_clear_errors();
+
+            $items = $dom->getElementsByTagName('li');
+            foreach ($items as $item) {
+                $text = trim(strip_tags($item->textContent));
+                if (!empty($text)) {
+                    $highlights[] = $text;
+                }
+            }
+        } elseif (is_array($highlights_html)) {
+            $highlights = array_map('sanitize_text_field', $highlights_html);
+        }
+
+        // Limitar a 3 itens para os ícones
+        return array_slice($highlights, 0, 3);
+    }
+
+    /**
+     * Obter itinerário da viagem
+     *
+     * @param int $trip_id ID da viagem
+     * @return array Array com itinerário (label, title, desc)
+     */
+    private function get_trip_itinerary($trip_id)
+    {
+        $settings = get_post_meta($trip_id, 'wp_travel_engine_setting', true);
+
+        if (!is_array($settings) || empty($settings['itinerary'])) {
+            return array();
+        }
+
+        $itinerary_raw = $settings['itinerary'];
+        $itinerary = array();
+
+        if (isset($itinerary_raw['itinerary_title']) && is_array($itinerary_raw['itinerary_title'])) {
+            foreach ($itinerary_raw['itinerary_title'] as $index => $title) {
+                if (empty($title)) {
+                    continue;
+                }
+
+                $itinerary[] = array(
+                    'label' => 'Dia ' . ($index + 1),
+                    'title' => sanitize_text_field($title),
+                    'desc'  => isset($itinerary_raw['itinerary_content'][$index])
+                               ? wp_kses_post($itinerary_raw['itinerary_content'][$index])
+                               : '',
+                );
+            }
+        }
+
+        return $itinerary;
+    }
+
+    /**
+     * Obter trip facts (fatos/informações da viagem)
+     *
+     * @param int $trip_id ID da viagem
+     * @return array Array associativo com trip facts
+     */
+    private function get_trip_facts($trip_id)
+    {
+        $settings = get_post_meta($trip_id, 'wp_travel_engine_setting', true);
+
+        if (!is_array($settings) || empty($settings['trip_facts'])) {
+            return array();
+        }
+
+        // Trip facts é array associativo de field_id => value
+        return is_array($settings['trip_facts']) ? $settings['trip_facts'] : array();
+    }
 }
