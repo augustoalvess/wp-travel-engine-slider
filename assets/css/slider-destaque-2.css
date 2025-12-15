@@ -7,7 +7,14 @@
 /* Container do slider */
 .wte-slider-destaque-2 {
     background: var(--wte-dark-bg);
-    padding: 60px 0;
+    padding: 60px 80px;
+}
+
+@media (max-width: 768px) {
+    .wte-slider-destaque-2 {
+        padding: 60px 40px;
+        /* Less padding on mobile */
+    }
 }
 
 /* Grid de cards */

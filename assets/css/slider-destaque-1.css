@@ -7,7 +7,13 @@
 /* Container do slider */
 .wte-slider-destaque-1 {
     background: var(--wte-dark-bg);
-    padding: 40px 0;
+    padding: 40px 80px;
+}
+
+@media (max-width: 768px) {
+    .wte-slider-destaque-1 {
+        padding: 40px 20px;
+    }
 }
 
 /* Card grande */
@@ -25,7 +31,7 @@
 .wte-trip-media {
     position: relative;
     width: 100%;
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
     border-radius: var(--wte-border-radius);
     overflow: hidden;
@@ -74,7 +80,7 @@
     text-align: left;
     color: var(--wte-white);
     margin-top: 30px;
-    max-width: 900px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
