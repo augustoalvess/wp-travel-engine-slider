@@ -102,7 +102,13 @@
     gap: 6px;
     color: var(--wte-text-gray);
     font-size: 13px;
-    margin-bottom: 12px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    margin-top: -40px;
+    background: var(--wte-white);
+    z-index: 100;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .wte-trip-card-small .wte-trip-title {
