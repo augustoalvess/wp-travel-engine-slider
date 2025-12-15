@@ -85,7 +85,7 @@
 .wte-trip-content {
     text-align: left;
     color: var(--wte-white);
-    margin-top: 30px;
+    margin-top: 20px;
     max-width: 1200px;
     margin-left: 0;
     margin-right: 0;
@@ -94,7 +94,7 @@
 .wte-trip-title {
     font-size: 28px;
     font-weight: 700;
-    margin: 0 0 20px 0;
+    margin: 0 0 10px 0;
     color: var(--wte-white);
 }
 
@@ -112,7 +112,7 @@
 .wte-trip-meta {
     display: flex;
     gap: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     flex-wrap: wrap;
 }
 

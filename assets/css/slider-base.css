@@ -40,7 +40,6 @@
     /* Reset padding/bg que agora vão no wrapper */
     padding: 0;
     background: transparent;
-    padding-bottom: 50px;
     /* Space for pagination if needed, or remove? keeping for safety/old logic, but removing dots anyway */
 }
 
