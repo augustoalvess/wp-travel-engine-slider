@@ -297,32 +297,184 @@ class WTE_Sliders_Query
      * Obter informações de preço da viagem
      *
      * @param int $trip_id ID da viagem
-     * @return array Array com 'regular', 'sale' e 'formatted'
+     * @return array Array com estrutura de preços (adult, child, fallback)
      */
     private function get_trip_price($trip_id)
     {
-        $settings = get_post_meta($trip_id, 'wp_travel_engine_setting', true);
+        // Tentar obter package primário
+        $primary_package_id = get_post_meta($trip_id, 'primary_package', true);
 
-        if (! is_array($settings)) {
-            return array(
-                'regular'   => 0,
-                'sale'      => 0,
-                'formatted' => '',
-            );
+        if (!empty($primary_package_id) && is_numeric($primary_package_id)) {
+            // Obter categorias do package
+            $package_categories = get_post_meta($primary_package_id, 'package-categories', true);
+
+            if (is_array($package_categories) && !empty($package_categories['c_ids'])) {
+                return $this->extract_package_pricing($package_categories);
+            }
         }
 
-        $regular_price = isset($settings['price']) ? floatval($settings['price']) : 0;
-        $sale_price = isset($settings['sale_price']) ? floatval($settings['sale_price']) : 0;
+        // Fallback para meta keys simples
+        return $this->extract_simple_pricing($trip_id);
+    }
 
-        // Determinar preço atual e formatação
-        $current_price = ($sale_price > 0 && $sale_price < $regular_price) ? $sale_price : $regular_price;
-        $formatted = 'R$ ' . number_format($current_price, 2, ',', '.');
+    /**
+     * Extrair dados de preço do array package-categories
+     *
+     * @param array $package_categories Array de categorias do pacote
+     * @return array Estrutura de preços formatada
+     */
+    private function extract_package_pricing($package_categories)
+    {
+        $pricing = array(
+            'has_child' => false,
+            'adult'     => array(),
+            'child'     => array(),
+            // Compatibilidade reversa
+            'regular'   => 0,
+            'sale'      => 0,
+            'current'   => 0,
+            'formatted' => '',
+        );
+
+        // Validar estrutura
+        if (!isset($package_categories['labels']) || !isset($package_categories['prices'])) {
+            return $this->get_empty_price_structure();
+        }
+
+        $labels = $package_categories['labels'];
+        $prices = $package_categories['prices'];
+        $sale_prices = isset($package_categories['sale_prices']) ? $package_categories['sale_prices'] : array();
+        $enabled_sale = isset($package_categories['enabled_sale']) ? $package_categories['enabled_sale'] : array();
+
+        // Encontrar índices de adulto e criança
+        $adult_index = null;
+        $child_index = null;
+
+        foreach ($labels as $index => $label) {
+            $label_lower = strtolower(trim($label));
+            if ($label_lower === 'adult' || $label_lower === 'adulto') {
+                $adult_index = $index;
+            } elseif ($label_lower === 'child' || $label_lower === 'criança' || $label_lower === 'crianca') {
+                $child_index = $index;
+            }
+        }
+
+        // Extrair preços de adulto
+        if ($adult_index !== null && isset($prices[$adult_index])) {
+            $adult_regular = floatval($prices[$adult_index]);
+            $adult_sale = 0;
+
+            if (isset($enabled_sale[$adult_index]) && $enabled_sale[$adult_index] == '1'
+                && isset($sale_prices[$adult_index])) {
+                $adult_sale = floatval($sale_prices[$adult_index]);
+            }
+
+            $adult_current = ($adult_sale > 0 && $adult_sale < $adult_regular) ? $adult_sale : $adult_regular;
+
+            $pricing['adult'] = array(
+                'regular'           => $adult_regular,
+                'sale'              => $adult_sale,
+                'current'           => $adult_current,
+                'has_sale'          => ($adult_sale > 0 && $adult_sale < $adult_regular),
+                'formatted'         => 'R$ ' . number_format($adult_current, 2, ',', '.'),
+                'formatted_regular' => 'R$ ' . number_format($adult_regular, 2, ',', '.'),
+            );
+
+            // Definir campos de compatibilidade reversa com preços de adulto
+            $pricing['regular'] = $adult_regular;
+            $pricing['sale'] = $adult_sale;
+            $pricing['current'] = $adult_current;
+            $pricing['formatted'] = $pricing['adult']['formatted'];
+        }
+
+        // Extrair preços de criança
+        if ($child_index !== null && isset($prices[$child_index])) {
+            $child_regular = floatval($prices[$child_index]);
+            $child_sale = 0;
+
+            if (isset($enabled_sale[$child_index]) && $enabled_sale[$child_index] == '1'
+                && isset($sale_prices[$child_index])) {
+                $child_sale = floatval($sale_prices[$child_index]);
+            }
+
+            $child_current = ($child_sale > 0 && $child_sale < $child_regular) ? $child_sale : $child_regular;
+
+            $pricing['child'] = array(
+                'regular'           => $child_regular,
+                'sale'              => $child_sale,
+                'current'           => $child_current,
+                'has_sale'          => ($child_sale > 0 && $child_sale < $child_regular),
+                'formatted'         => 'R$ ' . number_format($child_current, 2, ',', '.'),
+                'formatted_regular' => 'R$ ' . number_format($child_regular, 2, ',', '.'),
+            );
+
+            $pricing['has_child'] = ($child_current > 0);
+        }
+
+        return $pricing;
+    }
+
+    /**
+     * Extrair dados de preço de meta keys simples (fallback)
+     *
+     * @param int $trip_id ID da viagem
+     * @return array Estrutura de preços formatada
+     */
+    private function extract_simple_pricing($trip_id)
+    {
+        $regular_price = floatval(get_post_meta($trip_id, 'wp_travel_engine_setting_trip_actual_price', true));
+        $current_price = floatval(get_post_meta($trip_id, 'wp_travel_engine_setting_trip_price', true));
+
+        // Se preço atual é 0, usar preço regular
+        if ($current_price == 0) {
+            $current_price = $regular_price;
+        }
+
+        // Determinar se está em promoção
+        $has_sale = ($regular_price > 0 && $current_price > 0 && $current_price < $regular_price);
+        $sale_price = $has_sale ? $current_price : 0;
 
         return array(
+            'has_child' => false,
+            'adult'     => array(
+                'regular'           => $regular_price,
+                'sale'              => $sale_price,
+                'current'           => $current_price,
+                'has_sale'          => $has_sale,
+                'formatted'         => 'R$ ' . number_format($current_price, 2, ',', '.'),
+                'formatted_regular' => 'R$ ' . number_format($regular_price, 2, ',', '.'),
+            ),
+            'child'     => array(),
+            // Compatibilidade reversa
             'regular'   => $regular_price,
             'sale'      => $sale_price,
-            'formatted' => $formatted,
             'current'   => $current_price,
+            'formatted' => 'R$ ' . number_format($current_price, 2, ',', '.'),
+        );
+    }
+
+    /**
+     * Obter estrutura de preço vazia
+     *
+     * @return array Estrutura vazia de preços
+     */
+    private function get_empty_price_structure()
+    {
+        return array(
+            'has_child' => false,
+            'adult'     => array(
+                'regular'           => 0,
+                'sale'              => 0,
+                'current'           => 0,
+                'has_sale'          => false,
+                'formatted'         => '',
+                'formatted_regular' => '',
+            ),
+            'child'     => array(),
+            'regular'   => 0,
+            'sale'      => 0,
+            'current'   => 0,
+            'formatted' => '',
         );
     }
 
@@ -335,6 +487,13 @@ class WTE_Sliders_Query
     private function has_promotion($trip_id)
     {
         $price = $this->get_trip_price($trip_id);
+
+        // Verificar flag has_sale do adulto
+        if (!empty($price['adult']) && isset($price['adult']['has_sale'])) {
+            return $price['adult']['has_sale'];
+        }
+
+        // Fallback compatibilidade
         return ($price['sale'] > 0 && $price['sale'] < $price['regular']);
     }
 

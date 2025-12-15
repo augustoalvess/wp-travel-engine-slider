@@ -159,29 +159,118 @@
     border-top: 1px solid var(--wte-primary);
 }
 
-/* Preço */
+/* ========================================
+   ESTILOS DE PREÇO
+   ======================================== */
+
+/* === LAYOUT SIMPLES (Apenas Adulto) === */
+
+/* Container de preço único */
 .wte-trip-price {
     text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.wte-price-from {
-    font-size: 12px;
+/* Preço regular riscado (quando em promoção) */
+.wte-price-regular-strikethrough {
+    font-size: 14px;
     color: var(--wte-text-gray);
     text-decoration: line-through;
-    margin-bottom: 2px;
+    opacity: 0.7;
+    line-height: 1.2;
 }
 
+/* Preço atual/principal */
 .wte-price-current {
     font-size: 24px;
     font-weight: 700;
     color: var(--wte-text-dark);
-    line-height: 1;
+    line-height: 1.2;
 }
 
+/* Label "por pessoa" */
 .wte-price-per {
     font-size: 12px;
     color: var(--wte-text-gray);
     margin-top: 2px;
+    line-height: 1.2;
+}
+
+/* ========================================
+   LAYOUT HORIZONTAL (Adulto + Criança + Botão)
+   ======================================== */
+
+/* Container horizontal para adulto + criança */
+.wte-trip-prices-horizontal {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Seção individual de preço (adulto ou criança) */
+.wte-price-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: center;
+    position: relative;
+}
+
+/* Separador vertical entre adulto e criança */
+.wte-price-section.wte-price-adult::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: rgba(0, 199, 228, 0.3);
+}
+
+/* Labels "Adulto" / "Criança" */
+.wte-price-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--wte-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+/* Preço atual em seção horizontal (menor que preço único) */
+.wte-price-section .wte-price-current {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--wte-text-dark);
+    line-height: 1.2;
+}
+
+/* Strikethrough em seção horizontal */
+.wte-price-section .wte-price-regular-strikethrough {
+    font-size: 12px;
+    color: var(--wte-text-gray);
+    text-decoration: line-through;
+    opacity: 0.65;
+    line-height: 1.2;
+}
+
+/* Footer com layout horizontal (3 colunas) */
+.wte-trip-footer:has(.wte-trip-prices-horizontal) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Botão quando em layout horizontal */
+.wte-trip-footer:has(.wte-trip-prices-horizontal) .wte-trip-button {
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 /* Botão no card pequeno */
@@ -231,6 +320,58 @@
 
     .wte-trip-price {
         text-align: left;
+    }
+
+    /* Layout horizontal colapsa para vertical em mobile */
+    .wte-trip-prices-horizontal {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    /* Remove separador vertical em mobile */
+    .wte-price-section.wte-price-adult::after {
+        display: none;
+    }
+
+    /* Seções de preço centralizadas em mobile */
+    .wte-price-section {
+        text-align: center;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(0, 199, 228, 0.2);
+    }
+
+    .wte-price-section:last-child {
+        border-bottom: none;
+    }
+
+    /* Footer volta para coluna em mobile */
+    .wte-trip-footer:has(.wte-trip-prices-horizontal) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* Botão full-width em mobile */
+    .wte-trip-footer:has(.wte-trip-prices-horizontal) .wte-trip-button {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Ajuste de fontes em mobile */
+    .wte-price-current {
+        font-size: 22px;
+    }
+
+    .wte-price-section .wte-price-current {
+        font-size: 18px;
+    }
+
+    .wte-price-regular-strikethrough {
+        font-size: 13px;
+    }
+
+    .wte-price-section .wte-price-regular-strikethrough {
+        font-size: 11px;
     }
 }
 

@@ -54,27 +54,68 @@ if (! defined('ABSPATH')) {
         <?php endif; ?>
 
         <div class="wte-trip-footer">
-            <a href="<?php echo esc_url($trip->permalink); ?>" class="wte-trip-button">
-                <?php esc_html_e('Saiba mais', 'wte-sliders'); ?>
-            </a>
+            <?php if (!empty($trip->price['has_child'])) : ?>
+                <!-- Layout Horizontal: Botão + Adulto + Criança -->
 
-            <div class="wte-trip-price">
-                <?php if ($trip->has_promo && $trip->price['regular'] > 0) : ?>
-                    <div class="wte-price-from">
-                        <?php esc_html_e('De', 'wte-sliders'); ?>
-                        R$ <?php echo esc_html(number_format($trip->price['regular'], 2, ',', '.')); ?>
-                        <?php esc_html_e('por', 'wte-sliders'); ?>
+                <!-- Botão -->
+                <a href="<?php echo esc_url($trip->permalink); ?>" class="wte-trip-button">
+                    <?php esc_html_e('Saiba mais', 'wte-sliders'); ?>
+                </a>
+
+                <div class="wte-trip-prices-horizontal">
+                    <!-- Adulto -->
+                    <div class="wte-price-section wte-price-adult">
+                        <div class="wte-price-label">
+                            <?php esc_html_e('Adulto', 'wte-sliders'); ?>
+                        </div>
+                        <?php if ($trip->price['adult']['has_sale']) : ?>
+                            <div class="wte-price-regular-strikethrough">
+                                <?php echo esc_html($trip->price['adult']['formatted_regular']); ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class="wte-price-current">
+                            <?php echo esc_html($trip->price['adult']['formatted']); ?>
+                        </div>
                     </div>
-                <?php endif; ?>
 
-                <div class="wte-price-current">
-                    <?php echo esc_html($trip->price['formatted']); ?>
+                    <!-- Criança -->
+                    <div class="wte-price-section wte-price-child">
+                        <div class="wte-price-label">
+                            <?php esc_html_e('Criança', 'wte-sliders'); ?>
+                        </div>
+                        <?php if ($trip->price['child']['has_sale']) : ?>
+                            <div class="wte-price-regular-strikethrough">
+                                <?php echo esc_html($trip->price['child']['formatted_regular']); ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class="wte-price-current">
+                            <?php echo esc_html($trip->price['child']['formatted']); ?>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="wte-price-per">
-                    <?php esc_html_e('por pessoa', 'wte-sliders'); ?>
+            <?php else : ?>
+                <!-- Layout Simples: Botão + Preço (sem label Adulto) -->
+                <a href="<?php echo esc_url($trip->permalink); ?>" class="wte-trip-button">
+                    <?php esc_html_e('Saiba mais', 'wte-sliders'); ?>
+                </a>
+
+                <div class="wte-trip-price">
+                    <?php if ($trip->price['adult']['has_sale']) : ?>
+                        <div class="wte-price-regular-strikethrough">
+                            <?php echo esc_html($trip->price['adult']['formatted_regular']); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="wte-price-current">
+                        <?php echo esc_html($trip->price['adult']['formatted']); ?>
+                    </div>
+
+                    <div class="wte-price-per">
+                        <?php esc_html_e('por pessoa', 'wte-sliders'); ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
