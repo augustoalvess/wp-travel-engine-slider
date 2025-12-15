@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Classe para registro e renderização dos shortcodes
  *
@@ -6,14 +7,15 @@
  */
 
 // Prevenir acesso direto
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 /**
  * Classe WTE_Sliders_Shortcodes
  */
-class WTE_Sliders_Shortcodes {
+class WTE_Sliders_Shortcodes
+{
 
     /**
      * Instância da classe de queries
@@ -35,7 +37,8 @@ class WTE_Sliders_Shortcodes {
      * @param WTE_Sliders_Query           $query           Instância de query
      * @param WTE_Sliders_Template_Loader $template_loader Instância de template loader
      */
-    public function __construct( $query, $template_loader ) {
+    public function __construct($query, $template_loader)
+    {
         $this->query = $query;
         $this->template_loader = $template_loader;
         $this->register_shortcodes();
@@ -44,8 +47,55 @@ class WTE_Sliders_Shortcodes {
     /**
      * Registrar shortcodes
      */
-    private function register_shortcodes() {
-        add_shortcode( 'wte_slider', array( $this, 'render_slider' ) );
+    private function register_shortcodes()
+    {
+        add_shortcode('wte_slider', array($this, 'render_slider'));
+        add_shortcode('wte_featured_destinations', array($this, 'render_featured_destinations'));
+    }
+
+    /**
+     * Renderizar shortcode de destinos em destaque
+     * 
+     * @param array $atts Atributos do shortcode
+     * @return string HTML do slider
+     */
+    public function render_featured_destinations($atts)
+    {
+        $atts = shortcode_atts(
+            array(
+                'limit'     => -1,
+                'autoplay'  => 'true',
+                'speed'     => 5000,
+                'arrows'    => 'true',
+            ),
+            $atts,
+            'wte_featured_destinations'
+        );
+
+        $limit = intval($atts['limit']);
+        $autoplay_bool = filter_var($atts['autoplay'], FILTER_VALIDATE_BOOLEAN);
+        $speed = max(1000, intval($atts['speed']));
+        $arrows = filter_var($atts['arrows'], FILTER_VALIDATE_BOOLEAN);
+
+        // Buscar destinos em destaque
+        $destinations = $this->query->get_featured_destinations($limit);
+
+        if (empty($destinations)) {
+            return ''; // Não exibir nada se não houver destinos
+        }
+
+        // Preparar dados
+        $data = array(
+            'destinations'    => $destinations,
+            'autoplay'        => $autoplay_bool,
+            'speed'           => $speed,
+            'arrows'          => $arrows,
+            'slider_id'       => 'wte-destinations-' . uniqid(),
+            'template_loader' => $this->template_loader,
+        );
+
+        // Renderizar template
+        return $this->template_loader->load_template('slider-featured-destinations', $data);
     }
 
     /**
@@ -54,7 +104,8 @@ class WTE_Sliders_Shortcodes {
      * @param array $atts Atributos do shortcode
      * @return string HTML do slider
      */
-    public function render_slider( $atts ) {
+    public function render_slider($atts)
+    {
         $atts = shortcode_atts(
             array(
                 'type'      => '1',
@@ -72,38 +123,38 @@ class WTE_Sliders_Shortcodes {
         );
 
         // Sanitizar e validar type
-        $type = in_array( $atts['type'], array( '1', '2' ), true ) ? $atts['type'] : '1';
+        $type = in_array($atts['type'], array('1', '2'), true) ? $atts['type'] : '1';
 
         // Determinar autoplay baseado no tipo se não especificado
-        if ( empty( $atts['autoplay'] ) || $atts['autoplay'] === 'auto' ) {
-            $autoplay = ( $type === '1' ) ? 'true' : 'false';
+        if (empty($atts['autoplay']) || $atts['autoplay'] === 'auto') {
+            $autoplay = ($type === '1') ? 'true' : 'false';
         } else {
             $autoplay = $atts['autoplay'];
         }
 
         // Sanitizar outros atributos
-        $ids = sanitize_text_field( $atts['ids'] );
-        $tags = sanitize_text_field( $atts['tags'] );
-        $limit = intval( $atts['limit'] );
-        $autoplay_bool = filter_var( $autoplay, FILTER_VALIDATE_BOOLEAN );
-        $speed = max( 1000, intval( $atts['speed'] ) );
-        $arrows = filter_var( $atts['arrows'], FILTER_VALIDATE_BOOLEAN );
-        $per_page = max( 1, min( 12, intval( $atts['per_page'] ) ) );
-        $taxonomy = sanitize_key( $atts['taxonomy'] );
+        $ids = sanitize_text_field($atts['ids']);
+        $tags = sanitize_text_field($atts['tags']);
+        $limit = intval($atts['limit']);
+        $autoplay_bool = filter_var($autoplay, FILTER_VALIDATE_BOOLEAN);
+        $speed = max(1000, intval($atts['speed']));
+        $arrows = filter_var($atts['arrows'], FILTER_VALIDATE_BOOLEAN);
+        $per_page = max(1, min(12, intval($atts['per_page'])));
+        $taxonomy = sanitize_key($atts['taxonomy']);
 
         // Buscar viagens: IDs tem prioridade sobre tags
-        if ( ! empty( $ids ) ) {
-            $trips = $this->query->get_trips_by_ids( $ids, $limit );
-        } elseif ( ! empty( $tags ) ) {
-            $trips = $this->query->get_trips_by_tags( $tags, $limit, $taxonomy );
+        if (! empty($ids)) {
+            $trips = $this->query->get_trips_by_ids($ids, $limit);
+        } elseif (! empty($tags)) {
+            $trips = $this->query->get_trips_by_tags($tags, $limit, $taxonomy);
         } else {
             return $this->render_error_message(
-                __( 'Erro no shortcode: especifique "tags" ou "ids".', 'wte-sliders' )
+                __('Erro no shortcode: especifique "tags" ou "ids".', 'wte-sliders')
             );
         }
 
-        if ( empty( $trips ) ) {
-            return $this->render_empty_message( $tags, $ids, $taxonomy );
+        if (empty($trips)) {
+            return $this->render_empty_message($tags, $ids, $taxonomy);
         }
 
         // Preparar dados
@@ -118,12 +169,12 @@ class WTE_Sliders_Shortcodes {
         );
 
         // Adicionar per_page apenas para tipo 2
-        if ( $type === '2' ) {
+        if ($type === '2') {
             $data['per_page'] = $per_page;
         }
 
         // Renderizar template apropriado
-        return $this->template_loader->load_template( 'slider-destaque-' . $type, $data );
+        return $this->template_loader->load_template('slider-destaque-' . $type, $data);
     }
 
     /**
@@ -132,12 +183,13 @@ class WTE_Sliders_Shortcodes {
      * @param string $message Mensagem de erro
      * @return string HTML da mensagem de erro
      */
-    private function render_error_message( $message ) {
+    private function render_error_message($message)
+    {
         return sprintf(
             '<div class="wte-sliders-error" style="padding: 20px; background: #f8d7da; border-left: 4px solid #dc3545; margin: 20px 0;">
                 <p style="margin: 0; color: #721c24;"><strong>%s</strong></p>
             </div>',
-            esc_html( $message )
+            esc_html($message)
         );
     }
 
@@ -149,10 +201,11 @@ class WTE_Sliders_Shortcodes {
      * @param string $taxonomy Taxonomia usada
      * @return string HTML da mensagem
      */
-    private function render_empty_message( $tags, $ids, $taxonomy ) {
-        if ( ! empty( $ids ) ) {
+    private function render_empty_message($tags, $ids, $taxonomy)
+    {
+        if (! empty($ids)) {
             return $this->render_error_message(
-                sprintf( __( 'Nenhuma viagem encontrada com os IDs: %s', 'wte-sliders' ), esc_html( $ids ) )
+                sprintf(__('Nenhuma viagem encontrada com os IDs: %s', 'wte-sliders'), esc_html($ids))
             );
         }
 
@@ -161,7 +214,7 @@ class WTE_Sliders_Shortcodes {
             'trip-packages-categories'  => 'Trip Package Categories (Categorias de Pacotes)',
             'difficulty'                => 'Difficulty (Dificuldade)',
         );
-        $taxonomy_label = isset( $taxonomy_labels[ $taxonomy ] ) ? $taxonomy_labels[ $taxonomy ] : $taxonomy;
+        $taxonomy_label = isset($taxonomy_labels[$taxonomy]) ? $taxonomy_labels[$taxonomy] : $taxonomy;
 
         return sprintf(
             '<div class="wte-sliders-notice" style="padding: 20px; background: #fff3cd; border-left: 4px solid #ffc107; margin: 20px 0;">
@@ -173,12 +226,11 @@ class WTE_Sliders_Shortcodes {
                     <li>%s</li>
                 </ol>
             </div>',
-            esc_html__( 'Nenhuma viagem encontrada para exibir neste slider.', 'wte-sliders' ),
-            esc_html__( 'Verifique se:', 'wte-sliders' ),
-            sprintf( esc_html__( 'O termo "%s" existe na taxonomia "%s" do WP Travel Engine', 'wte-sliders' ), esc_html( $tags ), esc_html( $taxonomy_label ) ),
-            esc_html__( 'Existem viagens publicadas (tipo de post "trip")', 'wte-sliders' ),
-            sprintf( esc_html__( 'Essas viagens possuem o termo "%s" atribuído', 'wte-sliders' ), esc_html( $tags ) )
+            esc_html__('Nenhuma viagem encontrada para exibir neste slider.', 'wte-sliders'),
+            esc_html__('Verifique se:', 'wte-sliders'),
+            sprintf(esc_html__('O termo "%s" existe na taxonomia "%s" do WP Travel Engine', 'wte-sliders'), esc_html($tags), esc_html($taxonomy_label)),
+            esc_html__('Existem viagens publicadas (tipo de post "trip")', 'wte-sliders'),
+            sprintf(esc_html__('Essas viagens possuem o termo "%s" atribuído', 'wte-sliders'), esc_html($tags))
         );
     }
-
 }

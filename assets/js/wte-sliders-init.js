@@ -12,7 +12,7 @@
     });
 
     function initSliders() {
-        const sliders = document.querySelectorAll('.wte-slider-destaque-1, .wte-slider-destaque-2');
+        const sliders = document.querySelectorAll('.wte-slider-destaque-1, .wte-slider-destaque-2, .wte-slider-featured-destinations');
 
         sliders.forEach(function (slider) {
             // Evitar dupla inicialização

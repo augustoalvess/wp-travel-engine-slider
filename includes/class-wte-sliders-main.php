@@ -127,6 +127,15 @@ class WTE_Sliders_Main
             WTE_SLIDERS_VERSION,
             'all'
         );
+
+        // CSS do slider destinos em destaque
+        wp_enqueue_style(
+            'wte-sliders-featured-destinations',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/css/slider-featured-destinations.css',
+            array('wte-sliders-base'),
+            WTE_SLIDERS_VERSION,
+            'all'
+        );
     }
 
     /**

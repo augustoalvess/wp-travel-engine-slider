@@ -1,0 +1,174 @@
+/**
+ * Estilos para o Slider de Destinos em Destaque
+ */
+
+/* Importar fonte Poppins se não estiver carregada pelo tema */
+@import url('https://fonts.fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.wte-slider-wrapper-destinations {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Alinhar padding com demais sliders (geralmente zero se o wrapper cuida disso) */
+    padding: 20px 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.wte-destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    /* Aumentado gap para ficar mais espaçado como os outros */
+    width: 100%;
+}
+
+.wte-destination-card {
+    position: relative;
+    border-radius: 8px;
+    /* Matching base var */
+    overflow: hidden;
+    text-decoration: none !important;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    background-color: #1b4264;
+    /* User requested solid bg */
+    height: 100%;
+}
+
+.wte-destination-card:not(.wte-card-empty):hover {
+    transform: translateY(-5px);
+}
+
+.wte-destination-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    /* Standard layout */
+    overflow: hidden;
+}
+
+.wte-destination-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.wte-destination-card:hover .wte-destination-media img {
+    transform: scale(1.1);
+}
+
+/* Placeholder */
+.wte-placeholder-image {
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+}
+
+.wte-destination-content {
+    padding: 20px;
+    color: #fff;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.wte-destination-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 10px 0 !important;
+    color: #fff !important;
+    line-height: 1.2;
+}
+
+.wte-destination-description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    opacity: 0.9;
+    color: #d1d5db;
+    /* Light gray text */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.wte-destination-footer {
+    margin-top: auto;
+}
+
+.wte-destination-count {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+    color: #fff;
+    opacity: 0.8;
+}
+
+/* Ajuste de Setas - Herdar do base, mas posicionar corretamente */
+.wte-slider-wrapper-destinations .swiper-button-prev,
+.wte-slider-wrapper-destinations .swiper-button-next {
+    /* Manter estilos base do slider-base.css (não sobrescrever cores/tamanho se possível) */
+    /* Apenas ajuste de posição se necessário */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.wte-slider-wrapper-destinations .swiper-button-prev {
+    left: -15px;
+    /* Jogar um pouco pra fora da grid */
+}
+
+.wte-slider-wrapper-destinations .swiper-button-next {
+    right: -15px;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .wte-destinations-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .wte-destination-card:nth-child(4) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .wte-destinations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .wte-destination-card:nth-child(3),
+    .wte-destination-card:nth-child(4) {
+        display: none;
+    }
+
+    .wte-slider-wrapper-destinations {
+        padding: 20px;
+        /* Manter padding lateral em mobile */
+    }
+
+    .wte-slider-wrapper-destinations .swiper-button-prev,
+    .wte-slider-wrapper-destinations .swiper-button-next {
+        display: none;
+        /* Esconder setas em mobile como padrão */
+    }
+}
+
+@media (max-width: 480px) {
+    .wte-destinations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wte-destination-card:not(:first-child) {
+        display: none;
+    }
+}

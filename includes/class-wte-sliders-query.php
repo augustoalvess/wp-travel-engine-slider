@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Classe para queries de viagens do WP Travel Engine
  *
@@ -6,14 +7,15 @@
  */
 
 // Prevenir acesso direto
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 /**
  * Classe WTE_Sliders_Query
  */
-class WTE_Sliders_Query {
+class WTE_Sliders_Query
+{
 
     /**
      * Verificar se um termo existe em uma taxonomia
@@ -22,9 +24,10 @@ class WTE_Sliders_Query {
      * @param string $taxonomy  Nome da taxonomia
      * @return bool
      */
-    private function term_exists( $term_slug, $taxonomy ) {
-        $term = get_term_by( 'slug', $term_slug, $taxonomy );
-        return ( $term !== false && ! is_wp_error( $term ) );
+    private function term_exists($term_slug, $taxonomy)
+    {
+        $term = get_term_by('slug', $term_slug, $taxonomy);
+        return ($term !== false && ! is_wp_error($term));
     }
 
     /**
@@ -33,12 +36,13 @@ class WTE_Sliders_Query {
      * @param array $args Argumentos do WP_Query
      * @return array Array de objetos com dados das viagens
      */
-    private function execute_query_and_build_data( $args ) {
-        $query = new WP_Query( $args );
+    private function execute_query_and_build_data($args)
+    {
+        $query = new WP_Query($args);
         $trips = array();
 
-        if ( $query->have_posts() ) {
-            while ( $query->have_posts() ) {
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
                 $query->the_post();
                 $trip_id = get_the_ID();
 
@@ -47,12 +51,12 @@ class WTE_Sliders_Query {
                     'title'       => get_the_title(),
                     'excerpt'     => get_the_excerpt(),
                     'permalink'   => get_permalink(),
-                    'image'       => $this->get_trip_image( $trip_id ),
-                    'video'       => $this->get_trip_video( $trip_id ),
-                    'duration'    => $this->get_trip_duration( $trip_id ),
-                    'destination' => $this->get_trip_destination( $trip_id ),
-                    'price'       => $this->get_trip_price( $trip_id ),
-                    'has_promo'   => $this->has_promotion( $trip_id ),
+                    'image'       => $this->get_trip_image($trip_id),
+                    'video'       => $this->get_trip_video($trip_id),
+                    'duration'    => $this->get_trip_duration($trip_id),
+                    'destination' => $this->get_trip_destination($trip_id),
+                    'price'       => $this->get_trip_price($trip_id),
+                    'has_promo'   => $this->has_promotion($trip_id),
                 );
 
                 $trips[] = (object) $trip_data;
@@ -71,40 +75,41 @@ class WTE_Sliders_Query {
      * @param string       $taxonomy Taxonomia a usar
      * @return array Array de objetos com dados das viagens
      */
-    public function get_trips_by_tags( $terms, $limit = -1, $taxonomy = 'trip_tag' ) {
+    public function get_trips_by_tags($terms, $limit = -1, $taxonomy = 'trip_tag')
+    {
         // Validar taxonomia
-        $valid_taxonomies = array( 'trip_tag', 'trip-packages-categories', 'difficulty' );
-        if ( ! in_array( $taxonomy, $valid_taxonomies, true ) ) {
+        $valid_taxonomies = array('trip_tag', 'trip-packages-categories', 'difficulty');
+        if (! in_array($taxonomy, $valid_taxonomies, true)) {
             $taxonomy = 'trip_tag';
         }
 
         // Converter para array se for string
-        if ( is_string( $terms ) ) {
-            $terms = array_map( 'trim', explode( ',', $terms ) );
+        if (is_string($terms)) {
+            $terms = array_map('trim', explode(',', $terms));
         }
 
         // Sanitizar
-        $terms = array_map( 'sanitize_text_field', $terms );
-        $terms = array_filter( $terms );
+        $terms = array_map('sanitize_text_field', $terms);
+        $terms = array_filter($terms);
 
-        if ( empty( $terms ) ) {
+        if (empty($terms)) {
             return array();
         }
 
         // Verificar se pelo menos um termo existe
         $valid_terms = array();
-        foreach ( $terms as $term_slug ) {
-            if ( $this->term_exists( $term_slug, $taxonomy ) ) {
+        foreach ($terms as $term_slug) {
+            if ($this->term_exists($term_slug, $taxonomy)) {
                 $valid_terms[] = $term_slug;
             }
         }
 
-        if ( empty( $valid_terms ) ) {
+        if (empty($valid_terms)) {
             return array();
         }
 
         // Usar 'IN' se múltiplos termos, senão termo único
-        $operator = ( count( $valid_terms ) > 1 ) ? 'IN' : 'AND';
+        $operator = (count($valid_terms) > 1) ? 'IN' : 'AND';
 
         $args = array(
             'post_type'      => 'trip',
@@ -122,7 +127,7 @@ class WTE_Sliders_Query {
             ),
         );
 
-        return $this->execute_query_and_build_data( $args );
+        return $this->execute_query_and_build_data($args);
     }
 
     /**
@@ -133,8 +138,9 @@ class WTE_Sliders_Query {
      * @param string $taxonomy  Taxonomia a usar (trip_tag, trip-packages-categories, difficulty)
      * @return array Array de objetos WP_Post com dados adicionais
      */
-    public function get_trips_by_tag( $term_slug, $limit = -1, $taxonomy = 'trip_tag' ) {
-        return $this->get_trips_by_tags( $term_slug, $limit, $taxonomy );
+    public function get_trips_by_tag($term_slug, $limit = -1, $taxonomy = 'trip_tag')
+    {
+        return $this->get_trips_by_tags($term_slug, $limit, $taxonomy);
     }
 
     /**
@@ -144,23 +150,24 @@ class WTE_Sliders_Query {
      * @param int          $limit  Limite de posts (-1 para todos)
      * @return array Array de objetos com dados das viagens
      */
-    public function get_trips_by_ids( $ids, $limit = -1 ) {
+    public function get_trips_by_ids($ids, $limit = -1)
+    {
         // Converter para array se for string
-        if ( is_string( $ids ) ) {
-            $ids = array_map( 'trim', explode( ',', $ids ) );
+        if (is_string($ids)) {
+            $ids = array_map('trim', explode(',', $ids));
         }
 
         // Sanitizar IDs
-        $ids = array_map( 'intval', $ids );
-        $ids = array_filter( $ids ); // Remover zeros
+        $ids = array_map('intval', $ids);
+        $ids = array_filter($ids); // Remover zeros
 
-        if ( empty( $ids ) ) {
+        if (empty($ids)) {
             return array();
         }
 
         // Aplicar limite se especificado
-        if ( $limit > 0 && count( $ids ) > $limit ) {
-            $ids = array_slice( $ids, 0, $limit );
+        if ($limit > 0 && count($ids) > $limit) {
+            $ids = array_slice($ids, 0, $limit);
         }
 
         $args = array(
@@ -171,7 +178,7 @@ class WTE_Sliders_Query {
             'post_status'    => 'publish',
         );
 
-        return $this->execute_query_and_build_data( $args );
+        return $this->execute_query_and_build_data($args);
     }
 
     /**
@@ -180,8 +187,9 @@ class WTE_Sliders_Query {
      * @param int $trip_id ID da viagem
      * @return string URL da imagem ou string vazia
      */
-    private function get_trip_image( $trip_id ) {
-        $image_url = get_the_post_thumbnail_url( $trip_id, 'large' );
+    private function get_trip_image($trip_id)
+    {
+        $image_url = get_the_post_thumbnail_url($trip_id, 'large');
         return $image_url ? $image_url : '';
     }
 
@@ -191,18 +199,19 @@ class WTE_Sliders_Query {
      * @param int $trip_id ID da viagem
      * @return string URL do vídeo (YouTube/Vimeo) ou string vazia
      */
-    private function get_trip_video( $trip_id ) {
+    private function get_trip_video($trip_id)
+    {
         // Tentar obter da galeria de vídeos do WP Travel Engine
-        $gallery = get_post_meta( $trip_id, 'wpte_vid_gallery', true );
+        $gallery = get_post_meta($trip_id, 'wpte_vid_gallery', true);
 
-        if ( is_array( $gallery ) && ! empty( $gallery ) ) {
+        if (is_array($gallery) && ! empty($gallery)) {
             // Estrutura: array( 0 => array( 'id' => '...', 'type' => 'youtube', 'thumb' => '...' ) )
-            foreach ( $gallery as $video_data ) {
-                if ( isset( $video_data['id'] ) && isset( $video_data['type'] ) ) {
+            foreach ($gallery as $video_data) {
+                if (isset($video_data['id']) && isset($video_data['type'])) {
                     // Construir URL baseado no tipo
-                    if ( $video_data['type'] === 'youtube' ) {
+                    if ($video_data['type'] === 'youtube') {
                         return 'https://www.youtube.com/watch?v=' . $video_data['id'];
-                    } elseif ( $video_data['type'] === 'vimeo' ) {
+                    } elseif ($video_data['type'] === 'vimeo') {
                         return 'https://vimeo.com/' . $video_data['id'];
                     }
                 }
@@ -210,8 +219,8 @@ class WTE_Sliders_Query {
         }
 
         // Fallback: tentar campo customizado comum
-        $video_url = get_post_meta( $trip_id, 'trip_video_url', true );
-        return $this->is_video_url( $video_url ) ? $video_url : '';
+        $video_url = get_post_meta($trip_id, 'trip_video_url', true);
+        return $this->is_video_url($video_url) ? $video_url : '';
     }
 
     /**
@@ -220,13 +229,14 @@ class WTE_Sliders_Query {
      * @param string $url URL para verificar
      * @return bool
      */
-    private function is_video_url( $url ) {
-        if ( empty( $url ) ) {
+    private function is_video_url($url)
+    {
+        if (empty($url)) {
             return false;
         }
-        return ( strpos( $url, 'youtube.com' ) !== false ||
-                 strpos( $url, 'youtu.be' ) !== false ||
-                 strpos( $url, 'vimeo.com' ) !== false );
+        return (strpos($url, 'youtube.com') !== false ||
+            strpos($url, 'youtu.be') !== false ||
+            strpos($url, 'vimeo.com') !== false);
     }
 
     /**
@@ -235,17 +245,18 @@ class WTE_Sliders_Query {
      * @param int $trip_id ID da viagem
      * @return string Duração formatada (ex: "5 dias")
      */
-    private function get_trip_duration( $trip_id ) {
-        $settings = get_post_meta( $trip_id, 'wp_travel_engine_setting', true );
+    private function get_trip_duration($trip_id)
+    {
+        $settings = get_post_meta($trip_id, 'wp_travel_engine_setting', true);
 
-        if ( ! is_array( $settings ) ) {
+        if (! is_array($settings)) {
             return '';
         }
 
-        $duration = isset( $settings['trip_duration'] ) ? $settings['trip_duration'] : '';
-        $unit = isset( $settings['trip_duration_unit'] ) ? $settings['trip_duration_unit'] : 'days';
+        $duration = isset($settings['trip_duration']) ? $settings['trip_duration'] : '';
+        $unit = isset($settings['trip_duration_unit']) ? $settings['trip_duration_unit'] : 'days';
 
-        if ( empty( $duration ) ) {
+        if (empty($duration)) {
             return '';
         }
 
@@ -259,7 +270,7 @@ class WTE_Sliders_Query {
             'hour'   => 'hora',
         );
 
-        $unit_text = isset( $unit_labels[ $unit ] ) ? $unit_labels[ $unit ] : $unit;
+        $unit_text = isset($unit_labels[$unit]) ? $unit_labels[$unit] : $unit;
 
         return $duration . ' ' . $unit_text;
     }
@@ -270,11 +281,12 @@ class WTE_Sliders_Query {
      * @param int $trip_id ID da viagem
      * @return string Nome do destino ou string vazia
      */
-    private function get_trip_destination( $trip_id ) {
-        $destinations = get_the_terms( $trip_id, 'destination' );
+    private function get_trip_destination($trip_id)
+    {
+        $destinations = get_the_terms($trip_id, 'destination');
 
-        if ( is_array( $destinations ) && ! empty( $destinations ) ) {
-            $destination = array_shift( $destinations );
+        if (is_array($destinations) && ! empty($destinations)) {
+            $destination = array_shift($destinations);
             return $destination->name;
         }
 
@@ -287,10 +299,11 @@ class WTE_Sliders_Query {
      * @param int $trip_id ID da viagem
      * @return array Array com 'regular', 'sale' e 'formatted'
      */
-    private function get_trip_price( $trip_id ) {
-        $settings = get_post_meta( $trip_id, 'wp_travel_engine_setting', true );
+    private function get_trip_price($trip_id)
+    {
+        $settings = get_post_meta($trip_id, 'wp_travel_engine_setting', true);
 
-        if ( ! is_array( $settings ) ) {
+        if (! is_array($settings)) {
             return array(
                 'regular'   => 0,
                 'sale'      => 0,
@@ -298,12 +311,12 @@ class WTE_Sliders_Query {
             );
         }
 
-        $regular_price = isset( $settings['price'] ) ? floatval( $settings['price'] ) : 0;
-        $sale_price = isset( $settings['sale_price'] ) ? floatval( $settings['sale_price'] ) : 0;
+        $regular_price = isset($settings['price']) ? floatval($settings['price']) : 0;
+        $sale_price = isset($settings['sale_price']) ? floatval($settings['sale_price']) : 0;
 
         // Determinar preço atual e formatação
-        $current_price = ( $sale_price > 0 && $sale_price < $regular_price ) ? $sale_price : $regular_price;
-        $formatted = 'R$ ' . number_format( $current_price, 2, ',', '.' );
+        $current_price = ($sale_price > 0 && $sale_price < $regular_price) ? $sale_price : $regular_price;
+        $formatted = 'R$ ' . number_format($current_price, 2, ',', '.');
 
         return array(
             'regular'   => $regular_price,
@@ -319,9 +332,10 @@ class WTE_Sliders_Query {
      * @param int $trip_id ID da viagem
      * @return bool
      */
-    private function has_promotion( $trip_id ) {
-        $price = $this->get_trip_price( $trip_id );
-        return ( $price['sale'] > 0 && $price['sale'] < $price['regular'] );
+    private function has_promotion($trip_id)
+    {
+        $price = $this->get_trip_price($trip_id);
+        return ($price['sale'] > 0 && $price['sale'] < $price['regular']);
     }
 
     /**
@@ -330,27 +344,71 @@ class WTE_Sliders_Query {
      * @param string $video_url URL do vídeo
      * @return string URL embed ou string vazia
      */
-    public function get_video_embed_url( $video_url ) {
-        if ( empty( $video_url ) ) {
+    public function get_video_embed_url($video_url)
+    {
+        if (empty($video_url)) {
             return '';
         }
 
         // YouTube
-        if ( strpos( $video_url, 'youtube.com' ) !== false || strpos( $video_url, 'youtu.be' ) !== false ) {
-            preg_match( '/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $video_url, $matches );
-            if ( isset( $matches[1] ) ) {
+        if (strpos($video_url, 'youtube.com') !== false || strpos($video_url, 'youtu.be') !== false) {
+            preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $video_url, $matches);
+            if (isset($matches[1])) {
                 return 'https://www.youtube.com/embed/' . $matches[1];
             }
         }
 
         // Vimeo
-        if ( strpos( $video_url, 'vimeo.com' ) !== false ) {
-            preg_match( '/vimeo\.com\/([0-9]+)/', $video_url, $matches );
-            if ( isset( $matches[1] ) ) {
+        if (strpos($video_url, 'vimeo.com') !== false) {
+            preg_match('/vimeo\.com\/([0-9]+)/', $video_url, $matches);
+            if (isset($matches[1])) {
                 return 'https://player.vimeo.com/video/' . $matches[1];
             }
         }
 
         return '';
+    }
+
+    /**
+     * Obter destinos em destaque
+     *
+     * @param int $limit Limite de destinos (-1 para todos)
+     * @return array Array de objetos com dados dos destinos
+     */
+    public function get_featured_destinations($limit = -1)
+    {
+        $args = array(
+            'taxonomy'   => 'destination',
+            'hide_empty' => false, // Exibir mesmo sem viagens
+            'meta_key'   => 'wte_trip_tax_featured',
+            'meta_value' => 'yes',
+            'number'     => $limit > 0 ? $limit : 0,
+        );
+
+        $terms = get_terms($args);
+        $destinations = array();
+
+        if (! empty($terms) && ! is_wp_error($terms)) {
+            foreach ($terms as $term) {
+                $image_id = get_term_meta($term->term_id, 'thumbnail_id', true);
+                $image_url = '';
+
+                if (! empty($image_id)) {
+                    $image_url = wp_get_attachment_image_url($image_id, 'large');
+                }
+
+                $destinations[] = (object) array(
+                    'id'          => $term->term_id,
+                    'title'       => $term->name,
+                    'description' => $term->description,
+                    'permalink'   => get_term_link($term),
+                    'image'       => $image_url,
+                    'count'       => $term->count,
+                    'slug'        => $term->slug,
+                );
+            }
+        }
+
+        return $destinations;
     }
 }
