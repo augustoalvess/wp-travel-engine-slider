@@ -125,12 +125,6 @@
     font-size: 14px;
 }
 
-.wte-trip-duration img,
-.wte-trip-location img {
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
-}
-
 /* Ações */
 .wte-trip-actions {
     margin-top: 20px;
