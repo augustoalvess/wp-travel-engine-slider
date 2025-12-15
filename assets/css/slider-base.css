@@ -8,9 +8,9 @@
 
 /* CSS Variables */
 :root {
-    --wte-primary: #00bcd4;
-    --wte-dark-bg: #1a3a52;
-    --wte-text-dark: #1a2e3e;
+    --wte-primary: #00c7e4;
+    --wte-dark-bg: #1b4264;
+    --wte-text-dark: #1b4264;
     --wte-text-gray: #6b7280;
     --wte-white: #ffffff;
     --wte-border-radius: 8px;
@@ -117,7 +117,7 @@
     display: inline-block;
     padding: 12px 24px;
     background: var(--wte-primary);
-    color: var(--wte-white);
+    color: var(--wte-text-dark);
     text-decoration: none;
     border-radius: var(--wte-border-radius);
     font-weight: 600;
