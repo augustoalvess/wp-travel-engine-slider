@@ -119,12 +119,17 @@
     background: var(--wte-primary);
     color: var(--wte-text-dark);
     text-decoration: none;
-    border-radius: var(--wte-border-radius);
+    border-radius: 4px;
     font-weight: 600;
     font-size: 14px;
     transition: var(--wte-transition);
     border: none;
     cursor: pointer;
+}
+
+.wte-trip-footer .wte-trip-button {
+    background: var(--wte-dark-bg);
+    color: var(--wte-white);
 }
 
 .wte-trip-button:hover {
