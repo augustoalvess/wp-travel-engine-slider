@@ -91,6 +91,7 @@
 /* Conteúdo do card */
 .wte-trip-card-content {
     padding: 20px;
+    padding-bottom: 30px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
