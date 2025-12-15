@@ -400,7 +400,7 @@ class WTE_Sliders_Query
                 $destinations[] = (object) array(
                     'id'          => $term->term_id,
                     'title'       => $term->name,
-                    'description' => $term->description,
+                    'description' => get_term_meta($term->term_id, 'wte-shortdesc-textarea', true),
                     'permalink'   => get_term_link($term),
                     'image'       => $image_url,
                     'count'       => $term->count,

@@ -100,6 +100,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     flex-grow: 1;
+    text-align: center;
 }
 
 .wte-destination-footer {
@@ -126,12 +127,12 @@
 }
 
 .wte-slider-wrapper-destinations .swiper-button-prev {
-    left: -15px;
+    left: 10px;
     /* Jogar um pouco pra fora da grid */
 }
 
 .wte-slider-wrapper-destinations .swiper-button-next {
-    right: -15px;
+    right: -10px;
 }
 
 /* Responsividade */

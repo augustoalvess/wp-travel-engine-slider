@@ -49,9 +49,6 @@ $pages = array_chunk($destinations, $per_page);
                                         <div class="wte-destination-description"><?php echo wp_trim_words($destination->description, 10); ?></div>
                                     <?php endif; ?>
                                     <div class="wte-destination-footer">
-                                        <?php if ($destination->count > 0) : ?>
-                                            <span class="wte-destination-count"><?php echo esc_html($destination->count) . ' ' . _n('Tour', 'Tours', $destination->count, 'wte-sliders'); ?></span>
-                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </a>
