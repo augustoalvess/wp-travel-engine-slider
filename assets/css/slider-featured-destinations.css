@@ -27,7 +27,7 @@
 
 .wte-destination-card {
     position: relative;
-    border-radius: 8px;
+    border-radius: 10px;
     /* Matching base var */
     overflow: hidden;
     text-decoration: none !important;
