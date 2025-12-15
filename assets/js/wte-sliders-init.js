@@ -38,8 +38,8 @@
 
                 // Navegação (Setas)
                 navigation: {
-                    nextEl: slider.querySelector('.swiper-button-next'),
-                    prevEl: slider.querySelector('.swiper-button-prev'),
+                    nextEl: slider.closest('.wte-slider-wrapper') ? slider.closest('.wte-slider-wrapper').querySelector('.swiper-button-next') : slider.querySelector('.swiper-button-next'),
+                    prevEl: slider.closest('.wte-slider-wrapper') ? slider.closest('.wte-slider-wrapper').querySelector('.swiper-button-prev') : slider.querySelector('.swiper-button-prev'),
                 },
             };
 

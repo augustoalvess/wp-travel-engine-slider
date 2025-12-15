@@ -4,16 +4,22 @@
  * @package WTE_Sliders
  */
 
-/* Container do slider */
-.wte-slider-destaque-1 {
+/* Container do slider (Wrapper) */
+.wte-slider-wrapper-1 {
     background: var(--wte-dark-bg);
     padding: 40px 80px;
 }
 
 @media (max-width: 768px) {
-    .wte-slider-destaque-1 {
+    .wte-slider-wrapper-1 {
         padding: 40px 20px;
     }
+}
+
+.wte-slider-destaque-1 {
+    /* Reset styles handled by wrapper */
+    background: transparent;
+    padding: 0 !important;
 }
 
 /* Card grande */

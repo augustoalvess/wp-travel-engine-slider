@@ -21,36 +21,36 @@ if (! defined('ABSPATH')) {
 $pages = array_chunk($trips, $per_page);
 ?>
 
-<div class="wte-slider-destaque-2 swiper"
-    id="<?php echo esc_attr($slider_id); ?>"
-    data-autoplay="<?php echo $autoplay ? 'true' : 'false'; ?>"
-    data-speed="<?php echo esc_attr($speed); ?>"
-    data-arrows="<?php echo $arrows ? 'true' : 'false'; ?>"
-    data-per-page="<?php echo esc_attr($per_page); ?>">
+<div class="wte-slider-wrapper wte-slider-wrapper-2">
+    <div class="wte-slider-destaque-2 swiper"
+        id="<?php echo esc_attr($slider_id); ?>"
+        data-autoplay="<?php echo $autoplay ? 'true' : 'false'; ?>"
+        data-speed="<?php echo esc_attr($speed); ?>"
+        data-arrows="<?php echo $arrows ? 'true' : 'false'; ?>"
+        data-per-page="<?php echo esc_attr($per_page); ?>">
 
-    <div class="swiper-wrapper">
-        <?php foreach ($pages as $page) : ?>
-            <div class="swiper-slide wte-slider-slide">
-                <div class="wte-slider-grid">
-                    <?php foreach ($page as $trip) : ?>
-                        <?php
-                        // Carregar partial do card pequeno
-                        $template_loader->load_partial('trip-card-small', array(
-                            'trip'   => $trip,
-                            'query'  => $query,
-                            'loader' => $template_loader,
-                        ));
-                        ?>
-                    <?php endforeach; ?>
+        <div class="swiper-wrapper">
+            <?php foreach ($pages as $page) : ?>
+                <div class="swiper-slide wte-slider-slide">
+                    <div class="wte-slider-grid">
+                        <?php foreach ($page as $trip) : ?>
+                            <?php
+                            // Carregar partial do card pequeno
+                            $template_loader->load_partial('trip-card-small', array(
+                                'trip'   => $trip,
+                                'query'  => $query,
+                                'loader' => $template_loader,
+                            ));
+                            ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     </div>
 
     <?php if ($arrows && count($pages) > 1) : ?>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     <?php endif; ?>
-
-
 </div>

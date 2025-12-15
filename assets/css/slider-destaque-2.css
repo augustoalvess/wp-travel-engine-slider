@@ -4,17 +4,23 @@
  * @package WTE_Sliders
  */
 
-/* Container do slider */
-.wte-slider-destaque-2 {
+/* Container do slider (Wrapper) */
+.wte-slider-wrapper-2 {
     background: var(--wte-dark-bg);
     padding: 60px 80px;
 }
 
 @media (max-width: 768px) {
-    .wte-slider-destaque-2 {
+    .wte-slider-wrapper-2 {
         padding: 60px 40px;
         /* Less padding on mobile */
     }
+}
+
+.wte-slider-destaque-2 {
+    /* Reset styles handled by wrapper */
+    background: transparent;
+    padding: 0 !important;
 }
 
 /* Grid de cards */

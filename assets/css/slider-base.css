@@ -17,19 +17,28 @@
 }
 
 /* Reset básico */
-.wte-slider-destaque-1 *,
-.wte-slider-destaque-2 * {
+.wte-slider-wrapper-1 *,
+.wte-slider-wrapper-2 * {
     box-sizing: border-box;
 }
 
-/* Container do slider */
+/* Wrapper principal (contém o slider e as setas) */
+.wte-slider-wrapper {
+    position: relative;
+    width: 100%;
+    /* Flex para alinhar setas verticalmente se necessário, mas absolute é melhor */
+}
+
+/* Container do slider (Swiper) */
 [class*="wte-slider-"] {
     position: relative;
     width: 100%;
     overflow: hidden;
-    /* Swiper specific */
+    /* Reset padding/bg que agora vão no wrapper */
+    padding: 0;
+    background: transparent;
     padding-bottom: 50px;
-    /* Space for pagination */
+    /* Space for pagination if needed, or remove? keeping for safety/old logic, but removing dots anyway */
 }
 
 .swiper-slide {
@@ -54,6 +63,14 @@
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     transition: var(--wte-transition);
+
+    /* Centralização vertical no wrapper */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    margin-top: 0;
+    /* Override default swiper margin if present */
 }
 
 .swiper-button-prev:after,

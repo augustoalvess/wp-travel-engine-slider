@@ -17,31 +17,31 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<div class="wte-slider-destaque-1 swiper"
-    id="<?php echo esc_attr($slider_id); ?>"
-    data-autoplay="<?php echo $autoplay ? 'true' : 'false'; ?>"
-    data-speed="<?php echo esc_attr($speed); ?>"
-    data-arrows="<?php echo $arrows ? 'true' : 'false'; ?>">
+<div class="wte-slider-wrapper wte-slider-wrapper-1">
+    <div class="wte-slider-destaque-1 swiper"
+        id="<?php echo esc_attr($slider_id); ?>"
+        data-autoplay="<?php echo $autoplay ? 'true' : 'false'; ?>"
+        data-speed="<?php echo esc_attr($speed); ?>"
+        data-arrows="<?php echo $arrows ? 'true' : 'false'; ?>">
 
-    <div class="swiper-wrapper">
-        <?php foreach ($trips as $trip) : ?>
-            <div class="swiper-slide wte-slider-slide">
-                <?php
-                // Carregar partial do card grande
-                $template_loader->load_partial('trip-card-large', array(
-                    'trip'   => $trip,
-                    'query'  => $query,
-                    'loader' => $template_loader,
-                ));
-                ?>
-            </div>
-        <?php endforeach; ?>
+        <div class="swiper-wrapper">
+            <?php foreach ($trips as $trip) : ?>
+                <div class="swiper-slide wte-slider-slide">
+                    <?php
+                    // Carregar partial do card grande
+                    $template_loader->load_partial('trip-card-large', array(
+                        'trip'   => $trip,
+                        'query'  => $query,
+                        'loader' => $template_loader,
+                    ));
+                    ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 
     <?php if ($arrows && count($trips) > 1) : ?>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     <?php endif; ?>
-
-
 </div>
