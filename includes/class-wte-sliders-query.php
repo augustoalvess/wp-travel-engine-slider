@@ -611,6 +611,43 @@ class WTE_Sliders_Query
     }
 
     /**
+     * Obter dados formatados de trip a partir de um ID
+     *
+     * Método público para extrair dados de uma trip para uso em templates
+     * (sliders, archives, etc). Retorna apenas campos básicos, sem gallery,
+     * highlights, itinerary e facts.
+     *
+     * @param int $trip_id ID do post
+     * @return array Array com dados da trip
+     */
+    public function get_trip_data_from_id($trip_id)
+    {
+        // Validar ID e tipo de post
+        if (!$trip_id || get_post_type($trip_id) !== 'trip') {
+            return array();
+        }
+
+        $post = get_post($trip_id);
+
+        if (!$post) {
+            return array();
+        }
+
+        return array(
+            'id'          => $trip_id,
+            'title'       => get_the_title($trip_id),
+            'excerpt'     => get_the_excerpt($trip_id),
+            'permalink'   => get_permalink($trip_id),
+            'image'       => $this->get_trip_image($trip_id),
+            'video'       => $this->get_trip_video($trip_id),
+            'duration'    => $this->get_trip_duration($trip_id),
+            'destination' => $this->get_trip_destination($trip_id),
+            'price'       => $this->get_trip_price($trip_id),
+            'has_promo'   => $this->has_promotion($trip_id),
+        );
+    }
+
+    /**
      * Obter galeria de imagens da viagem
      *
      * @param int $trip_id ID da viagem

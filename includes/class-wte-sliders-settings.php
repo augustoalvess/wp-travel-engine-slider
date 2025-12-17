@@ -80,6 +80,19 @@ class WTE_Sliders_Settings
             )
         );
 
+        // Campo: Ativar Template Customizado de Arquivo
+        add_settings_field(
+            'enable_archive_template',
+            __('Template Customizado de Arquivo', 'wte-sliders'),
+            array($this, 'render_checkbox_field'),
+            'wte-sliders-settings',
+            'wte_sliders_general_section',
+            array(
+                'label_for' => 'enable_archive_template',
+                'description' => __('Ativar template customizado para páginas de arquivo e taxonomias de viagens', 'wte-sliders'),
+            )
+        );
+
         // Seção: Informações de Contato
         add_settings_section(
             'wte_sliders_contact_section',
@@ -326,6 +339,9 @@ class WTE_Sliders_Settings
         // Checkbox: Enable Single Trip Template
         $sanitized['enable_single_trip_template'] = !empty($input['enable_single_trip_template']) ? 1 : 0;
 
+        // Checkbox: Enable Archive Template
+        $sanitized['enable_archive_template'] = !empty($input['enable_archive_template']) ? 1 : 0;
+
         // WhatsApp Number (permitir apenas números, +, espaços e traços)
         if (!empty($input['whatsapp_number'])) {
             $sanitized['whatsapp_number'] = preg_replace('/[^0-9+\s\-]/', '', $input['whatsapp_number']);
@@ -358,6 +374,7 @@ class WTE_Sliders_Settings
     {
         return array(
             'enable_single_trip_template' => 0,
+            'enable_archive_template'     => 0,
             'whatsapp_number'             => '',
             'whatsapp_message'            => __('Olá! Gostaria de saber mais sobre esta viagem.', 'wte-sliders'),
             'instagram_handle'            => '',

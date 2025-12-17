@@ -53,6 +53,13 @@ class WTE_Sliders_Main
     public $single_trip;
 
     /**
+     * Instância do handler de archive
+     *
+     * @var WTE_Sliders_Archive
+     */
+    public $archive;
+
+    /**
      * Instância do gerenciador de configurações
      *
      * @var WTE_Sliders_Settings
@@ -102,6 +109,9 @@ class WTE_Sliders_Main
 
         // Inicializar handler de single trip
         $this->single_trip = new WTE_Sliders_Single_Trip($this->query, $this->template_loader);
+
+        // Inicializar handler de archive
+        $this->archive = new WTE_Sliders_Archive($this->query, $this->template_loader);
 
         // Inicializar configurações (apenas admin)
         if (is_admin()) {

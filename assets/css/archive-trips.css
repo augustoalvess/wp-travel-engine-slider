@@ -1,0 +1,361 @@
+/**
+ * Archive Trips Styling
+ *
+ * Estilos para o template de arquivo de viagens do WP Travel Engine.
+ * Inclui layout de grid, sidebar de filtros e paginação.
+ *
+ * @package WTE_Sliders
+ */
+
+/* Container Principal */
+.wte-archive-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Header */
+.wte-archive-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.wte-archive-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1b4264;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.wte-archive-description {
+    font-size: 16px;
+    color: #6b7280;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Layout: Sidebar + Main */
+.wte-archive-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Sidebar */
+.wte-archive-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+.wte-filters-sidebar {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wte-filters-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1b4264;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #00c7e4;
+}
+
+/* Grupos de Filtros */
+.wte-filter-group {
+    margin-bottom: 20px;
+}
+
+.wte-filter-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.wte-filter-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1b4264;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.wte-filter-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Checkboxes */
+.wte-filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+}
+
+.wte-filter-checkbox:hover {
+    color: #1b4264;
+}
+
+.wte-filter-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #00c7e4;
+    cursor: pointer;
+}
+
+.wte-filter-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* Hierarquia de Destinos */
+.wte-filter-checkbox.wte-filter-parent {
+    font-weight: 600;
+    color: #1b4264;
+}
+
+.wte-filter-checkbox.wte-filter-child {
+    margin-left: 20px;
+    font-size: 13px;
+}
+
+/* Botões de Ação dos Filtros */
+.wte-filter-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.wte-filter-apply,
+.wte-filter-reset {
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-align: center;
+}
+
+.wte-filter-apply {
+    background: #00c7e4;
+    color: #ffffff;
+}
+
+.wte-filter-apply:hover {
+    background: #00a3bb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 199, 228, 0.3);
+}
+
+.wte-filter-reset {
+    background: transparent;
+    color: #6b7280;
+    border: 1px solid #e5e7eb;
+}
+
+.wte-filter-reset:hover {
+    background: #f9fafb;
+    color: #1b4264;
+}
+
+/* Main Content */
+.wte-archive-main {
+    min-width: 0; /* Prevenir grid blowout */
+}
+
+/* Grid de Viagens */
+.wte-trips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+/* Trip Card no Contexto de Arquivo */
+.wte-trip-card--archive {
+    /* Herda estilos do componente base */
+}
+
+.wte-trip-card--archive .wte-trip-card-content {
+    padding: 15px;
+}
+
+.wte-trip-card--archive .wte-trip-footer {
+    padding-top: 12px;
+}
+
+.wte-trip-card--archive .wte-trip-title {
+    font-size: 16px;
+}
+
+.wte-trip-card--archive .wte-trip-excerpt {
+    font-size: 13px;
+}
+
+/* Compatibilidade com trip-card-small */
+.wte-trip-card-small {
+    /* Mantém compatibilidade com slider Type 2 */
+}
+
+/* Estado Vazio */
+.wte-archive-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f9fafb;
+    border-radius: 8px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wte-archive-empty h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1b4264;
+    margin-bottom: 10px;
+}
+
+.wte-archive-empty p {
+    font-size: 16px;
+    color: #6b7280;
+}
+
+/* Paginação */
+.wte-archive-pagination {
+    margin-top: 40px;
+}
+
+.wte-archive-pagination ul {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wte-archive-pagination li {
+    display: block;
+}
+
+.wte-archive-pagination a,
+.wte-archive-pagination span {
+    display: block;
+    padding: 10px 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    color: #1b4264;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-width: 40px;
+    text-align: center;
+}
+
+.wte-archive-pagination a:hover {
+    background: #00c7e4;
+    border-color: #00c7e4;
+    color: #ffffff;
+}
+
+.wte-archive-pagination .current {
+    background: #00c7e4;
+    border-color: #00c7e4;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.wte-archive-pagination .dots {
+    border: none;
+    background: transparent;
+}
+
+/* Responsive: Tablet (992px and below) */
+@media (max-width: 992px) {
+    .wte-archive-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .wte-archive-sidebar {
+        position: static;
+        order: -1; /* Mostrar filtros acima das viagens no mobile */
+    }
+
+    .wte-trips-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Responsive: Mobile (640px and below) */
+@media (max-width: 640px) {
+    .wte-archive-container {
+        padding: 30px 15px;
+    }
+
+    .wte-archive-header {
+        margin-bottom: 30px;
+    }
+
+    .wte-archive-title {
+        font-size: 28px;
+    }
+
+    .wte-trips-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .wte-filters-sidebar {
+        padding: 20px;
+    }
+
+    .wte-filter-actions {
+        flex-direction: column;
+    }
+
+    .wte-filter-apply,
+    .wte-filter-reset {
+        width: 100%;
+    }
+}
+
+/* Responsive: Muito pequeno (480px and below) */
+@media (max-width: 480px) {
+    .wte-archive-title {
+        font-size: 24px;
+    }
+
+    .wte-archive-description {
+        font-size: 14px;
+    }
+
+    .wte-filters-title {
+        font-size: 18px;
+    }
+
+    .wte-filter-label {
+        font-size: 14px;
+    }
+
+    .wte-filter-checkbox {
+        font-size: 13px;
+    }
+}
