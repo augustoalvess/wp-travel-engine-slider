@@ -131,46 +131,29 @@
 
 /* Botões de Ação dos Filtros */
 .wte-filter-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     margin-top: 25px;
     padding-top: 20px;
     border-top: 1px solid #e5e7eb;
 }
 
-.wte-filter-apply,
 .wte-filter-reset {
+    width: 100%;
     padding: 12px 20px;
     border-radius: 4px;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: none;
-    text-align: center;
-}
-
-.wte-filter-apply {
-    background: #00c7e4;
-    color: #ffffff;
-}
-
-.wte-filter-apply:hover {
-    background: #00a3bb;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 199, 228, 0.3);
-}
-
-.wte-filter-reset {
+    border: 1px solid #e5e7eb;
     background: transparent;
     color: #6b7280;
-    border: 1px solid #e5e7eb;
+    text-align: center;
 }
 
 .wte-filter-reset:hover {
     background: #f9fafb;
     color: #1b4264;
+    border-color: #1b4264;
 }
 
 /* Main Content */
@@ -188,7 +171,18 @@
 
 /* Trip Card no Contexto de Arquivo */
 .wte-trip-card--archive {
-    /* Herda estilos do componente base */
+    background: var(--wte-white);
+    border-radius: var(--wte-border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: var(--wte-transition);
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.wte-trip-card--archive:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .wte-trip-card--archive .wte-trip-card-content {
@@ -223,6 +217,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .wte-archive-empty h2 {
@@ -235,6 +231,33 @@
 .wte-archive-empty p {
     font-size: 16px;
     color: #6b7280;
+}
+
+/* Loading State */
+.wte-filter-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.wte-filter-loading .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #00c7e4;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.wte-archive-main {
+    position: relative;
+    transition: opacity 0.3s ease;
 }
 
 /* Paginação */
@@ -358,4 +381,36 @@
     .wte-filter-checkbox {
         font-size: 13px;
     }
+}
+
+/* Customização do ion.rangeSlider - Handles como bolinhas */
+.irs-handle {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    top: 22px !important;
+    cursor: pointer;
+    border: 3px solid #fff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Handle FROM - cor padrão (azul) */
+.irs-handle.from {
+    background: #00c7e4 !important;
+}
+
+/* Handle TO - cor customizada (azul escuro) */
+.irs-handle.to {
+    background: #1b4264 !important;
+}
+
+/* Hover nos handles */
+.irs-handle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Remover ícones internos dos handles */
+.irs-handle > i {
+    display: none !important;
 }

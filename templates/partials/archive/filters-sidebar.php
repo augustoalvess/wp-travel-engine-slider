@@ -154,9 +154,6 @@ if (! defined('ABSPATH')) {
 
     <!-- Botões de Ação -->
     <div class="wte-filter-actions">
-        <button type="button" class="wte-filter-apply">
-            <?php esc_html_e('Aplicar Filtros', 'wte-sliders'); ?>
-        </button>
         <button type="button" class="wte-filter-reset">
             <?php esc_html_e('Limpar Filtros', 'wte-sliders'); ?>
         </button>

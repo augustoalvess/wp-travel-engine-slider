@@ -2,6 +2,7 @@
  * Archive Filters Handler
  *
  * Gerencia a funcionalidade de filtros na página de arquivo de viagens.
+ * Filtros são aplicados via AJAX sem reload de página.
  *
  * @package WTE_Sliders
  */
@@ -9,58 +10,129 @@
 (function($) {
     'use strict';
 
+    let isFiltering = false;
+    let filterTimeout = null;
+
     /**
-     * Construir URL com parâmetros de filtro
+     * Coletar dados dos filtros
      *
-     * @return {string} URL com query string de filtros
+     * @return {Object} Dados dos filtros
      */
-    function buildFilterUrl() {
-        const params = new URLSearchParams();
+    function getFilterData() {
+        const data = {
+            action: 'wte_filter_trips',
+            nonce: wteFiltersAjax.nonce,
+            paged: 1,
+        };
 
         // Filtro de Destino
+        const destinations = [];
         $('input[name="wte_destination[]"]:checked').each(function() {
-            params.append('wte_destination[]', $(this).val());
+            destinations.push($(this).val());
         });
+        if (destinations.length > 0) {
+            data.wte_destination = destinations;
+        }
 
         // Filtro de Tipo de Viagem
+        const tripTypes = [];
         $('input[name="wte_trip_type[]"]:checked').each(function() {
-            params.append('wte_trip_type[]', $(this).val());
+            tripTypes.push($(this).val());
         });
+        if (tripTypes.length > 0) {
+            data.wte_trip_type = tripTypes;
+        }
 
         // Filtro de Preço (do slider)
         const priceSlider = $("#wte-price-slider").data("ionRangeSlider");
         if (priceSlider) {
-            params.append('wte_price_min', priceSlider.result.from);
-            params.append('wte_price_max', priceSlider.result.to);
+            data.wte_price_min = priceSlider.result.from;
+            data.wte_price_max = priceSlider.result.to;
         }
 
         // Filtro de Duração (do slider)
         const durationSlider = $("#wte-duration-slider").data("ionRangeSlider");
         if (durationSlider) {
-            params.append('wte_duration_min', durationSlider.result.from);
-            params.append('wte_duration_max', durationSlider.result.to);
+            data.wte_duration_min = durationSlider.result.from;
+            data.wte_duration_max = durationSlider.result.to;
         }
 
-        // Construir URL
-        const baseUrl = window.location.pathname;
-        const queryString = params.toString();
-
-        return queryString ? `${baseUrl}?${queryString}` : baseUrl;
+        return data;
     }
 
     /**
-     * Aplicar filtros (redirecionar para URL com filtros)
+     * Aplicar filtros via AJAX
      */
-    function applyFilters() {
-        const url = buildFilterUrl();
-        window.location.href = url;
+    function applyFiltersAjax() {
+        if (isFiltering) {
+            return;
+        }
+
+        isFiltering = true;
+
+        // Adicionar indicador de loading
+        $('.wte-archive-main').css('opacity', '0.5');
+        $('.wte-archive-main').append('<div class="wte-filter-loading"><div class="spinner"></div></div>');
+
+        const filterData = getFilterData();
+
+        $.ajax({
+            url: wteFiltersAjax.ajaxurl,
+            type: 'POST',
+            data: filterData,
+            success: function(response) {
+                if (response.success) {
+                    // Substituir conteúdo
+                    $('.wte-archive-main').html(response.html);
+
+                    // Scroll suave para o topo dos resultados
+                    $('html, body').animate({
+                        scrollTop: $('.wte-archive-main').offset().top - 100
+                    }, 300);
+                }
+            },
+            error: function() {
+                alert('Erro ao aplicar filtros. Por favor, tente novamente.');
+            },
+            complete: function() {
+                isFiltering = false;
+                $('.wte-archive-main').css('opacity', '1');
+                $('.wte-filter-loading').remove();
+            }
+        });
     }
 
     /**
-     * Limpar todos os filtros (redirecionar para URL sem query string)
+     * Aplicar filtros com debounce (para sliders)
+     */
+    function applyFiltersDebounced() {
+        clearTimeout(filterTimeout);
+        filterTimeout = setTimeout(function() {
+            applyFiltersAjax();
+        }, 500);
+    }
+
+    /**
+     * Limpar todos os filtros
      */
     function resetFilters() {
-        window.location.href = window.location.pathname;
+        // Desmarcar checkboxes
+        $('input[name="wte_destination[]"]:checked').prop('checked', false);
+        $('input[name="wte_trip_type[]"]:checked').prop('checked', false);
+
+        // Resetar sliders
+        const priceSlider = $("#wte-price-slider").data("ionRangeSlider");
+        if (priceSlider) {
+            priceSlider.reset();
+        }
+
+        const durationSlider = $("#wte-duration-slider").data("ionRangeSlider");
+        if (durationSlider) {
+            durationSlider.reset();
+        }
+
+        // Aplicar filtros limpos
+        applyFiltersAjax();
     }
 
     /**
@@ -77,7 +149,10 @@
                 to: parseInt($("#wte-price-slider").data('to')),
                 prefix: "R$ ",
                 grid: true,
-                grid_num: 5
+                grid_num: 5,
+                onFinish: function() {
+                    applyFiltersDebounced();
+                }
             });
         }
 
@@ -91,28 +166,22 @@
                 to: parseInt($("#wte-duration-slider").data('to')),
                 postfix: " dias",
                 grid: true,
-                grid_num: 6
+                grid_num: 6,
+                onFinish: function() {
+                    applyFiltersDebounced();
+                }
             });
         }
 
-        // Botão "Aplicar Filtros"
-        $('.wte-filter-apply').on('click', function(e) {
-            e.preventDefault();
-            applyFilters();
+        // Aplicar filtros ao mudar checkboxes
+        $('.wte-filter-checkbox input[type="checkbox"]').on('change', function() {
+            applyFiltersAjax();
         });
 
         // Botão "Limpar Filtros"
-        $('.wte-filter-reset').on('click', function(e) {
+        $(document).on('click', '.wte-filter-reset', function(e) {
             e.preventDefault();
             resetFilters();
-        });
-
-        // Opcional: Aplicar filtros ao pressionar Enter em qualquer checkbox
-        $('.wte-filter-checkbox input').on('keypress', function(e) {
-            if (e.which === 13) { // Enter key
-                e.preventDefault();
-                applyFilters();
-            }
         });
     });
 
