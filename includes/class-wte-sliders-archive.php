@@ -467,8 +467,16 @@ class WTE_Sliders_Archive
                 // Construir dados da viagem
                 $trip_data = $this->query->get_trip_data_from_id(get_the_ID());
 
-                // Renderizar card de viagem
-                $this->template_loader->load_partial('trip-card-small', $trip_data);
+                // Renderizar card de viagem com estrutura correta de dados
+                $this->template_loader->load_partial('trip-card', array(
+                    'trip'    => (object) $trip_data,
+                    'loader'  => $this->template_loader,
+                    'context' => 'archive',
+                    'options' => array(
+                        'excerpt_length' => 20,
+                        'button_text'    => __('Saiba mais', 'wte-sliders'),
+                    ),
+                ));
             }
             echo '</div>';
 
