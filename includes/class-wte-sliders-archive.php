@@ -226,12 +226,21 @@ class WTE_Sliders_Archive
                     $price_max = intval($_GET['wte_price_max']);
 
                     // Verificar sale_price primeiro, depois price regular
-                    $trip_price = 0;
-                    if (isset($settings['sale_price']) && !empty($settings['sale_price'])) {
-                        $trip_price = intval($settings['sale_price']);
-                    } elseif (isset($settings['price']) && !empty($settings['price'])) {
-                        $trip_price = intval($settings['price']);
+                    $trip_price = get_post_meta($trip_id, 'wp_travel_engine_setting_trip_price', true);
+                    if (empty($trip_price)) {
+                        $trip_price = get_post_meta($trip_id, 'wp_travel_engine_setting_trip_actual_price', true);
                     }
+
+                    // Fallback para estrutura antiga/serializada se necessário
+                    if (empty($trip_price)) {
+                        if (isset($settings['sale_price']) && !empty($settings['sale_price'])) {
+                            $trip_price = $settings['sale_price'];
+                        } elseif (isset($settings['price']) && !empty($settings['price'])) {
+                            $trip_price = $settings['price'];
+                        }
+                    }
+
+                    $trip_price = intval($trip_price);
 
                     if ($trip_price < $price_min || $trip_price > $price_max) {
                         $passes_filters = false;
@@ -423,12 +432,21 @@ class WTE_Sliders_Archive
                     $price_min = intval($_POST['wte_price_min']);
                     $price_max = intval($_POST['wte_price_max']);
 
-                    $trip_price = 0;
-                    if (isset($settings['sale_price']) && !empty($settings['sale_price'])) {
-                        $trip_price = intval($settings['sale_price']);
-                    } elseif (isset($settings['price']) && !empty($settings['price'])) {
-                        $trip_price = intval($settings['price']);
+                    $trip_price = get_post_meta($trip_id, 'wp_travel_engine_setting_trip_price', true);
+                    if (empty($trip_price)) {
+                        $trip_price = get_post_meta($trip_id, 'wp_travel_engine_setting_trip_actual_price', true);
                     }
+
+                    // Fallback para estrutura antiga/serializada se necessário
+                    if (empty($trip_price)) {
+                        if (isset($settings['sale_price']) && !empty($settings['sale_price'])) {
+                            $trip_price = $settings['sale_price'];
+                        } elseif (isset($settings['price']) && !empty($settings['price'])) {
+                            $trip_price = $settings['price'];
+                        }
+                    }
+
+                    $trip_price = intval($trip_price);
 
                     if ($trip_price < $price_min || $trip_price > $price_max) {
                         $passes_filters = false;
