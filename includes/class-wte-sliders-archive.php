@@ -468,7 +468,7 @@ class WTE_Sliders_Archive
                 $trip_data = $this->query->get_trip_data_from_id(get_the_ID());
 
                 // Renderizar card de viagem
-                $this->template_loader->get_template_part('partials/trip-card-small', $trip_data);
+                $this->template_loader->load_partial('trip-card-small', $trip_data);
             }
             echo '</div>';
 
@@ -484,7 +484,7 @@ class WTE_Sliders_Archive
                 echo '</div>';
             }
         } else {
-            $this->template_loader->get_template_part('partials/archive/empty-state');
+            $this->template_loader->load_partial('archive/empty-state');
         }
 
         wp_reset_postdata();

@@ -16,7 +16,7 @@ if (! defined('ABSPATH')) {
 
 <div class="wte-filters-sidebar">
     <h3 class="wte-filters-title">
-        <?php esc_html_e('Filtrar Viagens', 'wte-sliders'); ?>
+        <?php esc_html_e('Filtrar', 'wte-sliders'); ?>
     </h3>
 
     <!-- Filtro 1: Destino (Hierárquico) -->
@@ -36,7 +36,21 @@ if (! defined('ABSPATH')) {
             ));
 
             if (!empty($parent_destinations) && !is_wp_error($parent_destinations)) :
+                // Coletar destinos selecionados via GET
                 $selected_destinations = isset($_GET['wte_destination']) ? (array) $_GET['wte_destination'] : array();
+
+                // Se não há destinos selecionados via GET, verificar se estamos em página de taxonomy
+                if (empty($selected_destinations) && is_tax('destination')) {
+                    $current_term = get_queried_object();
+                    if ($current_term && isset($current_term->term_id)) {
+                        $selected_destinations[] = $current_term->term_id;
+
+                        // Se o termo atual é um filho, também adicionar o pai para hierarquia
+                        if ($current_term->parent > 0) {
+                            $selected_destinations[] = $current_term->parent;
+                        }
+                    }
+                }
 
                 foreach ($parent_destinations as $parent) :
                     $is_active = in_array($parent->term_id, $selected_destinations);
@@ -132,7 +146,16 @@ if (! defined('ABSPATH')) {
             ));
 
             if (!empty($trip_types) && !is_wp_error($trip_types)) :
+                // Coletar tipos selecionados via GET
                 $selected_types = isset($_GET['wte_trip_type']) ? (array) $_GET['wte_trip_type'] : array();
+
+                // Se não há tipos selecionados via GET, verificar se estamos em página de taxonomy
+                if (empty($selected_types) && is_tax('trip_types')) {
+                    $current_term = get_queried_object();
+                    if ($current_term && isset($current_term->term_id)) {
+                        $selected_types[] = $current_term->term_id;
+                    }
+                }
 
                 foreach ($trip_types as $type) :
                     $is_active = in_array($type->term_id, $selected_types);
