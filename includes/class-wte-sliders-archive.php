@@ -126,6 +126,36 @@ class WTE_Sliders_Archive
             return;
         }
 
+        // Pesquisa por texto
+        if (!empty($_GET['wte_search'])) {
+            $search_term = sanitize_text_field($_GET['wte_search']);
+            $query->set('s', $search_term);
+        }
+
+        // Ordenação
+        if (!empty($_GET['wte_orderby'])) {
+            $orderby = sanitize_text_field($_GET['wte_orderby']);
+
+            switch ($orderby) {
+                case 'title':
+                    $query->set('orderby', 'title');
+                    $query->set('order', 'ASC');
+                    break;
+
+                case 'price_low':
+                case 'price_high':
+                    // Ordenação por preço requer lógica customizada
+                    // Implementar se necessário no futuro
+                    break;
+
+                case 'date':
+                default:
+                    $query->set('orderby', 'date');
+                    $query->set('order', 'DESC');
+                    break;
+            }
+        }
+
         // Tax query para filtros de Destino e Tipo de Viagem
         if (!empty($_GET['wte_destination']) || !empty($_GET['wte_trip_type'])) {
             $tax_query = array('relation' => 'AND');
@@ -299,6 +329,30 @@ class WTE_Sliders_Archive
             'paged' => isset($_POST['paged']) ? intval($_POST['paged']) : 1,
         );
 
+        // Pesquisa por texto
+        if (!empty($_POST['wte_search'])) {
+            $search_term = sanitize_text_field($_POST['wte_search']);
+            $args['s'] = $search_term;
+        }
+
+        // Ordenação
+        if (!empty($_POST['wte_orderby'])) {
+            $orderby = sanitize_text_field($_POST['wte_orderby']);
+
+            switch ($orderby) {
+                case 'title':
+                    $args['orderby'] = 'title';
+                    $args['order'] = 'ASC';
+                    break;
+
+                case 'date':
+                default:
+                    $args['orderby'] = 'date';
+                    $args['order'] = 'DESC';
+                    break;
+            }
+        }
+
         // Tax query para filtros de Destino e Tipo de Viagem
         $tax_query = array('relation' => 'AND');
 
@@ -411,7 +465,7 @@ class WTE_Sliders_Archive
                 $query->the_post();
 
                 // Construir dados da viagem
-                $trip_data = $this->query->build_trip_data(get_the_ID());
+                $trip_data = $this->query->get_trip_data_from_id(get_the_ID());
 
                 // Renderizar card de viagem
                 $this->template_loader->get_template_part('partials/trip-card-small', $trip_data);

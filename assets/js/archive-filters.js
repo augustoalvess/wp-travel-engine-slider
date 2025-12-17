@@ -57,6 +57,18 @@
             data.wte_duration_max = durationSlider.result.to;
         }
 
+        // Pesquisa por texto
+        const searchInput = $('#wte-search-input').val();
+        if (searchInput && searchInput.trim() !== '') {
+            data.wte_search = searchInput.trim();
+        }
+
+        // Ordenação
+        const orderby = $('#wte-orderby').val();
+        if (orderby) {
+            data.wte_orderby = orderby;
+        }
+
         return data;
     }
 
@@ -116,6 +128,12 @@
      * Limpar todos os filtros
      */
     function resetFilters() {
+        // Limpar campo de pesquisa
+        $('#wte-search-input').val('');
+
+        // Resetar ordenação para padrão
+        $('#wte-orderby').val('date');
+
         // Desmarcar checkboxes
         $('input[name="wte_destination[]"]:checked').prop('checked', false);
         $('input[name="wte_trip_type[]"]:checked').prop('checked', false);
@@ -182,6 +200,28 @@
         $(document).on('click', '.wte-filter-reset', function(e) {
             e.preventDefault();
             resetFilters();
+        });
+
+        // Pesquisa com debounce
+        let searchTimeout = null;
+        $('#wte-search-input').on('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                applyFiltersAjax();
+            }, 800); // 800ms de delay
+        });
+
+        // Limpar pesquisa ao pressionar ESC
+        $('#wte-search-input').on('keydown', function(e) {
+            if (e.key === 'Escape') {
+                $(this).val('');
+                applyFiltersAjax();
+            }
+        });
+
+        // Ordenação - aplicar imediatamente
+        $('#wte-orderby').on('change', function() {
+            applyFiltersAjax();
         });
     });
 

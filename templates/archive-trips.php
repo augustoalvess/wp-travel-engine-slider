@@ -54,6 +54,41 @@ get_header();
 
         <!-- Área de Conteúdo Principal -->
         <main class="wte-archive-main">
+            <!-- Barra de Pesquisa e Ordenação -->
+            <div class="wte-archive-toolbar">
+                <div class="wte-search-box">
+                    <input type="search"
+                           id="wte-search-input"
+                           name="wte_search"
+                           placeholder="<?php esc_attr_e('Buscar viagens...', 'wte-sliders'); ?>"
+                           value="<?php echo isset($_GET['wte_search']) ? esc_attr($_GET['wte_search']) : ''; ?>"
+                           autocomplete="off">
+                    <span class="wte-search-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                </div>
+
+                <div class="wte-sort-box">
+                    <label for="wte-orderby"><?php esc_html_e('Ordenar por:', 'wte-sliders'); ?></label>
+                    <select id="wte-orderby" name="wte_orderby">
+                        <option value="date" <?php selected(isset($_GET['wte_orderby']) ? $_GET['wte_orderby'] : 'date', 'date'); ?>>
+                            <?php esc_html_e('Mais Recentes', 'wte-sliders'); ?>
+                        </option>
+                        <option value="title" <?php selected(isset($_GET['wte_orderby']) ? $_GET['wte_orderby'] : '', 'title'); ?>>
+                            <?php esc_html_e('Título (A-Z)', 'wte-sliders'); ?>
+                        </option>
+                        <option value="price_low" <?php selected(isset($_GET['wte_orderby']) ? $_GET['wte_orderby'] : '', 'price_low'); ?>>
+                            <?php esc_html_e('Preço (Menor)', 'wte-sliders'); ?>
+                        </option>
+                        <option value="price_high" <?php selected(isset($_GET['wte_orderby']) ? $_GET['wte_orderby'] : '', 'price_high'); ?>>
+                            <?php esc_html_e('Preço (Maior)', 'wte-sliders'); ?>
+                        </option>
+                    </select>
+                </div>
+            </div>
+
             <?php if (have_posts()) : ?>
                 <div class="wte-trips-grid">
                     <?php while (have_posts()) : the_post(); ?>
