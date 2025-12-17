@@ -168,6 +168,7 @@ class WTE_Sliders_Archive
                     'field'    => 'term_id',
                     'terms'    => $destinations,
                     'operator' => 'IN',
+                    'include_children' => false,
                 );
             }
 
@@ -187,8 +188,8 @@ class WTE_Sliders_Archive
 
         // Filtros de Preço e Duração usando post__in
         $filtered_post_ids = array();
-        $has_price_filter = !empty($_GET['wte_price_min']) && !empty($_GET['wte_price_max']);
-        $has_duration_filter = !empty($_GET['wte_duration_min']) && !empty($_GET['wte_duration_max']);
+        $has_price_filter = isset($_GET['wte_price_min']) && isset($_GET['wte_price_max']);
+        $has_duration_filter = isset($_GET['wte_duration_min']) && isset($_GET['wte_duration_max']);
 
         if ($has_price_filter || $has_duration_filter) {
             // Buscar todos os posts do tipo 'trip'
@@ -364,6 +365,7 @@ class WTE_Sliders_Archive
                 'field' => 'term_id',
                 'terms' => $destinations,
                 'operator' => 'IN',
+                'include_children' => false,
             );
         }
 
@@ -384,8 +386,8 @@ class WTE_Sliders_Archive
 
         // Filtros de Preço e Duração
         $filtered_post_ids = array();
-        $has_price_filter = !empty($_POST['wte_price_min']) && !empty($_POST['wte_price_max']);
-        $has_duration_filter = !empty($_POST['wte_duration_min']) && !empty($_POST['wte_duration_max']);
+        $has_price_filter = isset($_POST['wte_price_min']) && isset($_POST['wte_price_max']);
+        $has_duration_filter = isset($_POST['wte_duration_min']) && isset($_POST['wte_duration_max']);
 
         if ($has_price_filter || $has_duration_filter) {
             // Buscar todos os posts do tipo 'trip'
