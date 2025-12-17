@@ -58,14 +58,14 @@ get_header();
             <div class="wte-archive-toolbar">
                 <div class="wte-search-box">
                     <input type="search"
-                           id="wte-search-input"
-                           name="wte_search"
-                           placeholder="<?php esc_attr_e('Buscar viagens...', 'wte-sliders'); ?>"
-                           value="<?php echo isset($_GET['wte_search']) ? esc_attr($_GET['wte_search']) : ''; ?>"
-                           autocomplete="off">
+                        id="wte-search-input"
+                        name="wte_search"
+                        placeholder="<?php esc_attr_e('Buscar viagens...', 'wte-sliders'); ?>"
+                        value="<?php echo isset($_GET['wte_search']) ? esc_attr($_GET['wte_search']) : ''; ?>"
+                        autocomplete="off">
                     <span class="wte-search-icon">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </span>
                 </div>
@@ -89,40 +89,43 @@ get_header();
                 </div>
             </div>
 
-            <?php if (have_posts()) : ?>
-                <div class="wte-trips-grid">
-                    <?php while (have_posts()) : the_post(); ?>
-                        <?php
-                        // Usar método público da query class para obter dados
-                        $trip_data = $wte_sliders_query->get_trip_data_from_id(get_the_ID());
+            <!-- Resultados -->
+            <div id="wte-archive-results">
+                <?php if (have_posts()) : ?>
+                    <div class="wte-trips-grid">
+                        <?php while (have_posts()) : the_post(); ?>
+                            <?php
+                            // Usar método público da query class para obter dados
+                            $trip_data = $wte_sliders_query->get_trip_data_from_id(get_the_ID());
 
-                        // Carregar card genérico com contexto de arquivo
-                        $wte_sliders_template_loader->load_partial('trip-card', array(
-                            'trip'    => (object) $trip_data,
-                            'loader'  => $wte_sliders_template_loader,
-                            'context' => 'archive',
-                            'options' => array(
-                                'excerpt_length' => 20,
-                                'button_text'    => __('Saiba mais', 'wte-sliders'),
-                            ),
-                        ));
-                        ?>
-                    <?php endwhile; ?>
-                </div>
+                            // Carregar card genérico com contexto de arquivo
+                            $wte_sliders_template_loader->load_partial('trip-card', array(
+                                'trip'    => (object) $trip_data,
+                                'loader'  => $wte_sliders_template_loader,
+                                'context' => 'archive',
+                                'options' => array(
+                                    'excerpt_length' => 20,
+                                    'button_text'    => __('Saiba mais', 'wte-sliders'),
+                                ),
+                            ));
+                            ?>
+                        <?php endwhile; ?>
+                    </div>
 
-                <!-- Paginação -->
-                <?php
-                $wte_sliders_template_loader->load_partial('archive/pagination', array(
-                    'loader' => $wte_sliders_template_loader,
-                ));
-                ?>
+                    <!-- Paginação -->
+                    <?php
+                    $wte_sliders_template_loader->load_partial('archive/pagination', array(
+                        'loader' => $wte_sliders_template_loader,
+                    ));
+                    ?>
 
-            <?php else : ?>
-                <div class="wte-archive-empty">
-                    <h2><?php esc_html_e('Nenhuma viagem encontrada', 'wte-sliders'); ?></h2>
-                    <p><?php esc_html_e('Tente ajustar os filtros ou volte para a página inicial.', 'wte-sliders'); ?></p>
-                </div>
-            <?php endif; ?>
+                <?php else : ?>
+                    <div class="wte-archive-empty">
+                        <h2><?php esc_html_e('Nenhuma viagem encontrada', 'wte-sliders'); ?></h2>
+                        <p><?php esc_html_e('Tente ajustar os filtros ou volte para a página inicial.', 'wte-sliders'); ?></p>
+                    </div>
+                <?php endif; ?>
+            </div>
         </main>
     </div>
 </div>

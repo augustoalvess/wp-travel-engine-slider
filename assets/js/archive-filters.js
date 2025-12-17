@@ -7,7 +7,7 @@
  * @package WTE_Sliders
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     let isFiltering = false;
@@ -27,7 +27,7 @@
 
         // Filtro de Destino
         const destinations = [];
-        $('input[name="wte_destination[]"]:checked').each(function() {
+        $('input[name="wte_destination[]"]:checked').each(function () {
             destinations.push($(this).val());
         });
         if (destinations.length > 0) {
@@ -36,7 +36,7 @@
 
         // Filtro de Tipo de Viagem
         const tripTypes = [];
-        $('input[name="wte_trip_type[]"]:checked').each(function() {
+        $('input[name="wte_trip_type[]"]:checked').each(function () {
             tripTypes.push($(this).val());
         });
         if (tripTypes.length > 0) {
@@ -83,8 +83,8 @@
         isFiltering = true;
 
         // Adicionar indicador de loading
-        $('.wte-archive-main').css('opacity', '0.5');
-        $('.wte-archive-main').append('<div class="wte-filter-loading"><div class="spinner"></div></div>');
+        $('#wte-archive-results').css('opacity', '0.5');
+        $('#wte-archive-results').append('<div class="wte-filter-loading"><div class="spinner"></div></div>');
 
         const filterData = getFilterData();
 
@@ -92,23 +92,23 @@
             url: wteFiltersAjax.ajaxurl,
             type: 'POST',
             data: filterData,
-            success: function(response) {
+            success: function (response) {
                 if (response.success) {
                     // Substituir conteúdo
-                    $('.wte-archive-main').html(response.html);
+                    $('#wte-archive-results').html(response.html);
 
                     // Scroll suave para o topo dos resultados
                     $('html, body').animate({
-                        scrollTop: $('.wte-archive-main').offset().top - 100
+                        scrollTop: $('#wte-archive-results').offset().top - 100
                     }, 300);
                 }
             },
-            error: function() {
+            error: function () {
                 alert('Erro ao aplicar filtros. Por favor, tente novamente.');
             },
-            complete: function() {
+            complete: function () {
                 isFiltering = false;
-                $('.wte-archive-main').css('opacity', '1');
+                $('#wte-archive-results').css('opacity', '1');
                 $('.wte-filter-loading').remove();
             }
         });
@@ -119,7 +119,7 @@
      */
     function applyFiltersDebounced() {
         clearTimeout(filterTimeout);
-        filterTimeout = setTimeout(function() {
+        filterTimeout = setTimeout(function () {
             applyFiltersAjax();
         }, 500);
     }
@@ -156,7 +156,7 @@
     /**
      * Inicialização
      */
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Inicializar slider de preço
         if ($("#wte-price-slider").length) {
             $("#wte-price-slider").ionRangeSlider({
@@ -168,7 +168,7 @@
                 prefix: "R$ ",
                 grid: true,
                 grid_num: 5,
-                onFinish: function() {
+                onFinish: function () {
                     applyFiltersDebounced();
                 }
             });
@@ -185,34 +185,34 @@
                 postfix: " dias",
                 grid: true,
                 grid_num: 6,
-                onFinish: function() {
+                onFinish: function () {
                     applyFiltersDebounced();
                 }
             });
         }
 
         // Aplicar filtros ao mudar checkboxes
-        $('.wte-filter-checkbox input[type="checkbox"]').on('change', function() {
+        $('.wte-filter-checkbox input[type="checkbox"]').on('change', function () {
             applyFiltersAjax();
         });
 
         // Botão "Limpar Filtros"
-        $(document).on('click', '.wte-filter-reset', function(e) {
+        $(document).on('click', '.wte-filter-reset', function (e) {
             e.preventDefault();
             resetFilters();
         });
 
         // Pesquisa com debounce
         let searchTimeout = null;
-        $('#wte-search-input').on('input', function() {
+        $('#wte-search-input').on('input', function () {
             clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(function() {
+            searchTimeout = setTimeout(function () {
                 applyFiltersAjax();
             }, 800); // 800ms de delay
         });
 
         // Limpar pesquisa ao pressionar ESC
-        $('#wte-search-input').on('keydown', function(e) {
+        $('#wte-search-input').on('keydown', function (e) {
             if (e.key === 'Escape') {
                 $(this).val('');
                 applyFiltersAjax();
@@ -220,7 +220,7 @@
         });
 
         // Ordenação - aplicar imediatamente
-        $('#wte-orderby').on('change', function() {
+        $('#wte-orderby').on('change', function () {
             applyFiltersAjax();
         });
     });

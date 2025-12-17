@@ -158,7 +158,8 @@
 
 /* Main Content */
 .wte-archive-main {
-    min-width: 0; /* Prevenir grid blowout */
+    min-width: 0;
+    /* Prevenir grid blowout */
 }
 
 /* Barra de Pesquisa e Ordenação */
@@ -300,6 +301,7 @@
     align-items: center;
     width: 100%;
     box-sizing: border-box;
+    width: 910px;
 }
 
 .wte-archive-empty h2 {
@@ -333,7 +335,9 @@
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .wte-archive-main {
@@ -399,12 +403,17 @@
 
     .wte-archive-sidebar {
         position: static;
-        order: -1; /* Mostrar filtros acima das viagens no mobile */
+        order: -1;
+        /* Mostrar filtros acima das viagens no mobile */
     }
 
     .wte-trips-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
+    }
+
+    .wte-archive-empty {
+        width: 100%;
     }
 }
 
@@ -439,6 +448,10 @@
     .wte-filter-reset {
         width: 100%;
     }
+
+    .wte-archive-empty {
+        width: 100%;
+    }
 }
 
 /* Responsive: Toolbar em telas pequenas (768px and below) */
@@ -451,6 +464,10 @@
     .wte-sort-box {
         width: 100%;
         min-width: auto;
+    }
+
+    .wte-archive-empty {
+        width: 100%;
     }
 }
 
@@ -474,6 +491,10 @@
 
     .wte-filter-checkbox {
         font-size: 13px;
+    }
+
+    .wte-archive-empty {
+        width: 100%;
     }
 }
 
@@ -505,6 +526,19 @@
 }
 
 /* Remover ícones internos dos handles */
-.irs-handle > i {
+.irs-handle>i {
     display: none !important;
+}
+
+/* Container de resultados para AJAX */
+#wte-archive-results {
+    width: 100%;
+    display: block;
+}
+
+/* Garantir que o estado vazio ocupe toda a largura */
+.wte-archive-empty {
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
 }
