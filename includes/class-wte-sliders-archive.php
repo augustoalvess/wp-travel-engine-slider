@@ -76,6 +76,15 @@ class WTE_Sliders_Archive
             }
         }
 
+        // Verificar se é a URL base da taxonomy 'destination' (/destinations/)
+        // Captura quando o usuário acessa /destinations/ sem um termo específico
+        global $wp_query;
+        if (isset($wp_query->query_vars['taxonomy']) &&
+            $wp_query->query_vars['taxonomy'] === 'destination' &&
+            empty($wp_query->query_vars['term'])) {
+            return true;
+        }
+
         return false;
     }
 
