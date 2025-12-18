@@ -84,15 +84,6 @@ $settings = get_option('wte_sliders_options', array());
                 ));
             }
             ?>
-
-            <?php
-            // Gallery Grid
-            if (!empty($trip->gallery) && count($trip->gallery) > 1) {
-                $template_loader->load_partial('single-trip/gallery-grid', array(
-                    'gallery' => array_slice($trip->gallery, 0, 5),
-                ));
-            }
-            ?>
         </div>
 
         <aside class="wte-trip-sidebar">
@@ -108,6 +99,15 @@ $settings = get_option('wte_sliders_options', array());
             ?>
         </aside>
     </div>
+
+    <?php
+    // Gallery Grid - Full Width Section
+    if (!empty($trip->gallery) && count($trip->gallery) > 1) {
+        $template_loader->load_partial('single-trip/gallery-grid', array(
+            'gallery' => array_slice($trip->gallery, 0, 5),
+        ));
+    }
+    ?>
 </div>
 
 <?php get_footer(); ?>

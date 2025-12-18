@@ -71,7 +71,7 @@ if (!defined('ABSPATH')) {
     <?php else : ?>
         <!-- Simple Layout: Single Price -->
         <div class="wte-pricing-header">
-            <span><?php esc_html_e('Preços', 'wte-sliders'); ?></span>
+            <span><?php esc_html_e('Preço', 'wte-sliders'); ?></span>
         </div>
 
         <div class="wte-trip-price">

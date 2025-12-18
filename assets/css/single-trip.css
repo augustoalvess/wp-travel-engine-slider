@@ -137,6 +137,78 @@
 }
 
 /* ==========================================================================
+   Gallery Full Width Section
+   ========================================================================== */
+
+.wte-trip-gallery-section.wte-full-width {
+    width: 100%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 15px;
+}
+
+.wte-trip-gallery-section.wte-full-width h2 {
+    font-size: 1.75rem;
+    color: #1b4264;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Gallery grid - keep existing styles but ensure full width */
+.wte-full-width .wte-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    width: 100%;
+}
+
+/* Gallery item hover effect */
+.wte-gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    aspect-ratio: 1;
+}
+
+.wte-gallery-item a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.wte-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.wte-gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Lightbox overlay hint */
+.wte-gallery-item::after {
+    content: '\f179';
+    /* Search/zoom icon */
+    font-family: 'dashicons';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.wte-gallery-item:hover::after {
+    opacity: 0.8;
+}
+
+/* ==========================================================================
    Overview/Description
    ========================================================================== */
 
@@ -498,6 +570,15 @@
     .wte-gallery-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    /* Full-width gallery responsive */
+    .wte-full-width .wte-gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .wte-trip-gallery-section.wte-full-width {
+        margin: 40px auto;
+    }
 }
 
 /* ==========================================================================
@@ -528,6 +609,21 @@
 
     .wte-gallery-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Full-width gallery responsive */
+    .wte-full-width .wte-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .wte-trip-gallery-section.wte-full-width {
+        margin: 30px auto;
+    }
+
+    .wte-trip-gallery-section.wte-full-width h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
     }
 
     .wte-pricing-box {

@@ -178,6 +178,15 @@ class WTE_Sliders_Main
             WTE_SLIDERS_VERSION,
             'all'
         );
+
+        // GLightbox CSS para lightbox de galeria
+        wp_enqueue_style(
+            'glightbox',
+            'https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/css/glightbox.min.css',
+            array(),
+            '3.2.0',
+            'all'
+        );
     }
 
     /**
@@ -201,6 +210,34 @@ class WTE_Sliders_Main
             array('wte-sliders-swiper'),
             WTE_SLIDERS_VERSION,
             true
+        );
+
+        // GLightbox JS para lightbox de galeria
+        wp_enqueue_script(
+            'glightbox',
+            'https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/js/glightbox.min.js',
+            array(),
+            '3.2.0',
+            true
+        );
+
+        // Inicializar GLightbox
+        wp_add_inline_script(
+            'glightbox',
+            "
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof GLightbox !== 'undefined') {
+                    const lightbox = GLightbox({
+                        selector: '.glightbox',
+                        touchNavigation: true,
+                        loop: true,
+                        autoplayVideos: true,
+                        closeButton: true,
+                        closeOnOutsideClick: true
+                    });
+                }
+            });
+            "
         );
     }
 
