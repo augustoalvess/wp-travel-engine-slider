@@ -299,7 +299,7 @@ class WTE_Sliders_Query
      * @param int $trip_id ID da viagem
      * @return array Array com estrutura de preços (adult, child, fallback)
      */
-    private function get_trip_price($trip_id)
+    public function get_trip_price($trip_id)
     {
         // Tentar obter package primário
         $primary_package_id = get_post_meta($trip_id, 'primary_package', true);

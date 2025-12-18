@@ -67,6 +67,13 @@ class WTE_Sliders_Main
     public $settings;
 
     /**
+     * Instância do handler de destination archive
+     *
+     * @var WTE_Sliders_Destination_Archive
+     */
+    public $destination_archive;
+
+    /**
      * Obter instância única da classe
      *
      * @return WTE_Sliders_Main
@@ -112,6 +119,9 @@ class WTE_Sliders_Main
 
         // Inicializar handler de archive
         $this->archive = new WTE_Sliders_Archive($this->query, $this->template_loader);
+
+        // Inicializar handler de destination archive
+        $this->destination_archive = new WTE_Sliders_Destination_Archive($this->query, $this->template_loader);
 
         // Inicializar configurações (apenas admin)
         if (is_admin()) {

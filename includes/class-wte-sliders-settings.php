@@ -93,6 +93,19 @@ class WTE_Sliders_Settings
             )
         );
 
+        // Campo: Ativar Template Customizado de Destinos
+        add_settings_field(
+            'enable_destination_archive_template',
+            __('Template Customizado de Destinos', 'wte-sliders'),
+            array($this, 'render_checkbox_field'),
+            'wte-sliders-settings',
+            'wte_sliders_general_section',
+            array(
+                'label_for' => 'enable_destination_archive_template',
+                'description' => __('Ativar template customizado para página de arquivo de destinos (/destination/)', 'wte-sliders'),
+            )
+        );
+
         // Seção: Informações de Contato
         add_settings_section(
             'wte_sliders_contact_section',
@@ -201,6 +214,7 @@ class WTE_Sliders_Settings
                 <h2><?php esc_html_e('Ajuda & Documentação', 'wte-sliders'); ?></h2>
                 <ul style="list-style: disc; margin-left: 20px;">
                     <li><?php esc_html_e('O template customizado será aplicado automaticamente a todas as páginas de viagens quando ativado', 'wte-sliders'); ?></li>
+                    <li><?php esc_html_e('O template customizado de destinos será aplicado à página /destination/ quando ativado', 'wte-sliders'); ?></li>
                     <li><?php esc_html_e('O número do WhatsApp deve incluir o código do país (ex: +55 para Brasil)', 'wte-sliders'); ?></li>
                     <li><?php esc_html_e('O usuário do Instagram não deve incluir o símbolo @', 'wte-sliders'); ?></li>
                     <li><?php esc_html_e('Para customizar os templates no seu tema, copie os arquivos de /wp-content/plugins/wp-travel-engine-sliders/templates/ para /seu-tema/wte-sliders/', 'wte-sliders'); ?></li>
@@ -342,6 +356,9 @@ class WTE_Sliders_Settings
         // Checkbox: Enable Archive Template
         $sanitized['enable_archive_template'] = !empty($input['enable_archive_template']) ? 1 : 0;
 
+        // Checkbox: Enable Destination Archive Template
+        $sanitized['enable_destination_archive_template'] = !empty($input['enable_destination_archive_template']) ? 1 : 0;
+
         // WhatsApp Number (permitir apenas números, +, espaços e traços)
         if (!empty($input['whatsapp_number'])) {
             $sanitized['whatsapp_number'] = preg_replace('/[^0-9+\s\-]/', '', $input['whatsapp_number']);
@@ -373,12 +390,13 @@ class WTE_Sliders_Settings
     public static function get_defaults()
     {
         return array(
-            'enable_single_trip_template' => 0,
-            'enable_archive_template'     => 0,
-            'whatsapp_number'             => '',
-            'whatsapp_message'            => __('Olá! Gostaria de saber mais sobre esta viagem.', 'wte-sliders'),
-            'instagram_handle'            => '',
-            'facebook_url'                => '',
+            'enable_single_trip_template'        => 0,
+            'enable_archive_template'            => 0,
+            'enable_destination_archive_template' => 0,
+            'whatsapp_number'                    => '',
+            'whatsapp_message'                   => __('Olá! Gostaria de saber mais sobre esta viagem.', 'wte-sliders'),
+            'instagram_handle'                   => '',
+            'facebook_url'                       => '',
         );
     }
 
