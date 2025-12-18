@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Partial: Overview/Description
  *
@@ -13,8 +14,8 @@ if (!defined('ABSPATH')) {
 ?>
 
 <div class="wte-trip-overview">
-    <h2><?php esc_html_e('Título', 'wte-sliders'); ?></h2>
     <div class="wte-trip-description">
-        <?php echo $content; // Já filtrado por the_content ?>
+        <?php echo $content; // Já filtrado por the_content 
+        ?>
     </div>
 </div>
