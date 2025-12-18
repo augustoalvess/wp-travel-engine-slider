@@ -18,25 +18,66 @@ if (!defined('ABSPATH')) {
 ?>
 
 <div class="wte-pricing-box">
-    <div class="wte-pricing-header">
-        <span><?php esc_html_e('Pessoa ou Grupo', 'wte-sliders'); ?></span>
-    </div>
+    <?php if (!empty($price['has_child'])) : ?>
+        <!-- Horizontal Layout: Adult + Child -->
+        <div class="wte-pricing-header">
+            <span><?php esc_html_e('Preços', 'wte-sliders'); ?></span>
+        </div>
 
-    <div class="wte-pricing-amount">
-        <?php if (!empty($price['adult']['has_sale'])): ?>
-            <span class="wte-price-regular">
-                <?php echo esc_html($price['adult']['formatted_regular']); ?>
-            </span>
-        <?php endif; ?>
-        <span class="wte-price-current">
-            <?php
-            $display_price = !empty($price['adult']['formatted'])
-                ? $price['adult']['formatted']
-                : $price['formatted'];
-            echo esc_html($display_price);
-            ?>
-        </span>
-    </div>
+        <div class="wte-trip-prices-horizontal">
+            <!-- Adult Section -->
+            <div class="wte-price-section wte-price-adult">
+                <div class="wte-price-label">
+                    <?php esc_html_e('Adulto', 'wte-sliders'); ?>
+                </div>
+                <?php if ($price['adult']['has_sale']) : ?>
+                    <div class="wte-price-regular-strikethrough">
+                        <?php echo esc_html($price['adult']['formatted_regular']); ?>
+                    </div>
+                <?php endif; ?>
+                <div class="wte-price-current">
+                    <?php echo esc_html($price['adult']['formatted']); ?>
+                </div>
+            </div>
+
+            <!-- Child Section -->
+            <div class="wte-price-section wte-price-child">
+                <div class="wte-price-label">
+                    <?php esc_html_e('Criança', 'wte-sliders'); ?>
+                </div>
+                <?php if ($price['child']['has_sale']) : ?>
+                    <div class="wte-price-regular-strikethrough">
+                        <?php echo esc_html($price['child']['formatted_regular']); ?>
+                    </div>
+                <?php endif; ?>
+                <div class="wte-price-current">
+                    <?php echo esc_html($price['child']['formatted']); ?>
+                </div>
+            </div>
+        </div>
+
+    <?php else : ?>
+        <!-- Simple Layout: Single Price -->
+        <div class="wte-pricing-header">
+            <span><?php esc_html_e('Pessoa ou Grupo', 'wte-sliders'); ?></span>
+        </div>
+
+        <div class="wte-trip-price">
+            <?php if ($price['adult']['has_sale']) : ?>
+                <div class="wte-price-regular-strikethrough">
+                    <?php echo esc_html($price['adult']['formatted_regular']); ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="wte-price-current">
+                <?php echo esc_html($price['adult']['formatted']); ?>
+            </div>
+
+            <div class="wte-price-per">
+                <?php esc_html_e('por pessoa', 'wte-sliders'); ?>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <?php if (!empty($whatsapp)): ?>
         <?php
