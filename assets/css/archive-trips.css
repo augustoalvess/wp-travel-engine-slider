@@ -276,6 +276,7 @@
 
 .wte-trip-card--archive .wte-trip-excerpt {
     font-size: 13px;
+    text-align: justify;
 }
 
 /* Compatibilidade com trip-card-small */

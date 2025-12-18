@@ -147,6 +147,7 @@
     margin-bottom: 15px;
     flex-grow: 1;
     border-top: 1px solid var(--wte-primary);
+    text-align: justify;
 }
 
 /* Footer do card */
