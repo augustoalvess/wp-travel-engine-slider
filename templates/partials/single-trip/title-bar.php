@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Partial: Title Bar
  *
@@ -20,18 +21,14 @@ if (!defined('ABSPATH')) {
     <div class="wte-trip-meta-bar">
         <?php if (!empty($duration)): ?>
             <span class="wte-meta-item wte-meta-duration">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/>
-                </svg>
+                <img src="<?php echo esc_url(WTE_SLIDERS_PLUGIN_URL . 'assets/images/icon-clock-type1.svg'); ?>" alt="" width="16" height="16">
                 <?php echo esc_html($duration); ?>
             </span>
         <?php endif; ?>
 
         <?php if (!empty($destination)): ?>
             <span class="wte-meta-item wte-meta-location">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
+                <img src="<?php echo esc_url(WTE_SLIDERS_PLUGIN_URL . 'assets/images/icon-location-type1.svg'); ?>" alt="" width="16" height="16">
                 <?php echo esc_html($destination); ?>
             </span>
         <?php endif; ?>

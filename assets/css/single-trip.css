@@ -65,6 +65,7 @@
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .wte-trip-title-bar h1 {
@@ -182,19 +183,21 @@
     color: #999;
     display: block;
     margin-bottom: 5px;
+    text-align: right;
 }
 
 .wte-price-current {
     font-size: 2rem;
     font-weight: bold;
-    color: #00c7e4;
+    color: #1b4264;
     display: block;
+    text-align: right;
 }
 
 .wte-pricing-button {
     display: block;
     width: 100%;
-    padding: 15px;
+    padding: 5px;
     background: #00c7e4;
     color: white;
     text-align: center;
