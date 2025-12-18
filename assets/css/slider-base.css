@@ -29,6 +29,8 @@
     position: relative;
     width: 100%;
     font-family: 'Poppins', sans-serif;
+    overflow: visible;
+    /* Permitir que setas apareçam fora do conteúdo */
     /* Flex para alinhar setas verticalmente se necessário, mas absolute é melhor */
 }
 
@@ -37,6 +39,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
+    /* Swiper PRECISA de hidden para esconder slides inativos */
     /* Reset padding/bg que agora vão no wrapper */
     padding: 0;
     background: transparent;
@@ -88,12 +91,13 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Position arrows at fixed offset from edges */
 .swiper-button-prev {
-    left: 10px;
+    left: 20px;
 }
 
 .swiper-button-next {
-    right: 10px;
+    right: -30px;
 }
 
 /* Dots de navegação (Pagination) */
@@ -138,6 +142,7 @@
 }
 
 /* Responsivo */
+
 @media (max-width: 768px) {
 
     .swiper-button-prev,
@@ -146,8 +151,25 @@
         height: 40px;
     }
 
+    .swiper-button-prev {
+        left: 10px;
+    }
+
+    .swiper-button-next {
+        right: 10px;
+    }
+
     .swiper-button-prev:after,
     .swiper-button-next:after {
         font-size: 16px;
+    }
+}
+
+/* Hide arrows on very small screens */
+@media (max-width: 480px) {
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none;
     }
 }

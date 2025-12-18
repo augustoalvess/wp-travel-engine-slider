@@ -6,14 +6,7 @@
 
 /* Container do slider (Wrapper) */
 .wte-slider-wrapper-2 {
-    padding: 0 50px;
-}
-
-@media (max-width: 768px) {
-    .wte-slider-wrapper-2 {
-        padding: 0 10px;
-        /* Less padding on mobile */
-    }
+    padding: 0;  /* No padding - arrows positioned outside via calc() */
 }
 
 .wte-slider-destaque-2 {
@@ -27,11 +20,10 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
-    max-width: 1140px;
     width: 100%;
     /* Ensure grid takes full width */
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 15px;
 }
 
 /* Card pequeno */
@@ -89,8 +81,8 @@
 
 /* Conteúdo do card */
 .wte-trip-card-content {
-    padding: 20px;
-    padding-bottom: 30px;
+    padding: 15px;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -288,7 +280,7 @@
     }
 
     .wte-slider-destaque-2 {
-        padding: 40px 0;
+        padding: 15px 0;
     }
 }
 
@@ -301,11 +293,11 @@
     }
 
     .wte-slider-destaque-2 {
-        padding: 30px 0;
+        padding: 10px 0;
     }
 
     .wte-trip-card-content {
-        padding: 15px;
+        padding: 10px;
     }
 
     .wte-trip-footer {

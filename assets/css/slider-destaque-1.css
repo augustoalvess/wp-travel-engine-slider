@@ -6,13 +6,7 @@
 
 /* Container do slider (Wrapper) */
 .wte-slider-wrapper-1 {
-    padding: 0 50px;
-}
-
-@media (max-width: 768px) {
-    .wte-slider-wrapper-1 {
-        padding: 0 10px;
-    }
+    padding: 0;  /* No padding - arrows positioned outside via calc() */
 }
 
 .wte-slider-destaque-1 {
@@ -25,18 +19,16 @@
 .wte-trip-card-large {
     display: flex;
     flex-direction: column;
-    max-width: 1140px;
     width: 100%;
     /* Ensure card takes full width */
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 15px;
 }
 
 /* Área de mídia (vídeo ou imagem) */
 .wte-trip-media {
     position: relative;
     width: 100%;
-    max-width: 1140px;
     margin: 0 auto;
     border-radius: var(--wte-border-radius);
     overflow: hidden;
@@ -85,9 +77,6 @@
     text-align: left;
     color: var(--wte-white);
     margin-top: 20px;
-    max-width: 1140px;
-    margin-left: 0;
-    margin-right: 0;
 }
 
 .wte-trip-title {
@@ -147,7 +136,7 @@
 /* Responsivo - Mobile */
 @media (max-width: 480px) {
     .wte-slider-destaque-1 {
-        padding: 30px 0;
+        padding: 10px 0;
     }
 
     .wte-trip-card-large {

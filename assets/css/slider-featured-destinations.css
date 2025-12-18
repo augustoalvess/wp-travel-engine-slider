@@ -7,13 +7,10 @@
 
 .wte-slider-wrapper-destinations {
     position: relative;
-    max-width: 1140px;
-    margin: 0 auto;
-    /* Alinhar padding com demais sliders (geralmente zero se o wrapper cuida disso) */
-    padding: 20px 0;
+    width: 100%;
+    padding: 20px 0;  /* Only vertical padding - arrows positioned outside via calc() */
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    padding: 0 50px;
 }
 
 .wte-destinations-grid {
@@ -22,7 +19,7 @@
     gap: 30px;
     /* Aumentado gap para ficar mais espaçado como os outros */
     width: 100%;
-    padding: 0 20px;
+    padding: 0 15px;
 }
 
 .wte-destination-card {
@@ -70,7 +67,7 @@
 }
 
 .wte-destination-content {
-    padding: 20px;
+    padding: 15px;
     color: #fff;
     flex-grow: 1;
     display: flex;
@@ -117,23 +114,7 @@
     opacity: 0.8;
 }
 
-/* Ajuste de Setas - Herdar do base, mas posicionar corretamente */
-.wte-slider-wrapper-destinations .swiper-button-prev,
-.wte-slider-wrapper-destinations .swiper-button-next {
-    /* Manter estilos base do slider-base.css (não sobrescrever cores/tamanho se possível) */
-    /* Apenas ajuste de posição se necessário */
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.wte-slider-wrapper-destinations .swiper-button-prev {
-    left: 10px;
-    /* Jogar um pouco pra fora da grid */
-}
-
-.wte-slider-wrapper-destinations .swiper-button-next {
-    right: 10px;
-}
+/* Arrow positioning inherited from slider-base.css */
 
 /* Responsividade */
 @media (max-width: 1024px) {
@@ -157,14 +138,7 @@
     }
 
     .wte-slider-wrapper-destinations {
-        padding: 20px;
-        /* Manter padding lateral em mobile */
-    }
-
-    .wte-slider-wrapper-destinations .swiper-button-prev,
-    .wte-slider-wrapper-destinations .swiper-button-next {
-        display: none;
-        /* Esconder setas em mobile como padrão */
+        padding: 10px 0;
     }
 }
 
@@ -175,5 +149,14 @@
 
     .wte-destination-card:not(:first-child) {
         display: none;
+    }
+
+    .wte-slider-wrapper-destinations {
+        padding: 10px 0;
+    }
+
+    /* Reduzir padding interno em mobile */
+    .wte-destination-content {
+        padding: 10px;
     }
 }
