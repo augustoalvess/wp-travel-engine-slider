@@ -12,6 +12,7 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 40px 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Header */
@@ -509,9 +510,16 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
+.irs--flat .irs-bar,
+.irs--flat .irs-from,
+.irs--flat .irs-to,
+.irs--flat .irs-single {
+    background-color: #1b4264 !important;
+}
+
 /* Handle FROM - cor padrão (azul) */
 .irs-handle.from {
-    background: #00c7e4 !important;
+    background: #1b4264 !important;
 }
 
 /* Handle TO - cor customizada (azul escuro) */

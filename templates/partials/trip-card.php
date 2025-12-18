@@ -30,6 +30,7 @@ $options = wp_parse_args($options ?? array(), $defaults);
 $card_classes = array(
     'wte-trip-card',
     'wte-trip-card--' . esc_attr($context),
+    'wte-trip-card-small'
 );
 
 if (! empty($options['card_classes'])) {
