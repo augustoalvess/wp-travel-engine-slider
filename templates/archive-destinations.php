@@ -27,16 +27,6 @@ get_header();
 ?>
 
 <div class="wte-destinations-container">
-    <!-- Cabeçalho da Página -->
-    <div class="wte-destinations-header">
-        <h1 class="wte-destinations-title">
-            <?php esc_html_e('Destinos', 'wte-sliders'); ?>
-        </h1>
-        <p class="wte-destinations-subtitle">
-            <?php esc_html_e('Explore nossos destinos incríveis', 'wte-sliders'); ?>
-        </p>
-    </div>
-
     <!-- Barra de Ferramentas (Contagem e Ordenação) -->
     <div class="wte-destinations-toolbar">
         <div class="wte-destinations-count">

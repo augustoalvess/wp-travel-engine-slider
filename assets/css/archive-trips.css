@@ -15,12 +15,6 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Header */
-.wte-archive-header {
-    margin-bottom: 40px;
-    text-align: center;
-}
-
 .wte-archive-title {
     font-size: 36px;
     font-weight: 700;
@@ -422,10 +416,6 @@
 @media (max-width: 640px) {
     .wte-archive-container {
         padding: 30px 15px;
-    }
-
-    .wte-archive-header {
-        margin-bottom: 30px;
     }
 
     .wte-archive-title {

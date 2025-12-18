@@ -20,28 +20,6 @@ get_header();
 ?>
 
 <div class="wte-archive-container">
-    <div class="wte-archive-header">
-        <h1 class="wte-archive-title">
-            <?php
-            if (is_tax('destination')) {
-                single_term_title();
-            } elseif (is_tax('trip-packages-categories')) {
-                single_term_title();
-            } elseif (is_post_type_archive('trip')) {
-                esc_html_e('Todas as Viagens', 'wte-sliders');
-            } else {
-                the_archive_title();
-            }
-            ?>
-        </h1>
-
-        <?php if (is_tax() && term_description()) : ?>
-            <div class="wte-archive-description">
-                <?php echo term_description(); ?>
-            </div>
-        <?php endif; ?>
-    </div>
-
     <div class="wte-archive-layout">
         <!-- Sidebar com Filtros -->
         <aside class="wte-archive-sidebar">
