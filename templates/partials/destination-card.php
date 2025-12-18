@@ -55,7 +55,11 @@ $background_style = $has_image
                     <?php echo esc_html($destination->formatted_price); ?>
                 </div>
                 <div class="wte-destination-price-per">
-                    <?php esc_html_e('por pessoa', 'wte-sliders'); ?>
+                    <?php
+                    // Destinations show minimum price, default to per-person
+                    $pricing_type = $destination->min_price['pricing_type'] ?? 'per-person';
+                    echo esc_html($pricing_type === 'per-group' ? __('por grupo', 'wte-sliders') : __('por pessoa', 'wte-sliders'));
+                    ?>
                 </div>
             </div>
         <?php endif; ?>

@@ -137,7 +137,10 @@ if (! empty($options['card_classes'])) {
                     </div>
 
                     <div class="wte-price-per">
-                        <?php esc_html_e('por pessoa', 'wte-sliders'); ?>
+                        <?php
+                        $pricing_type = $trip->price['adult']['pricing_type'] ?? 'per-person';
+                        echo esc_html($pricing_type === 'per-group' ? __('por grupo', 'wte-sliders') : __('por pessoa', 'wte-sliders'));
+                        ?>
                     </div>
                 </div>
             <?php endif; ?>

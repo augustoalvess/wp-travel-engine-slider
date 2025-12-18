@@ -345,6 +345,7 @@ class WTE_Sliders_Query
         $prices = $package_categories['prices'];
         $sale_prices = isset($package_categories['sale_prices']) ? $package_categories['sale_prices'] : array();
         $enabled_sale = isset($package_categories['enabled_sale']) ? $package_categories['enabled_sale'] : array();
+        $pricing_types = isset($package_categories['pricing_types']) ? $package_categories['pricing_types'] : array();
 
         // Encontrar índices de adulto e criança
         $adult_index = null;
@@ -378,6 +379,7 @@ class WTE_Sliders_Query
                 'has_sale'          => ($adult_sale > 0 && $adult_sale < $adult_regular),
                 'formatted'         => 'R$ ' . number_format($adult_current, 2, ',', '.'),
                 'formatted_regular' => 'R$ ' . number_format($adult_regular, 2, ',', '.'),
+                'pricing_type'      => isset($pricing_types[$adult_index]) ? $pricing_types[$adult_index] : 'per-person',
             );
 
             // Definir campos de compatibilidade reversa com preços de adulto
@@ -385,6 +387,7 @@ class WTE_Sliders_Query
             $pricing['sale'] = $adult_sale;
             $pricing['current'] = $adult_current;
             $pricing['formatted'] = $pricing['adult']['formatted'];
+            $pricing['pricing_type'] = isset($pricing_types[$adult_index]) ? $pricing_types[$adult_index] : 'per-person';
         }
 
         // Extrair preços de criança
@@ -406,6 +409,7 @@ class WTE_Sliders_Query
                 'has_sale'          => ($child_sale > 0 && $child_sale < $child_regular),
                 'formatted'         => 'R$ ' . number_format($child_current, 2, ',', '.'),
                 'formatted_regular' => 'R$ ' . number_format($child_regular, 2, ',', '.'),
+                'pricing_type'      => isset($pricing_types[$child_index]) ? $pricing_types[$child_index] : 'per-person',
             );
 
             $pricing['has_child'] = ($child_current > 0);
@@ -443,6 +447,7 @@ class WTE_Sliders_Query
                 'has_sale'          => $has_sale,
                 'formatted'         => 'R$ ' . number_format($current_price, 2, ',', '.'),
                 'formatted_regular' => 'R$ ' . number_format($regular_price, 2, ',', '.'),
+                'pricing_type'      => 'per-person',
             ),
             'child'     => array(),
             // Compatibilidade reversa
@@ -450,6 +455,7 @@ class WTE_Sliders_Query
             'sale'      => $sale_price,
             'current'   => $current_price,
             'formatted' => 'R$ ' . number_format($current_price, 2, ',', '.'),
+            'pricing_type' => 'per-person',
         );
     }
 
