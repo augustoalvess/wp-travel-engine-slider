@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template: Latest Blog Posts
  *
@@ -34,19 +35,19 @@ $small_posts = array_slice($posts, 1);
                 <div class="wte-blog-card-image">
                     <?php if ($large_post['featured_image']) : ?>
                         <img src="<?php echo esc_url($large_post['featured_image']); ?>"
-                             alt="<?php echo esc_attr($large_post['title']); ?>">
+                            alt="<?php echo esc_attr($large_post['title']); ?>">
                     <?php else : ?>
                         <div class="wte-blog-card-placeholder"></div>
                     <?php endif; ?>
-
-                    <!-- Date Badge -->
-                    <div class="wte-blog-card-date">
-                        <?php echo esc_html($large_post['date']); ?>
-                    </div>
                 </div>
 
                 <!-- Content -->
                 <div class="wte-blog-card-content">
+                    <!-- Date Badge -->
+                    <div class="wte-blog-card-date-small">
+                        <?php echo esc_html($large_post['date']); ?>
+                    </div>
+
                     <h3 class="wte-blog-card-title">
                         <a href="<?php echo esc_url($large_post['permalink']); ?>">
                             <?php echo esc_html($large_post['title']); ?>
@@ -58,7 +59,7 @@ $small_posts = array_slice($posts, 1);
                     </div>
 
                     <a href="<?php echo esc_url($large_post['permalink']); ?>"
-                       class="wte-blog-card-button">
+                        class="wte-blog-card-button">
                         <?php esc_html_e('Leia mais', 'wte-sliders'); ?>
                     </a>
                 </div>
@@ -77,7 +78,7 @@ $small_posts = array_slice($posts, 1);
                             <div class="wte-blog-card-image-small">
                                 <?php if ($post['featured_image']) : ?>
                                     <img src="<?php echo esc_url($post['featured_image']); ?>"
-                                         alt="<?php echo esc_attr($post['title']); ?>">
+                                        alt="<?php echo esc_attr($post['title']); ?>">
                                 <?php else : ?>
                                     <div class="wte-blog-card-placeholder-small"></div>
                                 <?php endif; ?>
