@@ -150,6 +150,10 @@
     margin-bottom: 20px;
 }
 
+.wte-trip-overview .strong {
+    color: #1b4264;
+}
+
 .wte-trip-description {
     line-height: 1.6;
     color: #333;
