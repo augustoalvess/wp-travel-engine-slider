@@ -86,8 +86,12 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #00c7e4;
+    color: #1b4264;
     font-weight: 500;
+}
+
+.wte-meta-item img {
+    color: #00c7e4;
 }
 
 .wte-meta-item svg {
