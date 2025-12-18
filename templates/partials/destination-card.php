@@ -17,7 +17,7 @@ if (! defined('ABSPATH')) {
 }
 
 // Cor de fallback quando não houver imagem
-$fallback_color = '#B48184';
+$fallback_color = '#b57d7e';
 $has_image = ! empty($destination->image);
 
 // Estilo inline para background (imagem ou cor)
