@@ -189,6 +189,15 @@ class WTE_Sliders_Main
             '3.2.0',
             'all'
         );
+
+        // Blog posts slider styles
+        wp_enqueue_style(
+            'wte-sliders-latest-posts',
+            WTE_SLIDERS_PLUGIN_URL . 'assets/css/slider-latest-posts.css',
+            array('wte-sliders-base'),
+            WTE_SLIDERS_VERSION,
+            'all'
+        );
     }
 
     /**

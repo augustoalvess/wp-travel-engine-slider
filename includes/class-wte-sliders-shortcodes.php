@@ -51,6 +51,7 @@ class WTE_Sliders_Shortcodes
     {
         add_shortcode('wte_slider', array($this, 'render_slider'));
         add_shortcode('wte_featured_destinations', array($this, 'render_featured_destinations'));
+        add_shortcode('wte_latest_posts', array($this, 'render_latest_posts'));
     }
 
     /**
@@ -232,5 +233,135 @@ class WTE_Sliders_Shortcodes
             esc_html__('Existem viagens publicadas (tipo de post "trip")', 'wte-sliders'),
             sprintf(esc_html__('Essas viagens possuem o termo "%s" atribuído', 'wte-sliders'), esc_html($tags))
         );
+    }
+
+    /**
+     * Render latest blog posts shortcode
+     *
+     * @param array $atts Shortcode attributes
+     * @return string HTML output
+     */
+    public function render_latest_posts($atts)
+    {
+        // Parse attributes with defaults
+        $atts = shortcode_atts(
+            array(
+                'limit'    => 5,
+                'category' => '',
+                'ids'      => '',
+            ),
+            $atts,
+            'wte_latest_posts'
+        );
+
+        // Sanitize attributes
+        $limit = intval($atts['limit']);
+        $limit = max(1, min($limit, 50)); // Between 1 and 50
+        $category = sanitize_text_field($atts['category']);
+        $ids = sanitize_text_field($atts['ids']);
+
+        // Build query args
+        $args = array(
+            'post_type'      => 'post',
+            'post_status'    => 'publish',
+            'posts_per_page' => $limit,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+            'no_found_rows'  => true,
+        );
+
+        // Priority: IDs > Category
+        if (!empty($ids)) {
+            $id_array = array_map('intval', explode(',', $ids));
+            $args['post__in'] = $id_array;
+            $args['orderby'] = 'post__in'; // Maintain ID order
+        } elseif (!empty($category)) {
+            $category_slugs = array_map('trim', explode(',', $category));
+            $args['tax_query'] = array(
+                array(
+                    'taxonomy' => 'category',
+                    'field'    => 'slug',
+                    'terms'    => $category_slugs,
+                ),
+            );
+        }
+
+        // Execute query
+        $query = new WP_Query($args);
+
+        if (!$query->have_posts()) {
+            wp_reset_postdata();
+            return $this->render_empty_posts_message($category, $ids);
+        }
+
+        // Build posts data array
+        $posts = array();
+        while ($query->have_posts()) {
+            $query->the_post();
+            $post_id = get_the_ID();
+
+            $posts[] = array(
+                'id'            => $post_id,
+                'title'         => get_the_title(),
+                'excerpt'       => get_the_excerpt(),
+                'permalink'     => get_permalink(),
+                'date'          => get_the_date('d \d\e F \d\e Y'),
+                'featured_image' => $this->get_post_featured_image($post_id),
+            );
+        }
+        wp_reset_postdata();
+
+        // Prepare template data
+        $data = array(
+            'posts' => $posts,
+            'limit' => $limit,
+        );
+
+        // Load template
+        return $this->template_loader->load_template('slider-latest-posts', $data);
+    }
+
+    /**
+     * Get post featured image URL
+     *
+     * @param int $post_id Post ID
+     * @return string|false Image URL or false
+     */
+    private function get_post_featured_image($post_id)
+    {
+        if (has_post_thumbnail($post_id)) {
+            $image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
+            return $image ? $image[0] : false;
+        }
+        return false;
+    }
+
+    /**
+     * Render empty posts message
+     *
+     * @param string $category Category filter
+     * @param string $ids IDs filter
+     * @return string HTML message
+     */
+    private function render_empty_posts_message($category, $ids)
+    {
+        $message = '<div class="wte-sliders-notice" style="padding: 20px; background: #fff3cd; border-left: 4px solid #ffc107; margin: 20px 0;">';
+        $message .= '<p><strong>' . esc_html__('Nenhuma postagem encontrada.', 'wte-sliders') . '</strong></p>';
+        $message .= '<p>' . esc_html__('Verifique se:', 'wte-sliders') . '</p>';
+        $message .= '<ol>';
+
+        if (!empty($ids)) {
+            $message .= '<li>' . esc_html__('Os IDs fornecidos existem e estão publicados', 'wte-sliders') . '</li>';
+        } elseif (!empty($category)) {
+            $message .= '<li>' . esc_html__('As categorias fornecidas existem', 'wte-sliders') . '</li>';
+            $message .= '<li>' . esc_html__('Existem posts publicados nessas categorias', 'wte-sliders') . '</li>';
+        } else {
+            $message .= '<li>' . esc_html__('Existem posts publicados', 'wte-sliders') . '</li>';
+        }
+
+        $message .= '</ol>';
+        $message .= '</div>';
+
+        return $message;
     }
 }
