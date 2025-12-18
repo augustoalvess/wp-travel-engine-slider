@@ -7,9 +7,10 @@
 /* Wrapper */
 .wte-latest-posts-wrapper {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Grid Layout */
@@ -35,18 +36,9 @@
 /* ===== LARGE CARD STYLES ===== */
 
 .wte-blog-card-large {
-    background: var(--wte-white, #ffffff);
-    border-radius: var(--wte-border-radius, 8px);
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: var(--wte-transition, all 0.3s ease);
     height: 100%;
     display: flex;
     flex-direction: column;
-}
-
-.wte-blog-card-large:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 /* Large Card Image */
@@ -56,6 +48,7 @@
     padding-top: 56.25%; /* 16:9 aspect ratio */
     overflow: hidden;
     background: var(--wte-primary, #00c7e4);
+    border-radius: 8px;
 }
 
 .wte-blog-card-image img {
@@ -92,7 +85,7 @@
 
 /* Large Card Content */
 .wte-blog-card-content {
-    padding: 25px;
+    padding: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -118,7 +111,7 @@
 
 .wte-blog-card-excerpt {
     margin: 0 0 20px 0;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
     color: var(--wte-text-gray, #6b7280);
     flex: 1;
@@ -147,22 +140,13 @@
 /* ===== SMALL CARD STYLES ===== */
 
 .wte-blog-card-small {
-    background: var(--wte-white, #ffffff);
-    border-radius: var(--wte-border-radius, 8px);
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    transition: var(--wte-transition, all 0.3s ease);
-}
-
-.wte-blog-card-small:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    /* No styles - just container */
 }
 
 .wte-blog-card-small-inner {
     display: grid;
     grid-template-columns: 120px 1fr;
     gap: 15px;
-    padding: 15px;
 }
 
 /* Small Card Image */
@@ -171,7 +155,7 @@
     width: 120px;
     height: 120px;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 8px;
     background: var(--wte-primary, #00c7e4);
     flex-shrink: 0;
 }
@@ -227,7 +211,7 @@
 
 .wte-blog-card-excerpt-small {
     margin: 0;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5;
     color: var(--wte-text-gray, #6b7280);
 }
@@ -265,7 +249,6 @@
     .wte-blog-card-small-inner {
         grid-template-columns: 100px 1fr;
         gap: 12px;
-        padding: 12px;
     }
 
     .wte-blog-card-image-small {
@@ -282,7 +265,7 @@
     }
 
     .wte-blog-card-excerpt-small {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
