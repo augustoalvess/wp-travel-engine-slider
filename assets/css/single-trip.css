@@ -277,7 +277,7 @@
 }
 
 .wte-price-label {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 600;
     color: #00c7e4;
     text-transform: uppercase;
@@ -286,13 +286,14 @@
 }
 
 .wte-price-section .wte-price-current {
-    font-size: 18px;
+    font-size: 22px;
+    text-align: center;
     font-weight: 700;
     color: #1b4264;
 }
 
 .wte-price-section .wte-price-regular-strikethrough {
-    font-size: 12px;
+    font-size: 14px;
     color: #999;
     text-decoration: line-through;
 }
