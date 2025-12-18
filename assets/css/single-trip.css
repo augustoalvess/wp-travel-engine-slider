@@ -11,9 +11,10 @@
    ========================================================================== */
 
 .wte-single-trip-container {
-    max-width: 1200px;
+    max-width: 1140px;
     margin: 0 auto;
     padding: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* ==========================================================================
@@ -22,16 +23,15 @@
 
 .wte-trip-hero {
     position: relative;
-    margin-bottom: 30px;
+    background-color: #eff2f9;
 }
 
 .wte-trip-hero-slider {
-    border-radius: 8px;
     overflow: hidden;
 }
 
 .wte-trip-hero-slider .swiper-slide {
-    height: 400px;
+    height: 270px;
     overflow: hidden;
 }
 
@@ -60,16 +60,19 @@
    ========================================================================== */
 
 .wte-trip-title-bar {
-    background: #f5f5f5;
+    background: #eff2f9;
     padding: 20px 30px;
-    margin: 20px 0;
-    border-radius: 8px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
 }
 
 .wte-trip-title-bar h1 {
-    font-size: 2rem;
+    font-size: 20px;
     margin: 0 0 15px 0;
     color: #1b4264;
+    margin-bottom: 0;
+    font-weight: 600px;
 }
 
 .wte-trip-meta-bar {
@@ -103,7 +106,8 @@
 }
 
 .wte-trip-main-content {
-    min-width: 0; /* Previne overflow de grid items */
+    min-width: 0;
+    /* Previne overflow de grid items */
 }
 
 /* ==========================================================================
@@ -453,6 +457,7 @@
    ========================================================================== */
 
 @media print {
+
     .wte-trip-hero .swiper-button-prev,
     .wte-trip-hero .swiper-button-next,
     .wte-whatsapp-button,

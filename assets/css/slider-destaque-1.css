@@ -25,7 +25,7 @@
 .wte-trip-card-large {
     display: flex;
     flex-direction: column;
-    max-width: 1200px;
+    max-width: 1140px;
     width: 100%;
     /* Ensure card takes full width */
     margin: 0 auto;
@@ -36,7 +36,7 @@
 .wte-trip-media {
     position: relative;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1140px;
     margin: 0 auto;
     border-radius: var(--wte-border-radius);
     overflow: hidden;
@@ -85,7 +85,7 @@
     text-align: left;
     color: var(--wte-white);
     margin-top: 20px;
-    max-width: 1200px;
+    max-width: 1140px;
     margin-left: 0;
     margin-right: 0;
 }
