@@ -103,9 +103,8 @@ class WTE_Sliders_Main
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('init', array($this, 'load_textdomain'));
-        add_action('init', array($this, 'add_destination_base_rewrite'), 20);
         add_filter('query_vars', array($this, 'add_destination_query_var'));
-        add_action('template_redirect', array($this, 'handle_destination_base_template'), 1);
+        add_filter('request', array($this, 'handle_destinations_base_request'));
     }
 
     /**
@@ -257,21 +256,6 @@ class WTE_Sliders_Main
     }
 
     /**
-     * Add custom rewrite rule for destination taxonomy base URL
-     *
-     * Permite acessar /destinations/ sem um termo específico
-     */
-    public function add_destination_base_rewrite()
-    {
-        // Redirect /destinations/ to a valid trip archive query with marker
-        add_rewrite_rule(
-            '^destinations/?$',
-            'index.php?post_type=trip&wte_destination_base=1',
-            'top'
-        );
-    }
-
-    /**
      * Add custom query var to WordPress
      *
      * @param array $vars Existing query vars
@@ -284,24 +268,39 @@ class WTE_Sliders_Main
     }
 
     /**
-     * Handle template loading for destination base URL
+     * Handle /destinations/ base URL via request filter
      *
-     * Garante que /destinations/ seja tratado como archive ao invés de 404
+     * Funciona com todas as estruturas de permalinks, incluindo /index.php/
+     *
+     * @param array $query_vars Query vars from WordPress
+     * @return array Modified query vars
      */
-    public function handle_destination_base_template()
+    public function handle_destinations_base_request($query_vars)
     {
-        // Verificar se estamos na URL base de destinations
-        if (!get_query_var('wte_destination_base')) {
-            return;
+        // Get the request URI and remove leading/trailing slashes
+        $request_uri = trim($_SERVER['REQUEST_URI'], '/');
+
+        // Remove WordPress subdirectory if exists (e.g., 'wordpress')
+        $script_name = trim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        if (!empty($script_name)) {
+            $request_uri = str_replace($script_name, '', $request_uri);
+            $request_uri = trim($request_uri, '/');
         }
 
-        // Forçar WordPress a reconhecer como archive válido
-        global $wp_query;
-        $wp_query->is_404 = false;
-        $wp_query->is_archive = true;
-        $wp_query->is_post_type_archive = true;
+        // Remove index.php if present
+        $request_uri = str_replace('index.php/', '', $request_uri);
+        $request_uri = str_replace('index.php', '', $request_uri);
+        $request_uri = trim($request_uri, '/');
 
-        // Definir status header como 200 OK
-        status_header(200);
+        // Check if this is exactly the /destinations/ base URL
+        if ($request_uri === 'destinations' || $request_uri === 'destinations/') {
+            // Modify query to be a valid trip archive with our marker
+            $query_vars = array(
+                'post_type' => 'trip',
+                'wte_destination_base' => '1',
+            );
+        }
+
+        return $query_vars;
     }
 }
