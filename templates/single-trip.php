@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template: Single Trip Page
  *
@@ -80,15 +81,6 @@ $settings = get_option('wte_sliders_options', array());
             if (!empty($trip->itinerary)) {
                 $template_loader->load_partial('single-trip/itinerary', array(
                     'itinerary' => $trip->itinerary,
-                ));
-            }
-            ?>
-
-            <?php
-            // Social Media
-            if (!empty($settings['instagram_handle'])) {
-                $template_loader->load_partial('single-trip/social', array(
-                    'instagram' => $settings['instagram_handle'],
                 ));
             }
             ?>
