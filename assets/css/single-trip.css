@@ -143,15 +143,16 @@
 .wte-trip-gallery-section.wte-full-width {
     width: 100%;
     max-width: 1200px;
-    margin: 60px auto;
+    margin: 0;
     padding: 0 15px;
 }
 
 .wte-trip-gallery-section.wte-full-width h2 {
-    font-size: 1.75rem;
-    color: #1b4264;
     margin-bottom: 30px;
-    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1b4264;
 }
 
 /* Gallery grid - keep existing styles but ensure full width */
@@ -538,7 +539,7 @@
 
 .wte-gallery-item img {
     width: 100%;
-    height: 150px;
+    height: 100%;
     object-fit: cover;
     border-radius: 4px;
     transition: transform 0.3s ease;
