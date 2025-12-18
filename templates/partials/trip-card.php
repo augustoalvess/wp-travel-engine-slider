@@ -101,6 +101,12 @@ if (! empty($options['card_classes'])) {
                         <div class="wte-price-current">
                             <?php echo esc_html($trip->price['adult']['formatted']); ?>
                         </div>
+                        <div class="wte-price-per">
+                            <?php
+                            $adult_pricing_type = $trip->price['adult']['pricing_type'] ?? 'per-person';
+                            echo esc_html($adult_pricing_type === 'per-group' ? __('por grupo', 'wte-sliders') : __('por pessoa', 'wte-sliders'));
+                            ?>
+                        </div>
                     </div>
 
                     <!-- Criança -->
@@ -115,6 +121,12 @@ if (! empty($options['card_classes'])) {
                         <?php endif; ?>
                         <div class="wte-price-current">
                             <?php echo esc_html($trip->price['child']['formatted']); ?>
+                        </div>
+                        <div class="wte-price-per">
+                            <?php
+                            $child_pricing_type = $trip->price['child']['pricing_type'] ?? 'per-person';
+                            echo esc_html($child_pricing_type === 'per-group' ? __('por grupo', 'wte-sliders') : __('por pessoa', 'wte-sliders'));
+                            ?>
                         </div>
                     </div>
                 </div>

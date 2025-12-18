@@ -38,6 +38,12 @@ if (!defined('ABSPATH')) {
                 <div class="wte-price-current">
                     <?php echo esc_html($price['adult']['formatted']); ?>
                 </div>
+                <div class="wte-price-per">
+                    <?php
+                    $adult_pricing_type = $price['adult']['pricing_type'] ?? 'per-person';
+                    echo esc_html($adult_pricing_type === 'per-group' ? __('por grupo', 'wte-sliders') : __('por pessoa', 'wte-sliders'));
+                    ?>
+                </div>
             </div>
 
             <!-- Child Section -->
@@ -53,18 +59,19 @@ if (!defined('ABSPATH')) {
                 <div class="wte-price-current">
                     <?php echo esc_html($price['child']['formatted']); ?>
                 </div>
+                <div class="wte-price-per">
+                    <?php
+                    $child_pricing_type = $price['child']['pricing_type'] ?? 'per-person';
+                    echo esc_html($child_pricing_type === 'per-group' ? __('por grupo', 'wte-sliders') : __('por pessoa', 'wte-sliders'));
+                    ?>
+                </div>
             </div>
         </div>
 
     <?php else : ?>
         <!-- Simple Layout: Single Price -->
         <div class="wte-pricing-header">
-            <?php
-            $adult_type_label = ($price['adult']['pricing_type'] ?? 'per-person') === 'per-group'
-                ? __('por grupo', 'wte-sliders')
-                : __('por pessoa', 'wte-sliders');
-            ?>
-            <span><?php echo esc_html(ucfirst($adult_type_label)); ?></span>
+            <span><?php esc_html_e('Preços', 'wte-sliders'); ?></span>
         </div>
 
         <div class="wte-trip-price">
