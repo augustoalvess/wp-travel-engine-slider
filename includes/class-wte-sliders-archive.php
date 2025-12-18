@@ -85,6 +85,11 @@ class WTE_Sliders_Archive
             return true;
         }
 
+        // Também verificar via custom query var (mais confiável)
+        if (get_query_var('wte_destination_base')) {
+            return true;
+        }
+
         return false;
     }
 

@@ -40,7 +40,8 @@ if (! defined('ABSPATH')) {
                 $selected_destinations = isset($_GET['wte_destination']) ? (array) $_GET['wte_destination'] : array();
 
                 // Se não há destinos selecionados via GET, verificar se estamos em página de taxonomy
-                if (empty($selected_destinations) && is_tax('destination')) {
+                // MAS NÃO na URL base (/destinations/)
+                if (empty($selected_destinations) && is_tax('destination') && !get_query_var('wte_destination_base')) {
                     $current_term = get_queried_object();
                     if ($current_term && isset($current_term->term_id)) {
                         $selected_destinations[] = $current_term->term_id;
@@ -150,7 +151,8 @@ if (! defined('ABSPATH')) {
                 $selected_types = isset($_GET['wte_trip_type']) ? (array) $_GET['wte_trip_type'] : array();
 
                 // Se não há tipos selecionados via GET, verificar se estamos em página de taxonomy
-                if (empty($selected_types) && is_tax('trip_types')) {
+                // MAS NÃO na URL base (/destinations/)
+                if (empty($selected_types) && is_tax('trip_types') && !get_query_var('wte_destination_base')) {
                     $current_term = get_queried_object();
                     if ($current_term && isset($current_term->term_id)) {
                         $selected_types[] = $current_term->term_id;

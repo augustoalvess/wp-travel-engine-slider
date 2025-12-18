@@ -103,6 +103,9 @@ class WTE_Sliders_Main
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('init', array($this, 'load_textdomain'));
+        add_action('init', array($this, 'add_destination_base_rewrite'), 20);
+        add_filter('query_vars', array($this, 'add_destination_query_var'));
+        add_action('template_redirect', array($this, 'handle_destination_base_template'), 1);
     }
 
     /**
@@ -251,5 +254,54 @@ class WTE_Sliders_Main
             false,
             dirname(WTE_SLIDERS_PLUGIN_BASENAME) . '/languages'
         );
+    }
+
+    /**
+     * Add custom rewrite rule for destination taxonomy base URL
+     *
+     * Permite acessar /destinations/ sem um termo específico
+     */
+    public function add_destination_base_rewrite()
+    {
+        // Redirect /destinations/ to a valid trip archive query with marker
+        add_rewrite_rule(
+            '^destinations/?$',
+            'index.php?post_type=trip&wte_destination_base=1',
+            'top'
+        );
+    }
+
+    /**
+     * Add custom query var to WordPress
+     *
+     * @param array $vars Existing query vars
+     * @return array Modified query vars
+     */
+    public function add_destination_query_var($vars)
+    {
+        $vars[] = 'wte_destination_base';
+        return $vars;
+    }
+
+    /**
+     * Handle template loading for destination base URL
+     *
+     * Garante que /destinations/ seja tratado como archive ao invés de 404
+     */
+    public function handle_destination_base_template()
+    {
+        // Verificar se estamos na URL base de destinations
+        if (!get_query_var('wte_destination_base')) {
+            return;
+        }
+
+        // Forçar WordPress a reconhecer como archive válido
+        global $wp_query;
+        $wp_query->is_404 = false;
+        $wp_query->is_archive = true;
+        $wp_query->is_post_type_archive = true;
+
+        // Definir status header como 200 OK
+        status_header(200);
     }
 }
