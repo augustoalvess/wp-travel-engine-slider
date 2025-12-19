@@ -13,7 +13,7 @@
 .wte-single-trip-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding-bottom: 20px;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -234,6 +234,7 @@
 
 .wte-trip-description p {
     margin-bottom: 15px;
+    font-size: 14px;
 }
 
 .wp-block-media-text .wp-block-media-text__content p {
@@ -687,4 +688,11 @@
     .wte-trip-sidebar {
         position: static;
     }
+}
+
+.single-trip .widget-area {
+    flex: inherit;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
 }

@@ -183,3 +183,8 @@
         display: none;
     }
 }
+
+.wp-block-separator {
+    border-top: inherit !important;
+    margin: 1rem 0 !important;
+}
