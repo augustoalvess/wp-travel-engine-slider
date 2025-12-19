@@ -8,7 +8,8 @@
 .wte-slider-wrapper-destinations {
     position: relative;
     width: 100%;
-    padding: 20px 0;  /* Only vertical padding - arrows positioned outside via calc() */
+    padding: 20px 0;
+    /* Only vertical padding - arrows positioned outside via calc() */
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
@@ -19,7 +20,6 @@
     gap: 30px;
     /* Aumentado gap para ficar mais espaçado como os outros */
     width: 100%;
-    padding: 0 15px;
 }
 
 .wte-destination-card {

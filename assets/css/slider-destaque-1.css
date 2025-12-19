@@ -6,7 +6,8 @@
 
 /* Container do slider (Wrapper) */
 .wte-slider-wrapper-1 {
-    padding: 0;  /* No padding - arrows positioned outside via calc() */
+    padding: 0;
+    /* No padding - arrows positioned outside via calc() */
 }
 
 .wte-slider-destaque-1 {
@@ -22,7 +23,6 @@
     width: 100%;
     /* Ensure card takes full width */
     margin: 0 auto;
-    padding: 0 15px;
 }
 
 /* Área de mídia (vídeo ou imagem) */
