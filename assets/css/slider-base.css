@@ -30,8 +30,18 @@
     width: 100%;
     font-family: 'Poppins', sans-serif;
     overflow: visible;
-    /* Permitir que setas apareçam fora do conteúdo */
-    /* Flex para alinhar setas verticalmente se necessário, mas absolute é melhor */
+    padding: 0 50px;
+    /* Espaço para as setas nas laterais - evita que sejam cortadas pelo overflow do .swiper */
+}
+
+/* Corrigir overflow em containers Elementor para permitir botões externos */
+.elementor-widget-shortcode:has(.wte-slider-wrapper),
+.elementor-shortcode:has(.wte-slider-wrapper) {
+    overflow: visible !important;
+}
+
+.e-con-inner:has(.wte-slider-wrapper) {
+    overflow: visible !important;
 }
 
 /* Container do slider (Swiper) */
@@ -73,7 +83,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
+    z-index: 999;
     margin-top: 0;
     /* Override default swiper margin if present */
 }
@@ -93,11 +103,11 @@
 
 /* Position arrows at fixed offset from edges */
 .swiper-button-prev {
-    left: 20px;
+    left: 10px;
 }
 
 .swiper-button-next {
-    right: -30px;
+    right: 10px;
 }
 
 /* Dots de navegação (Pagination) */
