@@ -72,8 +72,8 @@
 /* Botões de navegação Customizados */
 .swiper-button-prev,
 .swiper-button-next {
-    width: 25px;
-    height: 25px;
+    width: 25px !important;
+    height: 25px !important;
     background: #8ea1b2;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -90,7 +90,7 @@
 
 .swiper-button-prev:after,
 .swiper-button-next:after {
-    font-size: 16px;
+    font-size: 16px !important;
     font-weight: bold;
     color: var(--wte-white);
 }
