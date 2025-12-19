@@ -6,7 +6,8 @@
 
 /* Container do slider (Wrapper) */
 .wte-slider-wrapper-2 {
-    padding: 0;  /* No padding - arrows positioned outside via calc() */
+    padding: 0;
+    /* No padding - arrows positioned outside via calc() */
 }
 
 .wte-slider-destaque-2 {
@@ -39,6 +40,7 @@
     /* Force height */
     visibility: visible !important;
     opacity: 1 !important;
+    margin-bottom: 1px;
 }
 
 .wte-trip-card-small:hover {

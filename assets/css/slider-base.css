@@ -103,11 +103,11 @@
 
 /* Position arrows at fixed offset from edges */
 .swiper-button-prev {
-    left: 10px;
+    left: -50px;
 }
 
 .swiper-button-next {
-    right: 10px;
+    right: -50px;
 }
 
 /* Dots de navegação (Pagination) */
