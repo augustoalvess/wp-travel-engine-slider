@@ -101,15 +101,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Position arrows at fixed offset from edges */
-.swiper-button-prev {
-    left: -50px;
-}
-
-.swiper-button-next {
-    right: -50px;
-}
-
 /* Dots de navegação (Pagination) */
 .swiper-pagination-bullet {
     width: 12px;
@@ -172,6 +163,33 @@
     .swiper-button-prev:after,
     .swiper-button-next:after {
         font-size: 16px;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+    .wte-slider-wrapper {
+        padding: 0 15px;
+    }
+
+    /* Setas menores e posicionadas nas bordas */
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 35px;
+        height: 35px;
+    }
+
+    .swiper-button-prev {
+        left: 5px;
+    }
+
+    .swiper-button-next {
+        right: 5px;
+    }
+
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+        font-size: 14px;
     }
 }
 

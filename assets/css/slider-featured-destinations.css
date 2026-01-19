@@ -122,7 +122,8 @@
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .wte-destination-card:nth-child(4) {
+    /* Ocultar 4º item em tablets grandes */
+    .wte-destinations-grid > .wte-destination-card:nth-child(4) {
         display: none;
     }
 }
@@ -132,8 +133,8 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .wte-destination-card:nth-child(3),
-    .wte-destination-card:nth-child(4) {
+    /* Ocultar 3º e 4º itens em tablets */
+    .wte-destinations-grid > .wte-destination-card:nth-child(n+3) {
         display: none;
     }
 
@@ -142,13 +143,30 @@
     }
 }
 
-@media (max-width: 480px) {
+/* ========================================
+   MOBILE: Mostrar apenas 1 destino por slide
+   ======================================== */
+@media (max-width: 640px) {
+    /* Grid simplificado para 1 item */
     .wte-destinations-grid {
-        grid-template-columns: 1fr;
+        display: block;
+        padding: 0 10px;
     }
 
-    .wte-destination-card:not(:first-child) {
-        display: none;
+    /* Garantir que todos os cards tenham display flex por padrão */
+    .wte-destinations-grid > .wte-destination-card {
+        display: flex !important;
+    }
+
+    /* Ocultar todos exceto o primeiro */
+    .wte-destinations-grid > .wte-destination-card:not(:first-child) {
+        display: none !important;
+    }
+
+    /* Card único ocupa toda a largura */
+    .wte-destinations-grid > .wte-destination-card:first-child {
+        width: 100%;
+        max-width: 100%;
     }
 
     .wte-slider-wrapper-destinations {

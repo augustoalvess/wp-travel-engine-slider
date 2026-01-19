@@ -287,10 +287,25 @@
 
 /* Responsivo - Mobile */
 @media (max-width: 640px) {
+    /* ========================================
+       MOBILE: Mostrar apenas 1 card por slide
+       ======================================== */
+
+    /* Ocultar todos os cards exceto o primeiro em cada slide */
+    .wte-slider-grid > .wte-trip-card-small:not(:first-child) {
+        display: none !important;
+    }
+
+    /* Grid simplificado para 1 item */
     .wte-slider-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 0 15px;
+        display: block;
+        padding: 0 10px;
+    }
+
+    /* Card único ocupa toda a largura */
+    .wte-slider-grid > .wte-trip-card-small:first-child {
+        width: 100%;
+        max-width: 100%;
     }
 
     .wte-slider-destaque-2 {
