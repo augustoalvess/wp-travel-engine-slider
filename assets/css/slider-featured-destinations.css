@@ -163,6 +163,10 @@
         display: none !important;
     }
 
+    .wte-destinations-container .wte-destinations-grid > .wte-destination-card:not(:first-child) {
+        display: block !important;
+    }
+
     /* Card único ocupa toda a largura */
     .wte-destinations-grid > .wte-destination-card:first-child {
         width: 100%;
