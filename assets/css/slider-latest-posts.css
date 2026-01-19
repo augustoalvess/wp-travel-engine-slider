@@ -1,34 +1,132 @@
 /**
  * WTE Latest Posts Slider Styles
  *
- * Grid layout: 1 large card (left) + 4 small cards (right)
+ * Desktop: Grid layout (1 large card left + 4 small cards right)
+ * Mobile: Swiper slider (1 post per slide)
  */
 
-/* Wrapper */
+/* ===== WRAPPER ===== */
 .wte-latest-posts-wrapper {
+    position: relative;
     width: 100%;
     padding: 20px 0;
     font-family: 'Poppins', sans-serif;
 }
 
-/* Grid Layout */
-.wte-latest-posts-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+/* ===== DESKTOP: GRID LAYOUT (> 768px) ===== */
+@media (min-width: 769px) {
+    .wte-latest-posts-swiper {
+        overflow: visible !important;
+    }
+
+    .wte-latest-posts-swiper .swiper-wrapper {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        transform: none !important;
+    }
+
+    /* Slide grande ocupa coluna esquerda e todas as linhas */
+    .wte-latest-posts-slide-large {
+        grid-column: 1;
+        grid-row: 1 / span 4;
+    }
+
+    /* Slides pequenos na coluna direita */
+    .wte-latest-posts-slide-small {
+        grid-column: 2;
+    }
+
+    /* Garantir que os slides não tenham width do Swiper */
+    .wte-latest-posts-swiper .swiper-slide {
+        width: auto !important;
+    }
+
+    /* Ocultar navegação no desktop */
+    .wte-latest-posts-nav {
+        display: none !important;
+    }
 }
 
-/* Large Card Section (Left) */
-.wte-latest-posts-large {
-    grid-column: 1;
+/* ===== TABLET: GRID AJUSTADO (769px - 992px) ===== */
+@media (min-width: 769px) and (max-width: 992px) {
+    .wte-latest-posts-swiper .swiper-wrapper {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+    }
+
+    .wte-latest-posts-slide-large {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .wte-latest-posts-slide-small {
+        grid-column: 1;
+    }
 }
 
-/* Small Cards Section (Right) */
-.wte-latest-posts-small {
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* ===== MOBILE: SWIPER SLIDER (<= 768px) ===== */
+@media (max-width: 768px) {
+    .wte-latest-posts-wrapper {
+        padding: 10px 15px;
+    }
+
+    .wte-latest-posts-swiper {
+        overflow: hidden;
+    }
+
+    .wte-latest-posts-swiper .swiper-wrapper {
+        display: flex !important;
+        flex-wrap: nowrap;
+    }
+
+    .wte-latest-posts-swiper .swiper-slide {
+        width: 100% !important;
+        flex-shrink: 0;
+        padding: 0 5px;
+        box-sizing: border-box;
+    }
+
+    /* Navegação visível no mobile */
+    .wte-latest-posts-nav {
+        display: block;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 35px !important;
+        height: 35px !important;
+        background: #8ea1b2;
+        border-radius: 50%;
+        z-index: 10;
+    }
+
+    .wte-latest-posts-nav::after {
+        font-size: 14px !important;
+        color: #fff;
+    }
+
+    .wte-latest-posts-nav.swiper-button-prev {
+        left: 0;
+    }
+
+    .wte-latest-posts-nav.swiper-button-next {
+        right: 0;
+    }
+
+    .wte-latest-posts-nav:hover {
+        background: var(--wte-white, #ffffff);
+    }
+
+    .wte-latest-posts-nav:hover::after {
+        color: var(--wte-text-dark, #1b4264);
+    }
+}
+
+/* Ocultar setas em telas muito pequenas */
+@media (max-width: 480px) {
+    .wte-latest-posts-nav {
+        display: none !important;
+    }
 }
 
 /* ===== LARGE CARD STYLES ===== */
@@ -78,7 +176,7 @@
 
 .wte-blog-card-content .wte-blog-card-date-small {
     margin-bottom: 15px;
-    margin-top: 15px
+    margin-top: 15px;
 }
 
 .wte-blog-card-title {
@@ -131,7 +229,7 @@
 /* ===== SMALL CARD STYLES ===== */
 
 .wte-blog-card-small {
-    /* No styles - just container */
+    /* Container */
 }
 
 .wte-blog-card-small-inner {
@@ -212,47 +310,8 @@
     text-align: justify;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
-
-/* Tablets */
-@media (max-width: 992px) {
-    .wte-latest-posts-grid {
-        grid-template-columns: 1fr;
-        padding: 0 15px;
-    }
-
-    .wte-latest-posts-large,
-    .wte-latest-posts-small {
-        grid-column: 1;
-    }
-
-    .wte-latest-posts-small {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-    }
-}
-
-/* Mobile */
+/* ===== MOBILE CARD ADJUSTMENTS ===== */
 @media (max-width: 768px) {
-    .wte-latest-posts-wrapper {
-        padding: 10px 0;
-    }
-
-    .wte-latest-posts-small {
-        grid-template-columns: 1fr;
-    }
-
-    .wte-blog-card-small-inner {
-        grid-template-columns: 100px 1fr;
-        gap: 12px;
-    }
-
-    .wte-blog-card-image-small {
-        width: 100px;
-        height: 100px;
-    }
-
     .wte-blog-card-title {
         font-size: 20px;
     }
@@ -264,11 +323,11 @@
     .wte-blog-card-excerpt-small {
         font-size: 14px;
     }
-}
 
-@media (max-width: 480px) {
+    /* Small cards em mobile: layout vertical com imagem maior */
     .wte-blog-card-small-inner {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .wte-blog-card-image-small {
