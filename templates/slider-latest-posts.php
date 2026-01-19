@@ -110,6 +110,12 @@ $small_posts = array_slice($posts, 1);
                                     <div class="wte-blog-card-excerpt-small">
                                         <?php echo wp_kses_post(wp_trim_words($post['excerpt'], 15)); ?>
                                     </div>
+
+                                    <!-- Botão Leia mais (visível apenas no mobile) -->
+                                    <a href="<?php echo esc_url($post['permalink']); ?>"
+                                        class="wte-blog-card-button wte-mobile-only">
+                                        <?php esc_html_e('Leia mais', 'wte-sliders'); ?>
+                                    </a>
                                 </div>
                             </div>
 

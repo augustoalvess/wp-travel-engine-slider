@@ -16,9 +16,13 @@
     document.addEventListener('DOMContentLoaded', function () {
         initSliders();
         initLatestPostsSliders();
+        handleFirstItemMobileClass();
 
-        // Gerenciar resize para Latest Posts slider
-        window.addEventListener('resize', debounce(handleLatestPostsResize, 250));
+        // Gerenciar resize para Latest Posts slider e classe mobile
+        window.addEventListener('resize', debounce(function () {
+            handleLatestPostsResize();
+            handleFirstItemMobileClass();
+        }, 250));
     });
 
     function initSliders() {
@@ -186,6 +190,26 @@
                     // Remover da lista
                     latestPostsSwiperInstances = latestPostsSwiperInstances.filter(item => item.element !== slider);
                 }
+            }
+        });
+    }
+
+    /**
+     * Gerenciar classe do primeiro item no mobile
+     * Adiciona/remove classe wte-mobile-card-style baseado no viewport
+     */
+    function handleFirstItemMobileClass() {
+        const wrappers = document.querySelectorAll('.wte-latest-posts-wrapper');
+        const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+
+        wrappers.forEach(function (wrapper) {
+            const firstSlide = wrapper.querySelector('.wte-latest-posts-slide-large');
+            if (!firstSlide) return;
+
+            if (isMobile) {
+                firstSlide.classList.add('wte-mobile-card-style');
+            } else {
+                firstSlide.classList.remove('wte-mobile-card-style');
             }
         });
     }

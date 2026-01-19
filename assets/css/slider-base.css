@@ -193,12 +193,19 @@
     }
 }
 
-/* Hide arrows on very small screens */
+/* Setas menores em telas muito pequenas (mantém visíveis) */
 @media (max-width: 480px) {
 
     .swiper-button-prev,
     .swiper-button-next {
-        display: none;
+        display: block;
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+        font-size: 12px !important;
     }
 }
 
