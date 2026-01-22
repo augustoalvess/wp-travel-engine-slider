@@ -68,7 +68,7 @@ $small_posts = array_slice($posts, 1);
                             <?php echo wp_kses_post($large_post['excerpt']); ?>
                         </div>
 
-                        <a href="<?php echo esc_url($large_post['permalink']); ?>"
+                        <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>"
                             class="wte-blog-card-button">
                             <?php esc_html_e('Leia mais', 'wte-sliders'); ?>
                         </a>
