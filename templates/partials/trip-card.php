@@ -79,7 +79,13 @@ if (! empty($options['card_classes'])) {
         <?php endif; ?>
 
         <div class="wte-trip-footer">
-            <?php if (!empty($trip->price['has_child'])) : ?>
+            <?php if (!empty($trip->price['show_consult'])) : ?>
+                <!-- Pacote de preços informado sem valores válidos: oculta bloco de preços -->
+                <a href="<?php echo esc_url($trip->permalink); ?>" class="wte-trip-button">
+                    <?php echo esc_html($options['button_text']); ?>
+                </a>
+
+            <?php elseif (!empty($trip->price['has_child'])) : ?>
                 <!-- Layout Horizontal: Botão + Adulto + Criança -->
 
                 <!-- Botão -->

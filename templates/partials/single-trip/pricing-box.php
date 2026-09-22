@@ -18,7 +18,15 @@ if (!defined('ABSPATH')) {
 ?>
 
 <div class="wte-pricing-box">
-    <?php if (!empty($price['has_child'])) : ?>
+    <?php if (!empty($price['show_consult'])) : ?>
+        <!-- Pacote de preços informado sem valores válidos -->
+        <div class="wte-trip-price wte-trip-price-consult">
+            <div class="wte-price-current">
+                <?php esc_html_e('Consultar', 'wte-sliders'); ?>
+            </div>
+        </div>
+
+    <?php elseif (!empty($price['has_child'])) : ?>
         <!-- Horizontal Layout: Adult + Child -->
         <div class="wte-pricing-header">
             <span><?php esc_html_e('Preços', 'wte-sliders'); ?></span>

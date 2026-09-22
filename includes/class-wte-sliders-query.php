@@ -326,14 +326,16 @@ class WTE_Sliders_Query
     private function extract_package_pricing($package_categories)
     {
         $pricing = array(
-            'has_child' => false,
-            'adult'     => array(),
-            'child'     => array(),
+            'has_child'    => false,
+            'adult'        => array(),
+            'child'        => array(),
             // Compatibilidade reversa
-            'regular'   => 0,
-            'sale'      => 0,
-            'current'   => 0,
-            'formatted' => '',
+            'regular'      => 0,
+            'sale'         => 0,
+            'current'      => 0,
+            'formatted'    => '',
+            // Indica que há pacote informado mas sem nenhum valor de preço válido (> 0)
+            'show_consult' => false,
         );
 
         // Validar estrutura
@@ -415,6 +417,11 @@ class WTE_Sliders_Query
             $pricing['has_child'] = ($child_current > 0);
         }
 
+        // Pacote informado mas nenhuma categoria possui valor de preço válido
+        $adult_current = $pricing['adult']['current'] ?? 0;
+        $child_current  = $pricing['child']['current'] ?? 0;
+        $pricing['show_consult'] = ($adult_current <= 0 && $child_current <= 0);
+
         return $pricing;
     }
 
@@ -456,6 +463,8 @@ class WTE_Sliders_Query
             'current'   => $current_price,
             'formatted' => 'R$ ' . number_format($current_price, 2, ',', '.'),
             'pricing_type' => 'per-person',
+            // Fallback de meta simples não é tratado como "pacote com valores zerados"
+            'show_consult' => false,
         );
     }
 
@@ -481,6 +490,8 @@ class WTE_Sliders_Query
             'sale'      => 0,
             'current'   => 0,
             'formatted' => '',
+            // Pacote informado porém malformado (sem labels/prices): também deve exibir "Consultar"
+            'show_consult' => true,
         );
     }
 
